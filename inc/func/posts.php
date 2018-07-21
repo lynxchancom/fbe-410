@@ -413,7 +413,7 @@ function textBoardReplyBoxEmail() {
 function textBoardReplyBoxCaptcha() {
 	return '<td class="label"><label for="captcha">'._gettext('Captcha').':</label></td>' . "\n" .
 	'<td>' . "\n" .
-	'	<a href="#" onclick="javascript:document.getElementById(\'captchaimage\').src = \'' . KU_CGIPATH . '/captcha.php?\' + Math.random();return false;">' . "\n" .
+	'	<a href="#" onclick="document.getElementById(\'captchaimage\').src = \'' . KU_CGIPATH . '/captcha.php?\' + Math.random();return false;">' . "\n" .
 	'	<img id="captchaimage" src="' . KU_CGIPATH .'/captcha.php" border="0" width="90" height="30" alt="Captcha image">' . "\n" .
 	'	</a>&nbsp;' . "\n" .
 	'	<input type="text" id="captcha" name="captcha" size="8" maxlength="6">' . "\n" .

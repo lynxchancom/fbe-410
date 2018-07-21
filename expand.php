@@ -89,7 +89,7 @@ if ($spy) {
 }
 
 if ($expandjavascript != '' && !$spy) {
-	$output = '<a href="#" onclick="javascript:' . $expandjavascript . 'return false;">' . _gettext('Expand all images') . '</a>' . $output;
+	$output = '<a href="#" onclick="' . $expandjavascript . 'return false;">' . _gettext('Expand all images') . '</a>' . $output;
 }
 
 echo $output;

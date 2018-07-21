@@ -2205,7 +2205,7 @@ function reason(why) {
 </script>
 		<a name="seconds"></a><label for="seconds">'._gettext('Seconds').':</label>
 		<input type="text" name="seconds" id="seconds">
-		<div class="desc">'._gettext('Presets').':&nbsp;<a href="#seconds" onclick="javascript:setvalue(\'seconds\', 3600);">1hr</a>&nbsp;<a href="#seconds" onclick="setvalue(\'seconds\', 86400);">1d</a>&nbsp;<a href="#seconds" onclick="setvalue(\'seconds\', 604800);">1w</a>&nbsp;<a href="#seconds" onclick="setvalue(\'seconds\', 1209600);">2w</a>&nbsp;<a href="#seconds" onclick="setvalue(\'seconds\', 2592000);">30d</a>&nbsp;<a href="#seconds" onclick="setvalue(\'seconds\', 31536000);">1yr</a>&nbsp;<a href="#seconds" onclick="setvalue(\'seconds\', 0);">never</a></div><br>
+		<div class="desc">'._gettext('Presets').':&nbsp;<a href="#seconds" onclick="setvalue(\'seconds\', 3600);">1hr</a>&nbsp;<a href="#seconds" onclick="setvalue(\'seconds\', 86400);">1d</a>&nbsp;<a href="#seconds" onclick="setvalue(\'seconds\', 604800);">1w</a>&nbsp;<a href="#seconds" onclick="setvalue(\'seconds\', 1209600);">2w</a>&nbsp;<a href="#seconds" onclick="setvalue(\'seconds\', 2592000);">30d</a>&nbsp;<a href="#seconds" onclick="setvalue(\'seconds\', 31536000);">1yr</a>&nbsp;<a href="#seconds" onclick="setvalue(\'seconds\', 0);">never</a></div><br>
 		<a name="reason"></a><label for="reason">'._gettext('Reason').':</label>
 		<input type="text" name="reason" id="reason">
 		<div class="desc">'._gettext('Presets').':
