@@ -66,7 +66,7 @@ if (substr($_POST['applet'], -6) == '_selfy') {
 
 echo '
 <head>
-<style type="text/css">
+<style>
 body{
 margin: 0;
 padding: 0

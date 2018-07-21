@@ -32,7 +32,7 @@ class Menu {
 		if (KU_MENUTYPE == 'normal') {
 			$smarty->assign('styles', printStylesheetsSite(KU_DEFAULTMENUSTYLE, true));
 		} else {
-			$smarty->assign('styles', '<style type="text/css">body { margin: 0px; } h1 { font-size: 1.25em; } h2 { font-size: 0.8em; font-weight: bold; color: #CC3300; } ul { list-style-type: none; padding: 0px; margin: 0px; } li { font-size: 0.8em; padding: 0px; margin: 0px; }</style>');
+			$smarty->assign('styles', '<style>body { margin: 0px; } h1 { font-size: 1.25em; } h2 { font-size: 0.8em; font-weight: bold; color: #CC3300; } ul { list-style-type: none; padding: 0px; margin: 0px; } li { font-size: 0.8em; padding: 0px; margin: 0px; }</style>');
 		}
 		
 		if (KU_MENUSTYLESWITCHER && KU_MENUTYPE == 'normal') {

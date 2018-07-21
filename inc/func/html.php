@@ -21,7 +21,7 @@ function printStylesheets($prefered_stylesheet = KU_DEFAULTSTYLE) {
 		if ($stylesheet != $prefered_stylesheet) {
 			$output_stylesheets .= 'alternate ';
 		}
-		$output_stylesheets .= 'stylesheet" type="text/css" href="' . getCLBoardPath() . 'css/' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
+		$output_stylesheets .= 'stylesheet" href="' . getCLBoardPath() . 'css/' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
 	}
 	
 	return $output_stylesheets;
@@ -41,7 +41,7 @@ function printStylesheetsTXT($prefered_stylesheet = KU_DEFAULTTXTSTYLE) {
 		if ($stylesheet != $prefered_stylesheet) {
 			$output_stylesheets .= 'alternate ';
 		}
-		$output_stylesheets .= 'stylesheet" type="text/css" href="' . getCLBoardPath() . 'css/txt_' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
+		$output_stylesheets .= 'stylesheet" href="' . getCLBoardPath() . 'css/txt_' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
 	}
 	
 	return $output_stylesheets;
@@ -61,13 +61,13 @@ function printStylesheetsSite($prefered_stylesheet = KU_DEFAULTMENUSTYLE, $menu 
 		if ($stylesheet != $prefered_stylesheet) {
 			$output_stylesheets .= 'alternate ';
 		}
-		$output_stylesheets .= 'stylesheet" type="text/css" href="' . getCLBoardPath() . 'css/site_' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
+		$output_stylesheets .= 'stylesheet" href="' . getCLBoardPath() . 'css/site_' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
 		if ($menu) {
 			$output_stylesheets .= '<link rel="';
 			if ($stylesheet != $prefered_stylesheet) {
 				$output_stylesheets .= 'alternate ';
 			}
-			$output_stylesheets .= 'stylesheet" type="text/css" href="' . getCLBoardPath() . 'css/sitemenu_' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
+			$output_stylesheets .= 'stylesheet" href="' . getCLBoardPath() . 'css/sitemenu_' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
 		}
 	}
 	

@@ -3,7 +3,7 @@
 <head>
 <title>{$ku_name}</title>
 <link rel="shortcut icon" href="{$ku_webpath}/favicon.ico">
-{$head}<style type="text/css">{literal}
+{$head}<style>{literal}
 body {
 	width: 100% !important;
 }

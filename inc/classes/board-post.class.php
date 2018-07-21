@@ -1596,14 +1596,14 @@ class Board {
 		$output = '';
 		
 		if ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) {
-			$tpl['head'] .= '<link rel="stylesheet" type="text/css" href="' . getCLBoardPath() . 'css/img_global.css">' . "\n" .
+			$tpl['head'] .= '<link rel="stylesheet" href="' . getCLBoardPath() . 'css/img_global.css">' . "\n" .
 			$this->pageheader_css;
 		} else {
-			$tpl['head'] .= '<link rel="stylesheet" type="text/css" href="' . getCLBoardPath() . 'css/txt_global.css">' . "\n" . 
+			$tpl['head'] .= '<link rel="stylesheet" href="' . getCLBoardPath() . 'css/txt_global.css">' . "\n" . 
 			printStylesheetsTXT($this->board_defaultstyle);
 		}
 		if ($CURRENTLOCALE == 'ja') {
-			$tpl['head'] .= '<style type="text/css">' . "\n" .
+			$tpl['head'] .= '<style>' . "\n" .
 			'* {' . "\n" .
 			'	font-family: IPAMonaPGothic, Mona, \'MS PGothic\', YOzFontAA97 !important;' . "\n" .
 			'	font-size: 1em;' . "\n" .

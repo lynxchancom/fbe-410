@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>{$lang_manageboards}</title>
 {literal}
-<style type="text/css">
+<style>
 body { font-family: sans-serif; font-size: 75%; background: #ffe }
 a { text-decoration: none; color: #550 }
 h1, h2 { margin: 0px; background: #fca }

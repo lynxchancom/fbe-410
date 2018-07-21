@@ -8,13 +8,13 @@
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="Sat, 17 Mar 1990 00:00:01 GMT">
 <link rel="stylesheet" href="{$ku_webpath}/css/img_global.css">
-<link rel="alternate stylesheet" type="text/css" href="{$ku_webpath}/css/burichan.css" title="Burichan">
-<link rel="alternate stylesheet" type="text/css" href="{$ku_webpath}/css/futaba.css" title="Futaba">
-<link rel="alternate stylesheet" type="text/css" href="{$ku_webpath}/css/photon.css" title="Photon">
-<link rel="alternate stylesheet" type="text/css" href="{$ku_webpath}/css/kusaba.css" title="Kusaba">
-<link rel="alternate stylesheet" type="text/css" href="{$ku_webpath}/css/bluemoon.css" title="Bluemoon">
+<link rel="alternate stylesheet" href="{$ku_webpath}/css/burichan.css" title="Burichan">
+<link rel="alternate stylesheet" href="{$ku_webpath}/css/futaba.css" title="Futaba">
+<link rel="alternate stylesheet" href="{$ku_webpath}/css/photon.css" title="Photon">
+<link rel="alternate stylesheet" href="{$ku_webpath}/css/kusaba.css" title="Kusaba">
+<link rel="alternate stylesheet" href="{$ku_webpath}/css/bluemoon.css" title="Bluemoon">
 
-<link rel="stylesheet" type="text/css" href="{$ku_webpath}/css/umnochan.css" title="Umnochan">
+<link rel="stylesheet" href="{$ku_webpath}/css/umnochan.css" title="Umnochan">
 </head>
 <body>
 <div class="adminbar"><select name="switcher">

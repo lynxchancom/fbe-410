@@ -7,8 +7,7 @@
 <head>
     <title>Smarty Debug Console</title>
 {literal}
-<style type="text/css">
-/* <![CDATA[ */
+<style>
 body, h1, h2, td, th, p {
     font-family: sans-serif;
     font-weight: normal;
@@ -85,7 +84,6 @@ td {
 #table_config_vars th {
     color: maroon;
 }
-/* ]]> */
 </style>
 {/literal}
 </head>
