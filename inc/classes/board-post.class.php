@@ -1538,7 +1538,7 @@ class Board {
 			$tpl['title'] .= '/' . $this->board_dir . '/ - ';
 		}
 		$tpl['title'] .= $this->board_desc;
-		$tpl['head'] = '<script type="text/javascript" src="' . getCWebPath() . 'lib/javascript/protoaculous-compressed.js"></script>' . "\n";
+		$tpl['head'] = '<script src="' . getCWebPath() . 'lib/javascript/jquery-3.3.1.min.js"></script>' . "\n";
 		/* Wii-specific features?
 			$tpl['head'] .= '<script type="text/javascript" src="' . getCWebPath() . 'lib/javascript/wii.js"></script>' . "\n" .
 			'<script type="text/javascript">' . "\n" .
