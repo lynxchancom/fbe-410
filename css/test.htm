@@ -11,17 +11,17 @@
 <link rel="alternate stylesheet" type="text/css" href="bluemoon.css" title="Bluemoon">
 <link rel="alternate stylesheet" type="text/css" href="umnochan.css" title="Umnochan">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="/b/rss.xml">
-<script type="text/javascript"><!--
+<script type="text/javascript">
 	var ku_boardspath = '';
 	var ku_cgipath = ''
 	var style_cookie="kustyle";
 	var ispage = false;
-//--></script>
+</script>
 
 <script type="text/javascript" src="javascript/kusaba.js"></script>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 	var hiddenthreads = getCookie('hiddenthreads').split('!');
-//--></script>
+</script>
 <link rel="shortcut icon" href="/favicon.ico">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -31,7 +31,7 @@
 <div class="adminbar"><select name="switcher">
 <option value="Burichan" onclick="javascript:set_stylesheet('Burichan');return false;">Burichan</option><option value="Futaba" onclick="javascript:set_stylesheet('Futaba');return false;">Futaba</option><option value="Photon" onclick="javascript:set_stylesheet('Photon');return false;">Photon</option><option value="Kusaba" onclick="javascript:set_stylesheet('Kusaba');return false;">Kusaba</option><option value="Bluemoon" onclick="javascript:set_stylesheet('Bluemoon');return false;">Bluemoon</option><option value="Umnochan" onclick="javascript:set_stylesheet('Umnochan');return false;">Umnochan</option>-&nbsp;[<a href="#" onclick="javascript:showwatchedthreads();return false" title="Watched Threads">WT</a>]&nbsp;</select>&nbsp;[<a href="" target="_top">Home</a>]&nbsp;[<a href="/manage.php" target="_top">Manage</a>]</div>
 
-<div class="navbar">[ <a title="/d/испетчерская" href="/d/">d</a> / <a title="Авто/b/ус" href="/b/">b</a> ] </div><script type="text/javascript"><!--
+<div class="navbar">[ <a title="/d/испетчерская" href="/d/">d</a> / <a title="Авто/b/ус" href="/b/">b</a> ] </div><script type="text/javascript">
 if (getCookie('showwatchedthreads') == '1') {
 	document.write('<div id="watchedthreads" style="top: 235px; left: 25px;" class="watchedthreads">	<div class="postblock" id="watchedthreadsdraghandle" style="width: 100%;">Watched Threads<\/div>	<span id="watchedthreadlist"><\/span>	<div id="watchedthreadsbuttons">	<a href="#" onclick="javascript:hidewatchedthreads();return false;" title="Hide the watched threads box">	<img src="/css/icons/blank.gif" border="0" class="hidewatchedthreads" alt="hide">	<\/a>&nbsp;	<a href="#" onclick="javascript:getwatchedthreads(\'0\', \'b\');return false;" title="Refresh watched threads">	<img src="/css/icons/blank.gif" border="0" class="refreshwatchedthreads" alt="refresh">	<\/a>	<\/div>	<\/div>');
 	watchedthreadselement = document.getElementById('watchedthreads');
@@ -41,7 +41,7 @@ if (getCookie('showwatchedthreads') == '1') {
 	watchedthreadselement.style.height = Math.max(75,getCookie('watchedthreadsheight')) + 'px';
 	getwatchedthreads('50', 'b');
 }
-//--></script>
+</script>
 <div class="logo">Авто/b/ус</div>
 
 <hr>
@@ -121,9 +121,9 @@ size="28" maxlength="10" accesskey="f"> [<a href="/news.php?p=faq" target="_blan
 </form>
 <hr>
 </div>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 	set_inputs("postform");
-//--></script>
+</script>
 <form id="delform" action="/board.php" method="post">
 <input type="hidden" name="board" value="b">
 <div id="thread50b">
@@ -5461,9 +5461,9 @@ Delete Post [<input type="checkbox" name="fileonly" id="fileonly" value="on"><la
 </tbody>
 </table>
 [<a href="#" onclick="toggleMod(); return false;" style="text-decoration: none;" accesskey="m">Mod</a>]</form>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 	set_delpass("delform");
-//--></script>
+</script>
 <br><div class="navbar">[ <a title="/d/испетчерская" href="/d/">d</a> / <a title="Авто/b/ус" href="/b/">b</a> ] </div><br><div class="footer" style="clear: both;">- <a href="http://www.serissa.org/" target="_top">Serissa 1.2</a> + Took 1.48s -</div>
 
 <a name="bottom"></a>

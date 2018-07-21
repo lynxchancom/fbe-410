@@ -1158,9 +1158,9 @@ class Board {
 				'<input name="email" size="25" value="" style="display: none;">' . "\n" .
 				textBoardReplyBox($this->board_dir, $this->board_forcedanon, $this->board_enablecaptcha, $numReplies, $line['id'], 'post' . $line['id']) .
 				'</form>' . "\n" .
-				'<script type="text/javascript"><!--' . "\n" .
+				'<script type="text/javascript">' . "\n" .
 				'	set_inputs(\'post' . $line['id'] . '\');' . "\n" .
-				'//--></script>' . "\n";
+				'</script>' . "\n";
 				
 				if ($page) {
 					$buildthread_output .= '</div></div>';
@@ -1613,7 +1613,7 @@ class Board {
 		if (KU_RSS) {
 			$tpl['head'] .= '<link rel="alternate" type="application/rss+xml" title="RSS" href="' . KU_BOARDSPATH . '/' . $this->board_dir . '/rss.xml">' . "\n";
 		}
-		$tpl['head'] .= '<script type="text/javascript"><!--' . "\n" .
+		$tpl['head'] .= '<script type="text/javascript">' . "\n" .
 		'	var ku_boardspath = \'' . KU_BOARDSPATH . '\';' . "\n" .
 		'	var ku_cgipath = \'' . KU_CGIPATH . '\'' . "\n" .
 		'	var style_cookie';
@@ -1632,7 +1632,7 @@ class Board {
 			$tpl['head'] .= 'true';
 		}
 		$tpl['head'] .= ';' . "\n" .
-		'//--></script>' . "\n";
+		'</script>' . "\n";
 		if ($this->board_type == 1) {
 			if ($replythread == 0) {
 				$output .= '<body class="board">' . "\n";
@@ -1690,7 +1690,7 @@ class Board {
 		}
 		if (isset($kusabaorg) && $this->board_type != 1) {
 			$output .=  '<div id="ad" style="position: absolute;top:'.$ad_top.'px;right:'.$ad_right.'px">' . "\n" .
-			'<script type="text/javascript"><!--' . "\n" .
+			'<script type="text/javascript">' . "\n" .
 			'google_ad_client = "pub-6158454562572132";' . "\n" .
 			'google_ad_width = 120;' . "\n" .
 			'google_ad_height = 240;' . "\n" .
@@ -1702,7 +1702,7 @@ class Board {
 			'google_color_link = "800000";' . "\n" .
 			'google_color_text = "CB7E46";' . "\n" .
 			'google_color_url = "800000";' . "\n" .
-			'--></script>' . "\n" .
+			'</script>' . "\n" .
 			'<script type="text/javascript"' . "\n" .
 			'src="http://pagead2.googlesyndication.com/pagead/show_ads.js">' . "\n" .
 			'</script>' . "\n" .
@@ -1710,7 +1710,7 @@ class Board {
 		}
 		if (KU_WATCHTHREADS && !$isoekaki && ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) && !$hidewatchedthreads) {
 			$output .= 
-			'<script type="text/javascript"><!--' . "\n" .
+			'<script type="text/javascript">' . "\n" .
 			'if (getCookie(\'showwatchedthreads\') == \'1\') {' . "\n" .
 			'	document.write(\'<div id="watchedthreads" style="top: ' . $ad_top . 'px; left: 25px;" class="watchedthreads">' .
 			'	<div class="postblock" id="watchedthreadsdraghandle" style="width: 100%;">' . _gettext('Watched Threads') . '<\/div>' .
@@ -1731,7 +1731,7 @@ class Board {
 			'	watchedthreadselement.style.height = Math.max(75,getCookie(\'watchedthreadsheight\')) + \'px\';' . "\n" .
 			'	getwatchedthreads(\'' . $replythread . '\', \'' . $this->board_dir . '\');' . "\n" .
 			'}' . "\n" .
-			'//--></script>' . "\n";
+			'</script>' . "\n";
 		}
 		if ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) 
 		{
@@ -2283,11 +2283,11 @@ size="28" maxlength="64" accesskey="f">
 								'</li>' . "\n" .
 								$blotter .
 								'</ul>' . "\n" .
-								'<script type="text/javascript"><!--' . "\n" .
+								'<script type="text/javascript">' . "\n" .
 								'if (getCookie(\'ku_showblotter\') == \'1\') {' . "\n" .
 								'	toggleblotter(false);' . "\n" .
 								'}' . "\n" .
-								'--></script>' . "\n";
+								'</script>' . "\n";
 							}
 						}
 						$output .= '	</td>' . "\n" .
@@ -2304,12 +2304,11 @@ size="28" maxlength="64" accesskey="f">
 				}
 			}
 			$output .= '</div>' . "\n" .
-			'<script type="text/javascript"><!--' . "\n" .
+			'<script type="text/javascript">' . "\n" .
 			'	set_inputs("postform");' . "\n" .
-			'//--></script>' . "\n";
+			'</script>' . "\n";
 		}
 		$output .= "<script type=\"text/javascript\">
-<!--
 request_faptcha('$this->board_dir');
 var mytextarea = document.forms.postform.message;
 mytextarea.style.width = mytextarea.clientWidth + 'px';
@@ -2329,7 +2328,6 @@ else {
 		}
 	}
 }
-//-->
 </script>
 ";
 
@@ -2460,9 +2458,9 @@ else {
 		}
 		
 		if (isset($kusabaorg)) {
-			$output .= '<script language="javascript"><!--
+			$output .= '<script language="javascript">
 			var woopra_id = \'228219709\';
-			//--></script>
+			</script>
 			<script src="http://static.woopra.com/js/woopra.js"></script>';
 		}
 		

@@ -71,9 +71,9 @@ function printStylesheetsSite($prefered_stylesheet = KU_DEFAULTMENUSTYLE, $menu 
 		}
 	}
 	
-	$output_stylesheets .= '<script type="text/javascript"><!--' . "\n" .
+	$output_stylesheets .= '<script type="text/javascript">' . "\n" .
 	'	var style_cookie_site = "kustyle_site";' . "\n" .
-	'//--></script>' . "\n" .
+	'</script>' . "\n" .
 	'<script type="text/javascript" src="' . getCWebPath() . 'lib/javascript/kusaba.js"></script>' . "\n";
 	
 	return $output_stylesheets;
@@ -126,12 +126,12 @@ function markedForDeletionMessage() {
  * @return string Javascript
  */ 
 function autoHideThreadJavascript($id, $board) {
-	return '<script type="text/javascript"><!--' . "\n" .
+	return '<script type="text/javascript">' . "\n" .
 	'if (hiddenthreads.toString().indexOf(\'' . $id . $board . '\')!==-1) {' . "\n" .
 	'	document.getElementById(\'unhidethread' . $id . $board . '\').style.display = \'block\';' . "\n" .
 	'	document.getElementById(\'thread' . $id . $board . '\').style.display = \'none\';' . "\n" .
 	'}' . "\n" .
-	'//--></script>' . "\n";
+	'</script>' . "\n";
 }
 
 /**
@@ -182,8 +182,8 @@ function deletePostBox($boardtype, $enablereporting) {
  * @return string Javascript
  */ 
 function setDelPassJavascript() {
-	return '<script type="text/javascript"><!--' . "\n" .
+	return '<script type="text/javascript">' . "\n" .
 	'	set_delpass("delform");' . "\n" .
-	'//--></script>' . "\n";
+	'</script>' . "\n";
 }
 ?>
