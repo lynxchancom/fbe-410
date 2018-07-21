@@ -1,0 +1,274 @@
+html {
+	text-size-adjust:100%;
+	-moz-text-size-adjust:100%;
+	-webkit-text-size-adjust:100%;
+	-ms-text-size-adjust:100%;
+}
+
+html, body {
+	background-color: #6B7B8D;
+	color: #FFFFFF;
+	font-family: "Trebuchet MS", sans-serif;
+}
+
+a {
+	color:#EEEEEE;
+}
+
+a:hover {
+	color:#AFB9C5;
+}
+
+.reflink a:hover{
+	color:#AFB9C5;
+}
+
+.adminbar {
+	background:inherit;
+}
+
+.logo {
+    clear:both;
+    text-align:center;
+    background:inherit;
+    font-size:2em;
+	width:100%;	
+}
+
+.replymode, .catalogmode {
+	background:#0010E0;
+    width:100%;
+	padding:2px;
+	background-color: #49525D;
+    text-align:center;
+    font-weight:bold;
+}
+
+.postarea {
+	padding-top: 4px;
+	padding-bottom: 4px;
+	margin-bottom: 4px;
+}
+
+.rules {
+	/*font-size:0.7em;*/
+	width: 468px;
+	font-size: 10px;
+}
+
+.rules li {
+	margin-left: 1em;
+	/*text-indent: 0em;*/
+}
+
+.postblock {
+	background: #8C9FB4;
+	color: #49525D;
+	font-weight: 800;
+}
+
+.footer {
+	text-align:center;
+	font-size:12px;
+	font-family:serif;
+}
+
+.passvalid {
+	background:#EEAA88;
+	text-align:center;
+	width:100%;
+	color:#ffffff;
+}
+
+.dellist {
+	font-weight: bold;
+	text-align:center;
+}
+
+.delbuttons {
+	text-align:center;
+	padding-bottom:4px;
+
+}
+
+.managehead {
+	background:#AAAA66;
+	color:#400000;
+	padding:0px;
+}
+
+.postlists {
+	background:#FFFFFF;
+	width:100%;
+	padding:0px;
+	color:#800000;
+}
+
+.row1 {
+	background:#EEEECC;
+	color:#090E00;
+}
+
+.row2 {
+	background:#DDDDAA;
+	color:#090E00;
+}
+
+.unkfunc {
+	color:#b5bd68;
+}
+
+.filetitle {
+	background:inherit;
+	color:#C3E8F3;
+	font-weight:800;
+	font-size:1.2em;
+}
+
+.postername {
+	color:#FFFFFF;
+	font-weight:800;
+}
+
+.postertrip {
+	color:#228854;
+}
+
+.oldpost {
+	color:#CC1105;
+	font-weight:800;
+}
+
+.omittedposts {
+    color:#070707;
+    font-weight:800;
+}
+
+.reply {
+	background-color: #49525D;
+	border-radius: 5px;
+
+}
+.replyhl {
+	background: #49525D;
+	color: #FFFFFF;
+}
+
+.doubledash {
+	vertical-align:top;
+	clear:both;
+	float:left;
+}
+
+.replytitle {
+    color:#908CE1;
+    font-weight:800;
+}
+
+.thumbnailmsg {
+	font-size: small;
+	color:#800000;
+}
+
+.abbrev {
+	color:#707070;
+}
+
+.highlight {
+	background: #49525D;	color:#FFFFFF;
+	border: 2px dashed #FFFFFF;
+}
+
+#watchedthreads {
+	background: #49525D !important;
+}
+
+.reflinkpreview {
+	background: #49525D !important;
+}
+
+.userdelete table tr td {
+	border: 1px solid #F9E0A8;
+}
+
+button {
+	border: 1px solid #F9E0A8;
+	background-color: #FFECB2;	
+}
+
+input, textarea {
+	background-color: #EEEEEE;
+	border-top: 1px solid #49525D;
+	border-bottom: 1px solid #B6C2CF;
+	border-left: 1px solid #49525D;
+	border-right: 1px solid #B6C2CF;
+}
+
+.hidethread {
+	background: transparent url('./icons/beige/icons.svg') -32px -16px no-repeat !important;
+}
+
+.unhidethread img {
+	background: transparent url('./icons/beige/icons.svg') -48px 0px no-repeat !important;
+}
+
+.watchthread {
+	background: transparent url('./icons/beige/icons.svg') -32px 0px no-repeat !important;
+}
+
+.expandthread {
+	background: transparent url('./icons/beige/icons.svg') 0px -16px no-repeat !important;
+}
+
+.quickreply {
+	background: transparent url('./icons/beige/icons.svg') 0px 0px no-repeat !important;
+}
+
+.hidewatchedthreads {
+	background: transparent url('./icons/beige/icons.svg') -48px -16px no-repeat !important;
+}
+
+.refreshwatchedthreads {
+	background: transparent url('./icons/beige/icons.svg') -16px -16px no-repeat !important;
+}
+
+.restorewatchedthreads {
+	background: transparent url('./icons/beige/icons.svg') -16px 0px no-repeat !important;
+}
+
+hr {
+	border-style: solid none none none;
+	border-width: 1px;
+	border-color: #555;
+}
+.topmenu {
+	border-bottom: 1px solid #BBBBBB;
+	opacity: 0.95;
+	background:#6B7B8D;
+}
+
+.catalogsubject {
+	color:#C3E8F3;
+	font-weight:800;
+}
+
+.catalogmsg {
+	color: #FFFFFF;
+}
+
+.catalogposts {
+	font-weight:800;
+	font-size: small;
+}
+
+.pgstbl table {
+	border: 1px solid;
+}
+
+.pgstbl tr {
+	border: 1px solid;
+}
+
+.thrdcntnr {
+	border-bottom:1px solid !important;
+}
