@@ -2,8 +2,8 @@
 <html{$htmloptions}>
 <head>
 <title>{$title}</title>
-{$head}<script type="text/javascript" src="{$ku_webpath}/lib/javascript/kusaba.js"></script>
-		<script type="text/javascript">
+{$head}<script src="{$ku_webpath}/lib/javascript/kusaba.js"></script>
+		<script>
 		var path = "{$ku_webpath}";
 		var captcha_message = "{$captcha_message}";
 		var req = null;
@@ -44,7 +44,7 @@ function handle() {
 }
 		</script>
 {/literal}
-<script type="text/javascript">
+<script>
 	var hiddenthreads = getCookie('hiddenthreads').split('!');
 </script>
 <link rel="shortcut icon" href="{$ku_webpath}/favicon.ico">

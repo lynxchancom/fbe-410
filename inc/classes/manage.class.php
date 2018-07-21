@@ -97,7 +97,7 @@ class Manage {
 				$this->SetModerationCookies();
 				$action = 'posting_rates';
 				management_addlogentry(_gettext('Logged in (') . $_SERVER['REMOTE_ADDR'] . ')', 1);
-				die('<script type="text/javascript">top.location.href = \'' . KU_CGIPATH . '/manage.php\';</script>');
+				die('<script>top.location.href = \'' . KU_CGIPATH . '/manage.php\';</script>');
 			} else {
 				$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "loginattempts` ( `username` , `ip` , `timestamp` ) VALUES ( '" . mysqli_real_escape_string($tc_db->link, $_POST['username']) . "' , '" . $_SERVER['REMOTE_ADDR'] . "' , '" . time() . "' )");
 				$tc_db->Execute("INSERT INTO `" . KU_DBPREFIX . "modlog` ( `entry` , `user` , `category` , `timestamp` ) VALUES ('Failed login attempt (" . mysqli_real_escape_string($tc_db->link, $_POST['username']) . ")' , '" . $_SERVER['REMOTE_ADDR'] . "' , '0' , '". time() ."')");
@@ -143,7 +143,7 @@ class Manage {
 		session_destroy();
 		unset($_SESSION['manageusername']);
 		unset($_SESSION['managepassword']);
-		die('<script type="text/javascript">top.location.href = \'' . KU_CGIPATH . '/manage.php\';</script>');
+		die('<script>top.location.href = \'' . KU_CGIPATH . '/manage.php\';</script>');
 	}
 	
 	/*
@@ -2191,7 +2191,7 @@ class Manage {
 		
 		$tpl_page .= '<fieldset>
 			<legend>Ban duration, reason, and appeal information</legend>
-<script type="text/javascript">
+<script>
 function setvalue(id, newvalue) {
 	var container = document.getElementById(id);
 	container.value = newvalue;

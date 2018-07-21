@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Search</title>
-<script type="text/javascript" src="{$ku_webpath}/lib/javascript/kusaba.js"></script>
+<script src="{$ku_webpath}/lib/javascript/kusaba.js"></script>
 <link rel="shortcut icon" href="{$ku_webpath}/favicon.ico">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">

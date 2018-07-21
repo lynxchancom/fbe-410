@@ -116,13 +116,13 @@ class Menu {
 			</ul>
 			
 			<!-- Begin: AdBrite -->
-			<script type="text/javascript">
+			<script>
 			   var AdBrite_Title_Color = \'800000\';
 			   var AdBrite_Text_Color = \'CB7E46\';
 			   var AdBrite_Background_Color = \'FFFFEE\';
 			   var AdBrite_Border_Color = \'FFFFEE\';
 			</script>
-			<script src="http://ads.adbrite.com/mb/text_group.php?sid=534855&amp;zs=3132305f363030" type="text/javascript"></script>
+			<script src="http://ads.adbrite.com/mb/text_group.php?sid=534855&amp;zs=3132305f363030"></script>
 			<div><a target="_top" href="http://www.adbrite.com/mb/commerce/purchase_form.php?opid=534855&amp;afsid=1" style="font-weight:bold;font-family:Arial;font-size:13px;">Your Ad Here</a></div>
 			<!-- End: AdBrite -->
 			<script language="javascript">

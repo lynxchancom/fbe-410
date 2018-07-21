@@ -21,7 +21,7 @@ li a { display: block; width: 100%; }
 {/literal}
 <link rel="shortcut icon" href="{$ku_webpath}/favicon.ico">
 {literal}
-<script type="text/javascript">
+<script>
 function toggle(button, area) {
 	var tog=document.getElementById(area);
 	if(tog.style.display)    {

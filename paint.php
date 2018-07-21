@@ -73,7 +73,7 @@ padding: 0
 }
 </style>';
 if ($use_selfy) {
-	echo '<script type="text/javascript" src="'.KU_WEBPATH.'/lib/javascript/palette_selfy.js"></script>';	
+	echo '<script src="'.KU_WEBPATH.'/lib/javascript/palette_selfy.js"></script>';	
 }
 echo '</head><body bgcolor="#AEAED9">';
 
@@ -140,7 +140,7 @@ switch($applet) {
 }
 echo '</td>';
 if ($use_selfy) {
-	echo '<td><script type="text/javascript">palette_selfy();</script></td>';
+	echo '<td><script>palette_selfy();</script></td>';
 }
 echo '</tr></tbody></table></body>';
 ?>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>{$ku_name} Navigation</title>
 {$styles}<link rel="shortcut icon" href="{$ku_webpath}/favicon.ico">
-{literal}<script type="text/javascript">
+{literal}<script>
 function toggle(button, area) {
 	var tog=document.getElementById(area);
 	if(tog.style.display)    {
