@@ -905,12 +905,6 @@ class Board {
 				$buildthread_output .= '<div id="thread' . $line['id'] . $this->board_dir . '" class="thrdcntnr">' . "\n";
 				
 				// }}}
-				// {{{ Javascript which will automatically hide the thread if it finds the ID in the hidden threads cookie
-				
-				if ($page) {
-					$buildthread_output .= autoHideThreadJavascript($line['id'], $this->board_dir);
-				}
-				// }}}
 				// {{{ Thread-starting post
 				
 				if ($this->board_type == 1 && $page) {
