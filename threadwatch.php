@@ -114,7 +114,7 @@ if (isset($_GET['do'])) {
 					$output .= '<b>0</b>';
 				}
 				
-				$output .= ' <a href="#" onclick="javascript:removefromwatchedthreads(\'' . $watched_thread['threadid'] . '\', \'' . $_GET['board'] . '\');return false;" title="Un-watch">X</a><br>';
+				$output .= ' <a href="#" onclick="removefromwatchedthreads(\'' . $watched_thread['threadid'] . '\', \'' . $_GET['board'] . '\');return false;" title="Un-watch">X</a><br>';
 			}
 		} else {
 			$output .= 'None.<br>';

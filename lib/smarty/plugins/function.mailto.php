@@ -108,7 +108,7 @@ function smarty_function_mailto($params, &$smarty)
             $js_encode .= '%' . bin2hex($string[$x]);
         }
 
-        return '<script type="text/javascript">eval(unescape(\''.$js_encode.'\'))</script>';
+        return '<script>eval(unescape(\''.$js_encode.'\'))</script>';
 
     } elseif ($encode == 'javascript_charcode' ) {
         $string = '<a href="mailto:'.$address.'" '.$extra.'>'.$text.'</a>';
@@ -118,12 +118,10 @@ function smarty_function_mailto($params, &$smarty)
         }
 
         $_ret = "<script type=\"text/javascript\" language=\"javascript\">\n";
-        $_ret .= "<!--\n";
         $_ret .= "{document.write(String.fromCharCode(";
         $_ret .= implode(',',$ord);
         $_ret .= "))";
         $_ret .= "}\n";
-        $_ret .= "//-->\n";
         $_ret .= "</script>\n";
         
         return $_ret;

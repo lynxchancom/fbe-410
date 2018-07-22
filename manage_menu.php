@@ -41,7 +41,7 @@ if (!$manage_class->ValidateSession(true)) {
 	$manage_postpassword = md5_encrypt($_SESSION['manageusername'], KU_RANDOMSEED);
 	
 	$tpl_links .= '<li><a href="manage_page.php?action=logout">' . ucfirst(_gettext('log out')) . '</a></li>
-	<li><span id="postingpassword"><a id="showpwd" href="#" onclick="javascript:document.getElementById(\'postingpassword\').innerHTML = \'<input type=text id=postingpasswordbox value=' . $manage_postpassword . '>\'; document.getElementById(\'postingpasswordbox\').select(); return false;">'._gettext('Show Posting Password').'</a></span></li>';
+	<li><span id="postingpassword"><a id="showpwd" href="#" onclick="document.getElementById(\'postingpassword\').innerHTML = \'<input type=text id=postingpasswordbox value=' . $manage_postpassword . '>\'; document.getElementById(\'postingpasswordbox\').select(); return false;">'._gettext('Show Posting Password').'</a></span></li>';
 	/* Home */
 	$tpl_links .= section_html(_gettext('Home'), 'home') .
 	'<ul>

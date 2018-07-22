@@ -44,11 +44,11 @@ require 'config.php';
 <title><?php echo KU_NAME; ?></title>
 <link rel="shortcut icon" href="<?php echo KU_WEBPATH; ?>/favicon.ico">
 <?php
-if (isset($kusabaorg)) { echo '<script type="text/javascript">
+if (isset($kusabaorg)) { echo '<script>
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write("\<script src=\'" + gaJsHost + "google-analytics.com/ga.js\' type=\'text/javascript\'>\<\/script>" );
+document.write("\<script src=\'" + gaJsHost + "google-analytics.com/ga.js\'>\<\/script>" );
 </script>
-<script type="text/javascript">
+<script>
 var pageTracker = _gat._getTracker("UA-71983-11");
 pageTracker._initData();
 pageTracker._trackPageview();
