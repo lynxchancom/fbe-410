@@ -1701,31 +1701,6 @@ class Board {
 			'</script>' . "\n" .
 			'</div>' . "\n";
 		}
-		if (KU_WATCHTHREADS && !$isoekaki && ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) && !$hidewatchedthreads) {
-			$output .= 
-			'<script>' . "\n" .
-			'if (getCookie(\'showwatchedthreads\') == \'1\') {' . "\n" .
-			'	document.write(\'<div id="watchedthreads" style="top: ' . $ad_top . 'px; left: 25px;" class="watchedthreads">' .
-			'	<div class="postblock" id="watchedthreadsdraghandle" style="width: 100%;">' . _gettext('Watched Threads') . '<\/div>' .
-			'	<span id="watchedthreadlist"><\/span>' .
-			'	<div id="watchedthreadsbuttons">' .
-			'	<a href="#" onclick="hidewatchedthreads();return false;" title="' . _gettext('Hide the watched threads box') . '">' .
-			'	<img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="hidewatchedthreads" alt="hide">' .
-			'	<\/a>&nbsp;' .
-			'	<a href="#" onclick="getwatchedthreads(\\\'0\\\', \\\'' . $this->board_dir . '\\\');return false;" title="' . _gettext('Refresh watched threads') . '">' .
-			'	<img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="refreshwatchedthreads" alt="refresh">' .
-			'	<\/a>' .
-			'	<\/div>' .
-			'	<\/div>\');' . "\n" .
-			'	watchedthreadselement = document.getElementById(\'watchedthreads\');' . "\n" .
-			'	watchedthreadselement.style.top = getCookie(\'watchedthreadstop\');' . "\n" .
-			'	watchedthreadselement.style.left = getCookie(\'watchedthreadsleft\');' . "\n" .
-			'	watchedthreadselement.style.width = Math.max(250,getCookie(\'watchedthreadswidth\')) + \'px\';' . "\n" .
-			'	watchedthreadselement.style.height = Math.max(75,getCookie(\'watchedthreadsheight\')) + \'px\';' . "\n" .
-			'	getwatchedthreads(\'' . $replythread . '\', \'' . $this->board_dir . '\');' . "\n" .
-			'}' . "\n" .
-			'</script>' . "\n";
-		}
 		if ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) 
 		{
 // banner
