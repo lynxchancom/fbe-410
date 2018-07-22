@@ -1,9 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html{$htmloptions}>
 <head>
 <title>{$title}</title>
-{$head}<script type="text/javascript" src="{$ku_webpath}/lib/javascript/kusaba.js"></script>
-		<script type="text/javascript">
+{$head}<script src="{$ku_webpath}/lib/javascript/kusaba.js"></script>
+		<script>
 		var path = "{$ku_webpath}";
 		var captcha_message = "{$captcha_message}";
 		var req = null;
@@ -44,9 +44,9 @@ function handle() {
 }
 		</script>
 {/literal}
-<script type="text/javascript"><!--
+<script>
 	var hiddenthreads = getCookie('hiddenthreads').split('!');
-//--></script>
+</script>
 <link rel="shortcut icon" href="{$ku_webpath}/favicon.ico">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">

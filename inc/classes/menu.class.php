@@ -32,14 +32,14 @@ class Menu {
 		if (KU_MENUTYPE == 'normal') {
 			$smarty->assign('styles', printStylesheetsSite(KU_DEFAULTMENUSTYLE, true));
 		} else {
-			$smarty->assign('styles', '<style type="text/css">body { margin: 0px; } h1 { font-size: 1.25em; } h2 { font-size: 0.8em; font-weight: bold; color: #CC3300; } ul { list-style-type: none; padding: 0px; margin: 0px; } li { font-size: 0.8em; padding: 0px; margin: 0px; }</style>');
+			$smarty->assign('styles', '<style>body { margin: 0px; } h1 { font-size: 1.25em; } h2 { font-size: 0.8em; font-weight: bold; color: #CC3300; } ul { list-style-type: none; padding: 0px; margin: 0px; } li { font-size: 0.8em; padding: 0px; margin: 0px; }</style>');
 		}
 		
 		if (KU_MENUSTYLESWITCHER && KU_MENUTYPE == 'normal') {
 			$styles = explode(':', KU_MENUSTYLES);
 			$styleswitcher = _gettext('Styles') . ': ';
 			foreach ($styles as $style) {
-				$styleswitcher .= '[<a href="#" onclick="javascript:set_stylesheet(\\\'' . ucfirst($style) . '\\\', false, true);reloadmain();" style="display: inline;" target="_self">' . strtoupper(substr($style, 0, 1)) . '<\/a>] ';
+				$styleswitcher .= '[<a href="#" onclick="set_stylesheet(\\\'' . ucfirst($style) . '\\\', false, true);reloadmain();" style="display: inline;" target="_self">' . strtoupper(substr($style, 0, 1)) . '<\/a>] ';
 			}
 			$styleswitcher = substr($styleswitcher, 0, -1);
 		} else {
@@ -49,7 +49,7 @@ class Menu {
 		$smarty->assign('styleswitcher', $styleswitcher);
 		
 		if (KU_MENUTYPE == 'normal') {
-			$removeframes = '<li id="removeframes"><a href="#" onclick="javascript:return removeframes();" target="_self">[Remove Frames]</a></li>';
+			$removeframes = '<li id="removeframes"><a href="#" onclick="return removeframes();" target="_self">[Remove Frames]</a></li>';
 		} else {
 			$removeframes = '';
 		}
@@ -116,13 +116,13 @@ class Menu {
 			</ul>
 			
 			<!-- Begin: AdBrite -->
-			<script type="text/javascript">
+			<script>
 			   var AdBrite_Title_Color = \'800000\';
 			   var AdBrite_Text_Color = \'CB7E46\';
 			   var AdBrite_Background_Color = \'FFFFEE\';
 			   var AdBrite_Border_Color = \'FFFFEE\';
 			</script>
-			<script src="http://ads.adbrite.com/mb/text_group.php?sid=534855&amp;zs=3132305f363030" type="text/javascript"></script>
+			<script src="http://ads.adbrite.com/mb/text_group.php?sid=534855&amp;zs=3132305f363030"></script>
 			<div><a target="_top" href="http://www.adbrite.com/mb/commerce/purchase_form.php?opid=534855&amp;afsid=1" style="font-weight:bold;font-family:Arial;font-size:13px;">Your Ad Here</a></div>
 			<!-- End: AdBrite -->
 			<script language="javascript">
@@ -197,7 +197,7 @@ class Menu {
 			}
 			$smarty->assign('boards', $tpl_boards);
 			if (KU_MENUSTYLESWITCHER && KU_MENUTYPE == 'normal') {
-				$showhidedirs = '<li id="sitestyles"><a onclick="javascript:showstyleswitcher();" href="#" target="_self">[' . _gettext('Site Styles') . ']</a></li>'. "\n";
+				$showhidedirs = '<li id="sitestyles"><a onclick="showstyleswitcher();" href="#" target="_self">[' . _gettext('Site Styles') . ']</a></li>'. "\n";
 			} else {
 				$showhidedirs = '';
 			}
@@ -207,11 +207,11 @@ class Menu {
 					$smarty->assign('redirscript', "\n" . 'if (getCookie(\'tcshowdirs\') == \'yes\') {' . "\n" .
 					'	window.location = \'' . KU_WEBPATH . '/' . $files[1] . '\';' . "\n" .
 					'}' . "\n");
-					$smarty->assign('showhidedirs', $showhidedirs . '<li><a onclick="javascript:showdirs();" href="' . $files[1] . '" target="_self">['._gettext('Show Directories').']</a></li>');
+					$smarty->assign('showhidedirs', $showhidedirs . '<li><a onclick="showdirs();" href="' . $files[1] . '" target="_self">['._gettext('Show Directories').']</a></li>');
 					file_put_contents(KU_ROOTDIR . $files[0], $smarty->fetch('menu.tpl'));
 				} else {
 					$smarty->assign('redirscript', '');
-					$smarty->assign('showhidedirs', $showhidedirs . '<li><a onclick="javascript:hidedirs();" href="' . $files[0] . '" target="_self">['._gettext('Hide Directories').']</a></li>');
+					$smarty->assign('showhidedirs', $showhidedirs . '<li><a onclick="hidedirs();" href="' . $files[0] . '" target="_self">['._gettext('Hide Directories').']</a></li>');
 					file_put_contents(KU_ROOTDIR . $files[1], $smarty->fetch('menu.tpl'));
 				}
 			} else {
@@ -219,14 +219,14 @@ class Menu {
 					$smarty->assign('redirscript', "\n" . 'if (getCookie(\'tcshowdirs\') == \'yes\') {' . "\n" .
 					'	window.location = \'' . KU_WEBPATH . '/' . $files[1] . '\';' . "\n" .
 					'}' . "\n");
-					$smarty->assign('showhidedirs', $showhidedirs . '<li><a onclick="javascript:showdirs();" href="' . $files[1] . '" target="_self">['._gettext('Show Directories').']</a></li>');
+					$smarty->assign('showhidedirs', $showhidedirs . '<li><a onclick="showdirs();" href="' . $files[1] . '" target="_self">['._gettext('Show Directories').']</a></li>');
 					$menu_nodirs = $smarty->fetch('menu.tpl');
 					if ($option == 'nodirs') {
 						return $menu_nodirs;
 					}
 				} else {
 					$smarty->assign('redirscript', '');
-					$smarty->assign('showhidedirs', $showhidedirs . '<li><a onclick="javascript:hidedirs();" href="' . $files[0] . '" target="_self">['._gettext('Hide Directories').']</a></li>');
+					$smarty->assign('showhidedirs', $showhidedirs . '<li><a onclick="hidedirs();" href="' . $files[0] . '" target="_self">['._gettext('Hide Directories').']</a></li>');
 					$menu_dirs = $smarty->fetch('menu.tpl');
 					if ($option == 'dirs') {
 						return $menu_dirs;

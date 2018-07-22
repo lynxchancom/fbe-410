@@ -106,7 +106,7 @@ function formatReflink($post_board, $page, $post_thread_start_id, $post_id, $loc
 	
 	$reflink_noquote = '<a href="' . KU_BOARDSFOLDER . $post_board . '/res/' . $post_thread_start_id . '.html#' . $post_id . '"';
 	if (!$page) {
-		$reflink_noquote .= ' onclick="javascript:highlight(\'' . $post_id . '\');"';
+		$reflink_noquote .= ' onclick="highlight(\'' . $post_id . '\');"';
 	}
 	$reflink_noquote .= '>';
 	

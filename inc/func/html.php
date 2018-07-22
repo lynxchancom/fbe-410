@@ -21,7 +21,7 @@ function printStylesheets($prefered_stylesheet = KU_DEFAULTSTYLE) {
 		if ($stylesheet != $prefered_stylesheet) {
 			$output_stylesheets .= 'alternate ';
 		}
-		$output_stylesheets .= 'stylesheet" type="text/css" href="' . getCLBoardPath() . 'css/' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
+		$output_stylesheets .= 'stylesheet" href="' . getCLBoardPath() . 'css/' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
 	}
 	
 	return $output_stylesheets;
@@ -41,7 +41,7 @@ function printStylesheetsTXT($prefered_stylesheet = KU_DEFAULTTXTSTYLE) {
 		if ($stylesheet != $prefered_stylesheet) {
 			$output_stylesheets .= 'alternate ';
 		}
-		$output_stylesheets .= 'stylesheet" type="text/css" href="' . getCLBoardPath() . 'css/txt_' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
+		$output_stylesheets .= 'stylesheet" href="' . getCLBoardPath() . 'css/txt_' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
 	}
 	
 	return $output_stylesheets;
@@ -61,20 +61,20 @@ function printStylesheetsSite($prefered_stylesheet = KU_DEFAULTMENUSTYLE, $menu 
 		if ($stylesheet != $prefered_stylesheet) {
 			$output_stylesheets .= 'alternate ';
 		}
-		$output_stylesheets .= 'stylesheet" type="text/css" href="' . getCLBoardPath() . 'css/site_' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
+		$output_stylesheets .= 'stylesheet" href="' . getCLBoardPath() . 'css/site_' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
 		if ($menu) {
 			$output_stylesheets .= '<link rel="';
 			if ($stylesheet != $prefered_stylesheet) {
 				$output_stylesheets .= 'alternate ';
 			}
-			$output_stylesheets .= 'stylesheet" type="text/css" href="' . getCLBoardPath() . 'css/sitemenu_' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
+			$output_stylesheets .= 'stylesheet" href="' . getCLBoardPath() . 'css/sitemenu_' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
 		}
 	}
 	
-	$output_stylesheets .= '<script type="text/javascript"><!--' . "\n" .
+	$output_stylesheets .= '<script>' . "\n" .
 	'	var style_cookie_site = "kustyle_site";' . "\n" .
-	'//--></script>' . "\n" .
-	'<script type="text/javascript" src="' . getCWebPath() . 'lib/javascript/kusaba.js"></script>' . "\n";
+	'</script>' . "\n" .
+	'<script src="' . getCWebPath() . 'lib/javascript/kusaba.js"></script>' . "\n";
 	
 	return $output_stylesheets;
 }
@@ -100,7 +100,7 @@ function deletionForm($board) {
 function unHideThreadSpan($id, $board) {
 	return '<div class="unhidethread" id="unhidethread' . $id . $board . '" style="display: none;">' . "\n" .
 	'	Thread <a href="' . KU_BOARDSFOLDER . $board . '/res/' . $id . '.html">' . $id . '</a> hidden. ' . "\n" .
-	'	<a href="#" onclick="javascript:togglethread(\'' . $id . $board . '\');return false;" title="Un-Hide Thread">' . "\n" .
+	'	<a href="#" onclick="togglethread(\'' . $id . $board . '\');return false;" title="Un-Hide Thread">' . "\n" .
 	'		<img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="unhidethread" alt="unhide">' . "\n" .
 	'	</a>' . "\n" .
 	'</div>' . "\n";
@@ -126,12 +126,12 @@ function markedForDeletionMessage() {
  * @return string Javascript
  */ 
 function autoHideThreadJavascript($id, $board) {
-	return '<script type="text/javascript"><!--' . "\n" .
+	return '<script>' . "\n" .
 	'if (hiddenthreads.toString().indexOf(\'' . $id . $board . '\')!==-1) {' . "\n" .
 	'	document.getElementById(\'unhidethread' . $id . $board . '\').style.display = \'block\';' . "\n" .
 	'	document.getElementById(\'thread' . $id . $board . '\').style.display = \'none\';' . "\n" .
 	'}' . "\n" .
-	'//--></script>' . "\n";
+	'</script>' . "\n";
 }
 
 /**
@@ -182,8 +182,8 @@ function deletePostBox($boardtype, $enablereporting) {
  * @return string Javascript
  */ 
 function setDelPassJavascript() {
-	return '<script type="text/javascript"><!--' . "\n" .
+	return '<script>' . "\n" .
 	'	set_delpass("delform");' . "\n" .
-	'//--></script>' . "\n";
+	'</script>' . "\n";
 }
 ?>

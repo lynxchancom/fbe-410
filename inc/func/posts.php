@@ -19,9 +19,9 @@ function embeddedVideoBox($post) {
 	if ($post['filetype'] == 'you') {
 		$output .= '<iframe width="' . KU_YOUTUBEWIDTH . '" height="' . KU_YOUTUBEHEIGHT . '" src="https://www.youtube-nocookie.com/embed/' . $post['filename'] . '?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
 	} elseif ($post['filetype'] == 'goo') {
-		$output .= '<script type="text/javascript"><!--' . "\n" .
+		$output .= '<script>' . "\n" .
 		'document.write(\'<embed style="width:246px; height:205px;" id="VideoPlayback" type="application/x-shockwave-flash" src="http://video.google.com/googleplayer.swf?docId=' . $post['filename'] . '&hl=en" flashvars=""><\/embed>\');' . "\n" .
-		'--></script>' . "\n";
+		'</script>' . "\n";
 	}
 	 elseif ($post['filetype'] == 'red') {
 		$output .= '<object height="263" width="334"><param name="movie" value="http://embed.redtube.com/player/"><param name="FlashVars" value="id='. $post['filename'].'&style=redtube"><embed src="http://embed.redtube.com/player/?id='. $post['filename'].'&style=redtube" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" height="263" width="334"></object>';
@@ -413,7 +413,7 @@ function textBoardReplyBoxEmail() {
 function textBoardReplyBoxCaptcha() {
 	return '<td class="label"><label for="captcha">'._gettext('Captcha').':</label></td>' . "\n" .
 	'<td>' . "\n" .
-	'	<a href="#" onclick="javascript:document.getElementById(\'captchaimage\').src = \'' . KU_CGIPATH . '/captcha.php?\' + Math.random();return false;">' . "\n" .
+	'	<a href="#" onclick="document.getElementById(\'captchaimage\').src = \'' . KU_CGIPATH . '/captcha.php?\' + Math.random();return false;">' . "\n" .
 	'	<img id="captchaimage" src="' . KU_CGIPATH .'/captcha.php" border="0" width="90" height="30" alt="Captcha image">' . "\n" .
 	'	</a>&nbsp;' . "\n" .
 	'	<input type="text" id="captcha" name="captcha" size="8" maxlength="6">' . "\n" .

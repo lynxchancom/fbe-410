@@ -1031,7 +1031,7 @@ class Board {
 							$buildthread_replies .= $this->BuildPost($page, $this->board_dir, $this->board_type, $line_reply);
 						}
 						if (!$page && $expandjavascript != '') {
-							$expandjavascript = '<a href="#" onclick="javascript:' . $expandjavascript . 'return false;">' . _gettext('Expand all images') . '</a>';
+							$expandjavascript = '<a href="#" onclick="' . $expandjavascript . 'return false;">' . _gettext('Expand all images') . '</a>';
 						} else {
 							$expandjavascript = '';
 						}
@@ -1158,9 +1158,9 @@ class Board {
 				'<input name="email" size="25" value="" style="display: none;">' . "\n" .
 				textBoardReplyBox($this->board_dir, $this->board_forcedanon, $this->board_enablecaptcha, $numReplies, $line['id'], 'post' . $line['id']) .
 				'</form>' . "\n" .
-				'<script type="text/javascript"><!--' . "\n" .
+				'<script>' . "\n" .
 				'	set_inputs(\'post' . $line['id'] . '\');' . "\n" .
-				'//--></script>' . "\n";
+				'</script>' . "\n";
 				
 				if ($page) {
 					$buildthread_output .= '</div></div>';
@@ -1352,20 +1352,20 @@ class Board {
 				$info_post .= '	<img class="stckd" src="' . getCLBoardPath() . 'css/sticky.svg" alt="'._gettext('Stickied').'">' . "\n";
 			}
 			if ($page && $post_is_thread) {
-				$info_post .= '	 <span id="hide' . $post['id'] . '"><a href="#" onclick="javascript:togglethread(\'' . $post_thread_start_id . $this->board_dir . '\');return false;" title="Hide Thread"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="hidethread" alt="hide"></a></span>' . "\n";
+				$info_post .= '	 <span id="hide' . $post['id'] . '"><a href="#" onclick="togglethread(\'' . $post_thread_start_id . $this->board_dir . '\');return false;" title="Hide Thread"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="hidethread" alt="hide"></a></span>' . "\n";
 			}
 			if (KU_WATCHTHREADS && $post_is_thread) {
-				$info_post .= '	 <a href="#" onclick="javascript:addtowatchedthreads(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Watch Thread"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="watchthread" alt="watch"></a>' . "\n";
+				$info_post .= '	 <a href="#" onclick="addtowatchedthreads(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Watch Thread"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="watchthread" alt="watch"></a>' . "\n";
 			}
 			if (KU_POSTSPY) {
-				$info_post .= '&nbsp;[<a href="#" onclick="javascript:togglePostSpy();return false" title="' . _gettext('Post Spy') . '">PS</a>]';
+				$info_post .= '&nbsp;[<a href="#" onclick="togglePostSpy();return false" title="' . _gettext('Post Spy') . '">PS</a>]';
 			}
 			if ($page && $post_is_thread) {
 				if (KU_EXPAND && $thread_replies > KU_REPLIES && $thread_replies < 300) {
-					$info_post .= '	 <a href="#" onclick="javascript:expandthread(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Expand Thread"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="expandthread" alt="expand"></a>' . "\n";
+					$info_post .= '	 <a href="#" onclick="expandthread(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Expand Thread"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="expandthread" alt="expand"></a>' . "\n";
 				}
 				if (KU_QUICKREPLY) {
-					$info_post .= '	 <a href="#postbox" onclick="javascript:quickreply(\'' . $post_thread_start_id . '\');" title="' . _gettext('Quick Reply') . '"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="quickreply" alt="quickreply"></a>' . "\n";
+					$info_post .= '	 <a href="#postbox" onclick="quickreply(\'' . $post_thread_start_id . '\');" title="' . _gettext('Quick Reply') . '"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="quickreply" alt="quickreply"></a>' . "\n";
 				}
 			}
 			$info_post .= '&nbsp;</span>' . "\n" .
@@ -1540,8 +1540,8 @@ class Board {
 		$tpl['title'] .= $this->board_desc;
 		$tpl['head'] = '<script src="' . getCWebPath() . 'lib/javascript/jquery-3.3.1.min.js"></script>' . "\n";
 		/* Wii-specific features?
-			$tpl['head'] .= '<script type="text/javascript" src="' . getCWebPath() . 'lib/javascript/wii.js"></script>' . "\n" .
-			'<script type="text/javascript">' . "\n" .
+			$tpl['head'] .= '<script src="' . getCWebPath() . 'lib/javascript/wii.js"></script>' . "\n" .
+			'<script>' . "\n" .
 			'var wiimote = new wii.Wiimote();
 			var horizontalController = new wii.HorizontalController();
 			var keyboardController = new wii.KeyboardController();
@@ -1596,14 +1596,14 @@ class Board {
 		$output = '';
 		
 		if ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) {
-			$tpl['head'] .= '<link rel="stylesheet" type="text/css" href="' . getCLBoardPath() . 'css/img_global.css">' . "\n" .
+			$tpl['head'] .= '<link rel="stylesheet" href="' . getCLBoardPath() . 'css/img_global.css">' . "\n" .
 			$this->pageheader_css;
 		} else {
-			$tpl['head'] .= '<link rel="stylesheet" type="text/css" href="' . getCLBoardPath() . 'css/txt_global.css">' . "\n" . 
+			$tpl['head'] .= '<link rel="stylesheet" href="' . getCLBoardPath() . 'css/txt_global.css">' . "\n" . 
 			printStylesheetsTXT($this->board_defaultstyle);
 		}
 		if ($CURRENTLOCALE == 'ja') {
-			$tpl['head'] .= '<style type="text/css">' . "\n" .
+			$tpl['head'] .= '<style>' . "\n" .
 			'* {' . "\n" .
 			'	font-family: IPAMonaPGothic, Mona, \'MS PGothic\', YOzFontAA97 !important;' . "\n" .
 			'	font-size: 1em;' . "\n" .
@@ -1613,7 +1613,7 @@ class Board {
 		if (KU_RSS) {
 			$tpl['head'] .= '<link rel="alternate" type="application/rss+xml" title="RSS" href="' . KU_BOARDSPATH . '/' . $this->board_dir . '/rss.xml">' . "\n";
 		}
-		$tpl['head'] .= '<script type="text/javascript"><!--' . "\n" .
+		$tpl['head'] .= '<script>' . "\n" .
 		'	var ku_boardspath = \'' . KU_BOARDSPATH . '\';' . "\n" .
 		'	var ku_cgipath = \'' . KU_CGIPATH . '\'' . "\n" .
 		'	var style_cookie';
@@ -1632,7 +1632,7 @@ class Board {
 			$tpl['head'] .= 'true';
 		}
 		$tpl['head'] .= ';' . "\n" .
-		'//--></script>' . "\n";
+		'</script>' . "\n";
 		if ($this->board_type == 1) {
 			if ($replythread == 0) {
 				$output .= '<body class="board">' . "\n";
@@ -1649,7 +1649,7 @@ class Board {
 				
 				foreach ($styles as $stylesheet) {
 					$output .= '<option value="' .ucfirst($stylesheet). '">' .ucfirst($stylesheet). "</option>\n";
-//					$output .= '<option value="'.ucfirst($stylesheet).'" onclick="javascript:set_stylesheet(\'' . ucfirst($stylesheet) . '\');return false;">' . ucfirst($stylesheet) . "</option>\n";
+//					$output .= '<option value="'.ucfirst($stylesheet).'" onclick="set_stylesheet(\'' . ucfirst($stylesheet) . '\');return false;">' . ucfirst($stylesheet) . "</option>\n";
 				}
 				/*
 				if (count($styles) > 0) {
@@ -1659,7 +1659,7 @@ class Board {
 			}
 			$output .= '</select>&nbsp;';
 			if (KU_WATCHTHREADS) {
-				$output .= '<a href="#" onclick="javascript:showwatchedthreads();return false" title="' . _gettext('Watched Threads') . '"><img src="'.KU_WEBPATH.'/css/icons/blank.png" class="wtnav" alt="[WT]"/></a>&nbsp;';
+				$output .= '<a href="#" onclick="showwatchedthreads();return false" title="' . _gettext('Watched Threads') . '"><img src="'.KU_WEBPATH.'/css/icons/blank.png" class="wtnav" alt="[WT]"/></a>&nbsp;';
 			}
 			if($this->board_enablearchiving == 1) {
 				$output .= "<a href=\"" .KU_WEBPATH. "/" . $this->board_dir . "/arch/res/\"><img src=\"".KU_WEBPATH."/css/icons/blank.png\" class=\"archnav\" title=\"Архив\" alt=\"[Архив]\"/></a>&nbsp;";
@@ -1690,7 +1690,7 @@ class Board {
 		}
 		if (isset($kusabaorg) && $this->board_type != 1) {
 			$output .=  '<div id="ad" style="position: absolute;top:'.$ad_top.'px;right:'.$ad_right.'px">' . "\n" .
-			'<script type="text/javascript"><!--' . "\n" .
+			'<script>' . "\n" .
 			'google_ad_client = "pub-6158454562572132";' . "\n" .
 			'google_ad_width = 120;' . "\n" .
 			'google_ad_height = 240;' . "\n" .
@@ -1702,24 +1702,24 @@ class Board {
 			'google_color_link = "800000";' . "\n" .
 			'google_color_text = "CB7E46";' . "\n" .
 			'google_color_url = "800000";' . "\n" .
-			'--></script>' . "\n" .
-			'<script type="text/javascript"' . "\n" .
+			'</script>' . "\n" .
+			'<script' . "\n" .
 			'src="http://pagead2.googlesyndication.com/pagead/show_ads.js">' . "\n" .
 			'</script>' . "\n" .
 			'</div>' . "\n";
 		}
 		if (KU_WATCHTHREADS && !$isoekaki && ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) && !$hidewatchedthreads) {
 			$output .= 
-			'<script type="text/javascript"><!--' . "\n" .
+			'<script>' . "\n" .
 			'if (getCookie(\'showwatchedthreads\') == \'1\') {' . "\n" .
 			'	document.write(\'<div id="watchedthreads" style="top: ' . $ad_top . 'px; left: 25px;" class="watchedthreads">' .
 			'	<div class="postblock" id="watchedthreadsdraghandle" style="width: 100%;">' . _gettext('Watched Threads') . '<\/div>' .
 			'	<span id="watchedthreadlist"><\/span>' .
 			'	<div id="watchedthreadsbuttons">' .
-			'	<a href="#" onclick="javascript:hidewatchedthreads();return false;" title="' . _gettext('Hide the watched threads box') . '">' .
+			'	<a href="#" onclick="hidewatchedthreads();return false;" title="' . _gettext('Hide the watched threads box') . '">' .
 			'	<img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="hidewatchedthreads" alt="hide">' .
 			'	<\/a>&nbsp;' .
-			'	<a href="#" onclick="javascript:getwatchedthreads(\\\'0\\\', \\\'' . $this->board_dir . '\\\');return false;" title="' . _gettext('Refresh watched threads') . '">' .
+			'	<a href="#" onclick="getwatchedthreads(\\\'0\\\', \\\'' . $this->board_dir . '\\\');return false;" title="' . _gettext('Refresh watched threads') . '">' .
 			'	<img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="refreshwatchedthreads" alt="refresh">' .
 			'	<\/a>' .
 			'	<\/div>' .
@@ -1731,7 +1731,7 @@ class Board {
 			'	watchedthreadselement.style.height = Math.max(75,getCookie(\'watchedthreadsheight\')) + \'px\';' . "\n" .
 			'	getwatchedthreads(\'' . $replythread . '\', \'' . $this->board_dir . '\');' . "\n" .
 			'}' . "\n" .
-			'//--></script>' . "\n";
+			'</script>' . "\n";
 		}
 		if ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) 
 		{
@@ -1784,7 +1784,7 @@ class Board {
 				'		<b>' . _gettext('Style') . ':</b> ' . "\n";
 				$styles = explode(':', KU_TXTSTYLES);
 				foreach ($styles as $style) {
-					$output .= '		<a href="#" onclick="javascript:set_stylesheet(\'' . ucfirst($style) . '\',true);return false;">';
+					$output .= '		<a href="#" onclick="set_stylesheet(\'' . ucfirst($style) . '\',true);return false;">';
 					if ($style == 'futatxt') {
 						$output .= 'FutaTXT';
 					} elseif ($style == 'buritxt') {
@@ -2059,7 +2059,7 @@ class Board {
 			if ($this->board_dir == 'test') { // Only NSFW boards
 				$output .= '<div id="ad" style="display: inline;position: absolute;right: 5px;">
 				<!--Start AVN Ads Code-->
-				<script language="javascript" type="text/javascript" charset="utf-8" src="http://pages.etology.com/js2/43663.php"></script>
+				<script language="javascript" charset="utf-8" src="http://pages.etology.com/js2/43663.php"></script>
 				<!--End AVN Ads Code-->
 				</div>';
 			}
@@ -2148,7 +2148,7 @@ class Board {
 					if ($this->board_enablecaptcha == 1) {
 						$output .= '<tr>' . "\n" .
 						'	<td class="'.$label_class.'">' . "\n" .
-						'		<a href="#" onclick="javascript:document.getElementById(\'captchaimage\').src = \'' . KU_CGIPATH . '/captcha.php?\' + Math.random();return false;"><img id="captchaimage" src="' . KU_CGIPATH . '/captcha.php" border="0" width="90" height="25" alt="Captcha image"></a>' . "\n" .
+						'		<a href="#" onclick="document.getElementById(\'captchaimage\').src = \'' . KU_CGIPATH . '/captcha.php?\' + Math.random();return false;"><img id="captchaimage" src="' . KU_CGIPATH . '/captcha.php" border="0" width="90" height="25" alt="Captcha image"></a>' . "\n" .
 						'	</td>' . "\n" .
 						'	<td>' . "\n" .
 						'		<input type="text" name="captcha" 
@@ -2159,7 +2159,7 @@ size="28" maxlength="20" accesskey="c">' . "\n" .
 					if ($this->board_enablefaptcha == 1) {
 						$output .= '<tr>' . "\n" .
 						'	<td class="'.$label_class.'" align="center">' . "\n" .
-						'		<a href="#" onclick="javascript:document.getElementById(\'faptchaimage\').src = \'' . KU_CGIPATH . '/faptcha.php?board='.$this->board_dir.'&amp;\' + Math.random();return false;"><img id="faptchaimage" src="' . KU_CGIPATH . '/faptcha.php?board='.$this->board_dir.'" border="0" width="90" height="50" alt="Animapcha image"></a>' . "\n" .
+						'		<a href="#" onclick="document.getElementById(\'faptchaimage\').src = \'' . KU_CGIPATH . '/faptcha.php?board='.$this->board_dir.'&amp;\' + Math.random();return false;"><img id="faptchaimage" src="' . KU_CGIPATH . '/faptcha.php?board='.$this->board_dir.'" border="0" width="90" height="50" alt="Animapcha image"></a>' . "\n" .
 						'	</td>' . "\n" .
 						'	<td>' . "\n" .
 						'		<input type="text" name="faptcha" id="faptcha_input"
@@ -2278,16 +2278,16 @@ size="28" maxlength="64" accesskey="f">
 								'		' . _gettext('Blotter updated') . ': ' . date('m/d/y', getBlotterLastUpdated()) . "\n" .
 								'	</span>' . "\n" .
 								'	<span style="color: red;text-align: right;position: absolute;right: 0px;">' . "\n" .
-								'		<a href="#" onclick="javascript:toggleblotter(true);return false;">' . _gettext('Show/Hide') . '</a> <a href="' . KU_WEBPATH . '/blotter.php">' . _gettext('Show All') . '</a>' . "\n" .
+								'		<a href="#" onclick="toggleblotter(true);return false;">' . _gettext('Show/Hide') . '</a> <a href="' . KU_WEBPATH . '/blotter.php">' . _gettext('Show All') . '</a>' . "\n" .
 								'	</span>' . "\n" .
 								'</li>' . "\n" .
 								$blotter .
 								'</ul>' . "\n" .
-								'<script type="text/javascript"><!--' . "\n" .
+								'<script>' . "\n" .
 								'if (getCookie(\'ku_showblotter\') == \'1\') {' . "\n" .
 								'	toggleblotter(false);' . "\n" .
 								'}' . "\n" .
-								'--></script>' . "\n";
+								'</script>' . "\n";
 							}
 						}
 						$output .= '	</td>' . "\n" .
@@ -2304,12 +2304,11 @@ size="28" maxlength="64" accesskey="f">
 				}
 			}
 			$output .= '</div>' . "\n" .
-			'<script type="text/javascript"><!--' . "\n" .
+			'<script>' . "\n" .
 			'	set_inputs("postform");' . "\n" .
-			'//--></script>' . "\n";
+			'</script>' . "\n";
 		}
 		$output .= "<script type=\"text/javascript\">
-<!--
 request_faptcha('$this->board_dir');
 var mytextarea = document.forms.postform.message;
 mytextarea.style.width = mytextarea.clientWidth + 'px';
@@ -2329,7 +2328,6 @@ else {
 		}
 	}
 }
-//-->
 </script>
 ";
 
@@ -2460,9 +2458,9 @@ else {
 		}
 		
 		if (isset($kusabaorg)) {
-			$output .= '<script language="javascript"><!--
+			$output .= '<script language="javascript">
 			var woopra_id = \'228219709\';
-			//--></script>
+			</script>
 			<script src="http://static.woopra.com/js/woopra.js"></script>';
 		}
 		
