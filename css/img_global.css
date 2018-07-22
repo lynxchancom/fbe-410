@@ -777,3 +777,91 @@ input[type=text], input[type=password], textarea {
 		width: 180px;
 	}
 }
+
+/* jQuery-based remake of scripts (2018) is supported by the following: */
+
+#watchedthreadsdraghandle {
+	width: 100%;
+}
+#watchedthreads {
+	-webkit-transition-property: opacity;
+	-webkit-transition-duration: 0.5s;
+	-webkit-transition-timing-function: ease-in-out;
+	transition-property: opacity;
+	transition-duration: 0.5s;
+	transition-timing-function: ease-in-out;
+}
+.videoplayer410, .audioplayer410 {
+	max-width: 100%;
+	height: auto;
+	box-sizing: border-box;
+	margin: 2px 20px;
+	float: left;
+	clear: left;
+}
+.hidevideo, .hideaudio {
+	padding: 2px 20px 2px 0;
+}
+.thumb {
+	background-size: 100% 100%;
+}
+
+/*!
+ * resizable 1.0.0
+ * https://github.com/tannernetwork/resizable
+ *
+ * Copyright 2015 Tanner (http://tanner.zone)
+ * Released under the MIT license
+ */
+.resizable {
+position: relative;
+}
+.resizable .resizable-handle {
+position: absolute;
+-moz-user-select: none;
+-webkit-user-select: none;
+-ms-user-select: none;
+}
+.resizable .resizable-l, .resizable .resizable-r {
+height: calc(100% - 10px);
+top: 5px;
+width: 10px;
+}
+.resizable .resizable-l {
+cursor: w-resize;
+left: -5px;
+}
+.resizable .resizable-r {
+cursor: e-resize;
+right: -5px;
+}
+.resizable .resizable-t, .resizable .resizable-b {
+height: 10px;
+left: 5px;
+width: calc(100% - 10px);
+}
+.resizable .resizable-t {
+cursor: n-resize;
+top: -5px;
+}
+.resizable .resizable-b {
+cursor: s-resize;
+bottom: -5px;
+}
+.resizable-resizing {
+-moz-user-select: none;
+-webkit-user-select: none;
+-ms-user-select: none;
+}
+.resizable-resizing-l {
+cursor: w-resize;
+}
+.resizable-resizing-r {
+cursor: e-resize;
+}
+.resizable-resizing-t {
+cursor: n-resize;
+}
+.resizable-resizing-b {
+cursor: s-resize;
+}
