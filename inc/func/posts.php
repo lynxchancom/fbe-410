@@ -40,11 +40,6 @@ function embeddedMusicBox($post, $board) {
 		$output .= '<embed type="application/x-shockwave-flash" src="http://www.google.com/reader/ui/3247397568-audio-player.swf?audioUrl='. KU_WEBPATH . '/' . $board . '/src/'. $post['filename'] . '.' . $post['filetype'] . '" width="400" height="27" allowscriptaccess="never" quality="best" bgcolor="#ffffff" wmode="window" flashvars="playerMode=embedded" /></embed>';
 		$output .= '</span>&nbsp;' . "\n";
 	}
-	else {
-		$output = '<span class="sound">' . "\n";
-		$output .= '<audio src="'. KU_WEBPATH . '/' . $board . '/src/'. urlencode($post['filename']) . '.' . $post['filetype'] . '" controls preload="metadata"></audio>';
-		$output .= '</span>&nbsp;' . "\n";
-	}
 	return $output;
 }
 
