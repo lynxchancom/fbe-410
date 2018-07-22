@@ -1284,8 +1284,7 @@ class Board {
 					'</div>' . "\n";
 				} else {
 					$info_image .= '<a class="imglink" ';
-					$info_image .= 'onclick="expandimg(\'' . $post['id'] . '\', \'' . $post_file_url . '\', \'' . $post_thumb . '\', \'' . $post['image_w'] . '\', \'' . $post['image_h'] . '\', \'' . $post['thumb_w'] . '\', \'' . $post['thumb_h'] . '\');return false;" ';
-                    $info_image .= 'data-full-src="' . $post_file_url . '" data-thumb-src="' . $post_thumb . '" data-full-width="' . $post['image_w'] . '" data-full-height="' . $post['image_h'] . '" data-thumb-width="' . $post['thumb_w'] . '" data-thumb-height="' . $post['thumb_h'] . '" data-post-id="' . $post['id'] . '" ';
+                    $info_image .= 'data-full-src="' . $post_file_url . '" data-thumb-src="' . $post_thumb . '" data-full-width="' . $post['image_w'] . '" data-full-height="' . $post['image_h'] . '" data-thumb-width="' . $post['thumb_w'] . '" data-thumb-height="' . $post['thumb_h'] . '" ';
 					$info_image .= 'href="' . $file_path . '/src/'.htmlspecialchars($post['filename'], ENT_QUOTES).'.'.$post['filetype'].'">' . "\n" .
 					'<span id="thumb' . $post['id'] . '">' . $post_file_thumblement . '</span>' . "\n" .
 					'</a></div>' . "\n";
