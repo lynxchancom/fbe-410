@@ -1,10 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>{$lang_manageboards}</title>
 {literal}
-<style type="text/css">
+<style>
 body { font-family: sans-serif; font-size: 75%; background: #ffe }
 a { text-decoration: none; color: #550 }
 h1, h2 { margin: 0px; background: #fca }
@@ -21,7 +21,7 @@ li a { display: block; width: 100%; }
 {/literal}
 <link rel="shortcut icon" href="{$ku_webpath}/favicon.ico">
 {literal}
-<script type="text/javascript">
+<script>
 function toggle(button, area) {
 	var tog=document.getElementById(area);
 	if(tog.style.display)    {

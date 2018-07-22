@@ -1,24 +1,24 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <title>Search</title>
-<script type="text/javascript" src="{$ku_webpath}/lib/javascript/kusaba.js"></script>
+<script src="{$ku_webpath}/lib/javascript/kusaba.js"></script>
 <link rel="shortcut icon" href="{$ku_webpath}/favicon.ico">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="Sat, 17 Mar 1990 00:00:01 GMT">
 <link rel="stylesheet" href="{$ku_webpath}/css/img_global.css">
-<link rel="alternate stylesheet" type="text/css" href="{$ku_webpath}/css/burichan.css" title="Burichan">
-<link rel="alternate stylesheet" type="text/css" href="{$ku_webpath}/css/futaba.css" title="Futaba">
-<link rel="alternate stylesheet" type="text/css" href="{$ku_webpath}/css/photon.css" title="Photon">
-<link rel="alternate stylesheet" type="text/css" href="{$ku_webpath}/css/kusaba.css" title="Kusaba">
-<link rel="alternate stylesheet" type="text/css" href="{$ku_webpath}/css/bluemoon.css" title="Bluemoon">
+<link rel="alternate stylesheet" href="{$ku_webpath}/css/burichan.css" title="Burichan">
+<link rel="alternate stylesheet" href="{$ku_webpath}/css/futaba.css" title="Futaba">
+<link rel="alternate stylesheet" href="{$ku_webpath}/css/photon.css" title="Photon">
+<link rel="alternate stylesheet" href="{$ku_webpath}/css/kusaba.css" title="Kusaba">
+<link rel="alternate stylesheet" href="{$ku_webpath}/css/bluemoon.css" title="Bluemoon">
 
-<link rel="stylesheet" type="text/css" href="{$ku_webpath}/css/umnochan.css" title="Umnochan">
+<link rel="stylesheet" href="{$ku_webpath}/css/umnochan.css" title="Umnochan">
 </head>
 <body>
 <div class="adminbar"><select name="switcher">
-<option value="Burichan" onclick="javascript:set_stylesheet('Burichan');return false;">Burichan</option><option value="Futaba" onclick="javascript:set_stylesheet('Futaba');return false;">Futaba</option><option value="Photon" onclick="javascript:set_stylesheet('Photon');return false;">Photon</option><option value="Kusaba" onclick="javascript:set_stylesheet('Kusaba');return false;">Kusaba</option><option value="Bluemoon" onclick="javascript:set_stylesheet('Bluemoon');return false;">Bluemoon</option><option value="Umnochan" onclick="javascript:set_stylesheet('Umnochan');return false;">Umnochan</option>-&nbsp;[<a href="#" onclick="javascript:showwatchedthreads();return false" title="Избранные треды">WT</a>]&nbsp;</select>&nbsp;[<a href="{$ku_webpath}/search.php">Поиск</a>]&nbsp;[<a href="{$ku_webpath}" target="_top">Домой</a>]&nbsp;[<a href="{$ku_webpath}/manage.php" target="_top">Управление</a>]</div>
+<option value="Burichan" onclick="set_stylesheet('Burichan');return false;">Burichan</option><option value="Futaba" onclick="set_stylesheet('Futaba');return false;">Futaba</option><option value="Photon" onclick="set_stylesheet('Photon');return false;">Photon</option><option value="Kusaba" onclick="set_stylesheet('Kusaba');return false;">Kusaba</option><option value="Bluemoon" onclick="set_stylesheet('Bluemoon');return false;">Bluemoon</option><option value="Umnochan" onclick="set_stylesheet('Umnochan');return false;">Umnochan</option>-&nbsp;[<a href="#" onclick="showwatchedthreads();return false" title="Избранные треды">WT</a>]&nbsp;</select>&nbsp;[<a href="{$ku_webpath}/search.php">Поиск</a>]&nbsp;[<a href="{$ku_webpath}" target="_top">Домой</a>]&nbsp;[<a href="{$ku_webpath}/manage.php" target="_top">Управление</a>]</div>
 <div class="navbar">[ <a title="/d/испетчерская" href="/d/">d</a> ] [ <a title="Авто/b/ус" href="/b/">b</a> / <a title="International" href="/int/">int</a> / <a title="Кулинария" href="/cu/">cu</a> / <a title="Разработка" href="/dev/">dev</a> ] [ <a title="Радио 410" href="/r/">r</a> ] [ <a title="Аниме" href="/a/">a</a> / <a title="Цундере" href="/ts/">ts</a> / <a title="Type-Moon" href="/tm/">tm</a> / <a title="Mahō Shōjo Lyrical Nanoha" href="/nano/">nano</a> ] [ <a title="Городская жизнь" href="/ci/">ci</a> ] </div>
 
 <div class="logo">Поиск</div>

@@ -2,13 +2,12 @@
 {* debug.tpl, last updated version 2.1.0 *}
 {assign_debug_info}
 {capture assign=debug_output}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
     <title>Smarty Debug Console</title>
 {literal}
-<style type="text/css">
-/* <![CDATA[ */
+<style>
 body, h1, h2, td, th, p {
     font-family: sans-serif;
     font-weight: normal;
@@ -85,7 +84,6 @@ td {
 #table_config_vars th {
     color: maroon;
 }
-/* ]]> */
 </style>
 {/literal}
 </head>
@@ -141,8 +139,7 @@ td {
 {if isset($_smarty_debug_output) and $_smarty_debug_output eq "html"}
     {$debug_output}
 {else}
-<script type="text/javascript">
-// <![CDATA[
+<script>
     if ( self.name == '' ) {ldelim}
        var title = 'Console';
     {rdelim}
@@ -152,6 +149,5 @@ td {
     _smarty_console = window.open("",title.value,"width=680,height=600,resizable,scrollbars=yes");
     _smarty_console.document.write('{$debug_output|escape:'javascript'}');
     _smarty_console.document.close();
-// ]]>
 </script>
 {/if}

@@ -1,9 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <title>{$ku_name}</title>
 <link rel="shortcut icon" href="{$ku_webpath}/favicon.ico">
-{$head}<style type="text/css">{literal}
+{$head}<style>{literal}
 body {
 	width: 100% !important;
 }
