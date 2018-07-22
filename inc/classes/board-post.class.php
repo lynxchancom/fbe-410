@@ -1618,13 +1618,6 @@ class Board {
 			$tpl['head'] .= '_txt';
 		}
 		$tpl['head'] .= '";' . "\n" .
-		'	var ispage = ';
-		if ($replythread > 0) {
-			$tpl['head'] .= 'false';
-		} else {
-			$tpl['head'] .= 'true';
-		}
-		$tpl['head'] .= ';' . "\n" .
 		'</script>' . "\n";
 		if ($this->board_type == 1) {
 			if ($replythread == 0) {

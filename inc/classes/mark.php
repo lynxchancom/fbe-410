@@ -232,7 +232,7 @@ function wakaba_spanmark($lines, $board) {
 
 function build_url($post, $board = false) {
     // TODO: implement posts_check_number() func
-    return '<a href="#'.$post.'" onclick="highlight('.$post.')">&gt;&gt;'.$post.'</a>';
+    return '<a href="#'.$post.'">&gt;&gt;'.$post.'</a>';
 }
 
 function kotoba_mark(&$text, $board) {
