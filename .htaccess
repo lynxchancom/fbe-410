@@ -1,12 +1,18 @@
 DirectoryIndex kusaba.php
 AddCharset UTF-8 .html
 AddCharset UTF-8 .php
+AddCharset UTF-8 .css
+AddCharset UTF-8 .js
+AddType video/mp4 mp4 m4v
+AddType audio/mp4 m4a
+AddType video/ogg ogv
+AddType audio/ogg ogg oga
+AddType audio/opus opus
+AddType video/webm webm
 FileETag None
 Options +FollowSymlinks +Includes
+
 #AddOutputFilter INCLUDES .html
-
-
-
 
 <IfModule mod_headers.c>
 	<Files *.html>
