@@ -119,22 +119,6 @@ function markedForDeletionMessage() {
 }
 
 /**
- * Create the javascript which will check if the user has the thread hidden, and if so, hide the thread and show the un-hide thread span
- *
- * @param integer $id Thread ID
- * @param string $board Board directory
- * @return string Javascript
- */ 
-function autoHideThreadJavascript($id, $board) {
-	return '<script>' . "\n" .
-	'if (hiddenthreads.toString().indexOf(\'' . $id . $board . '\')!==-1) {' . "\n" .
-	'	document.getElementById(\'unhidethread' . $id . $board . '\').style.display = \'block\';' . "\n" .
-	'	document.getElementById(\'thread' . $id . $board . '\').style.display = \'none\';' . "\n" .
-	'}' . "\n" .
-	'</script>' . "\n";
-}
-
-/**
  * Create the delete post box, displayed at the bottom left of pages in non text boards, or inside the thread in text boards
  *
  * @param integer $boardtype Board type
