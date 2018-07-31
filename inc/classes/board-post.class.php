@@ -905,12 +905,6 @@ class Board {
 				$buildthread_output .= '<div id="thread' . $line['id'] . $this->board_dir . '" class="thrdcntnr">' . "\n";
 				
 				// }}}
-				// {{{ Javascript which will automatically hide the thread if it finds the ID in the hidden threads cookie
-				
-				if ($page) {
-					$buildthread_output .= autoHideThreadJavascript($line['id'], $this->board_dir);
-				}
-				// }}}
 				// {{{ Thread-starting post
 				
 				if ($this->board_type == 1 && $page) {
@@ -1284,8 +1278,7 @@ class Board {
 					'</div>' . "\n";
 				} else {
 					$info_image .= '<a class="imglink" ';
-					$info_image .= 'onclick="expandimg(\'' . $post['id'] . '\', \'' . $post_file_url . '\', \'' . $post_thumb . '\', \'' . $post['image_w'] . '\', \'' . $post['image_h'] . '\', \'' . $post['thumb_w'] . '\', \'' . $post['thumb_h'] . '\');return false;" ';
-                    $info_image .= 'data-full-src="' . $post_file_url . '" data-thumb-src="' . $post_thumb . '" data-full-width="' . $post['image_w'] . '" data-full-height="' . $post['image_h'] . '" data-thumb-width="' . $post['thumb_w'] . '" data-thumb-height="' . $post['thumb_h'] . '" data-post-id="' . $post['id'] . '" ';
+                    $info_image .= 'data-full-src="' . $post_file_url . '" data-thumb-src="' . $post_thumb . '" data-full-width="' . $post['image_w'] . '" data-full-height="' . $post['image_h'] . '" data-thumb-width="' . $post['thumb_w'] . '" data-thumb-height="' . $post['thumb_h'] . '" ';
 					$info_image .= 'href="' . $file_path . '/src/'.htmlspecialchars($post['filename'], ENT_QUOTES).'.'.$post['filetype'].'">' . "\n" .
 					'<span id="thumb' . $post['id'] . '">' . $post_file_thumblement . '</span>' . "\n" .
 					'</a></div>' . "\n";
@@ -1625,13 +1618,6 @@ class Board {
 			$tpl['head'] .= '_txt';
 		}
 		$tpl['head'] .= '";' . "\n" .
-		'	var ispage = ';
-		if ($replythread > 0) {
-			$tpl['head'] .= 'false';
-		} else {
-			$tpl['head'] .= 'true';
-		}
-		$tpl['head'] .= ';' . "\n" .
 		'</script>' . "\n";
 		if ($this->board_type == 1) {
 			if ($replythread == 0) {
@@ -1707,31 +1693,6 @@ class Board {
 			'src="http://pagead2.googlesyndication.com/pagead/show_ads.js">' . "\n" .
 			'</script>' . "\n" .
 			'</div>' . "\n";
-		}
-		if (KU_WATCHTHREADS && !$isoekaki && ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) && !$hidewatchedthreads) {
-			$output .= 
-			'<script>' . "\n" .
-			'if (getCookie(\'showwatchedthreads\') == \'1\') {' . "\n" .
-			'	document.write(\'<div id="watchedthreads" style="top: ' . $ad_top . 'px; left: 25px;" class="watchedthreads">' .
-			'	<div class="postblock" id="watchedthreadsdraghandle" style="width: 100%;">' . _gettext('Watched Threads') . '<\/div>' .
-			'	<span id="watchedthreadlist"><\/span>' .
-			'	<div id="watchedthreadsbuttons">' .
-			'	<a href="#" onclick="hidewatchedthreads();return false;" title="' . _gettext('Hide the watched threads box') . '">' .
-			'	<img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="hidewatchedthreads" alt="hide">' .
-			'	<\/a>&nbsp;' .
-			'	<a href="#" onclick="getwatchedthreads(\\\'0\\\', \\\'' . $this->board_dir . '\\\');return false;" title="' . _gettext('Refresh watched threads') . '">' .
-			'	<img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="refreshwatchedthreads" alt="refresh">' .
-			'	<\/a>' .
-			'	<\/div>' .
-			'	<\/div>\');' . "\n" .
-			'	watchedthreadselement = document.getElementById(\'watchedthreads\');' . "\n" .
-			'	watchedthreadselement.style.top = getCookie(\'watchedthreadstop\');' . "\n" .
-			'	watchedthreadselement.style.left = getCookie(\'watchedthreadsleft\');' . "\n" .
-			'	watchedthreadselement.style.width = Math.max(250,getCookie(\'watchedthreadswidth\')) + \'px\';' . "\n" .
-			'	watchedthreadselement.style.height = Math.max(75,getCookie(\'watchedthreadsheight\')) + \'px\';' . "\n" .
-			'	getwatchedthreads(\'' . $replythread . '\', \'' . $this->board_dir . '\');' . "\n" .
-			'}' . "\n" .
-			'</script>' . "\n";
 		}
 		if ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) 
 		{
