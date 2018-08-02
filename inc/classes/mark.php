@@ -906,7 +906,7 @@ function bbcode_kotoba_mark($text, $board) {
         'i' => array('type'=>BBCODE_TYPE_NOARG, 'open_tag'=>'<i>', 'close_tag'=>'</i>', 'childs'=>'b,s,u'),
         'b' => array('type'=>BBCODE_TYPE_NOARG, 'open_tag'=>'<b>', 'close_tag'=>'</b>', 'childs'=>'i,s,u'),
         'code' => array('type'=>BBCODE_TYPE_NOARG, 'open_tag'=>'<pre>', 'close_tag'=>'</pre>'),
-        'spoiler' => array('type'=>BBCODE_TYPE_NOARG, 'open_tag'=>'<span class="spoiler" style="color: black;" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\'">', 'close_tag'=>'</span>'),
+        'spoiler' => array('type'=>BBCODE_TYPE_NOARG, 'open_tag'=>'<span class="spoiler">', 'close_tag'=>'</span>'),
         's' => array('type'=>BBCODE_TYPE_NOARG, 'open_tag'=>'<s>', 'close_tag'=>'</s>', 'childs'=>'b,i'),
         'u' => array('type'=>BBCODE_TYPE_NOARG, 'open_tag'=>'<u>', 'close_tag'=>'</u>', 'childs'=>'b,i'),
         'ul' => array('type'=>BBCODE_TYPE_NOARG, 'open_tag'=>'<ul>', 'close_tag'=>'</ul>', 'childs'=>'li'),
@@ -993,7 +993,7 @@ function do_spans($handler, $data) {
         $d = preg_replace_callback(
             "/ (?<![0-9a-zA-Z\%_\x80-\x9f\xe0-\xfc]) (\%\%|__) (?![<>\s\%_]) ([^<>]+?) (?<![<>\s\%_\x80-\x9f\xe0-\xfc]) \\1 (?![0-9a-zA-Z\%_]) /x",
             function ($matches) {
-                return "<span class=\"spoiler\" style=\"color: black;\" onmouseover=\"this.style.color='white';\" onmouseout=\"this.style.color='black'\">{$matches[2]}</span>";
+                return "<span class=\"spoiler\">{$matches[2]}</span>";
             },
             $d
         );
