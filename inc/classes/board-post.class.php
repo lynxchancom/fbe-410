@@ -2125,7 +2125,7 @@ size="28" maxlength="20" accesskey="c">' . "\n" .
 						'	<td>' . "\n" .
 						'		<input type="text" name="faptcha" id="faptcha_input"
 size="28" maxlength="64" accesskey="f">
-[<a href="#" onclick="javacript: request_faptcha(\''.$this->board_dir.'\');" title="Check faptcha">@</a>] [<a href="'.KU_CGIPATH .'/news.php?p=faq" target="_blank" title="FAQ">?</a>]' . "\n" .
+[<a class="fapcheck" href="#" title="Check faptcha">@</a>] [<a href="'.KU_CGIPATH .'/news.php?p=faq" target="_blank" title="FAQ">?</a>]' . "\n" .
 						'	</td>' . "\n" .
 						'</tr>' . "\n";
 					}
@@ -2269,30 +2269,6 @@ size="28" maxlength="64" accesskey="f">
 			'	set_inputs("postform");' . "\n" .
 			'</script>' . "\n";
 		}
-		$output .= "<script type=\"text/javascript\">
-request_faptcha('$this->board_dir');
-var mytextarea = document.forms.postform.message;
-mytextarea.style.width = mytextarea.clientWidth + 'px';
-mytextarea.style.height = mytextarea.clientHeight + 'px';
-if(navigator.userAgent.indexOf(\"Chrome\") < 0 && navigator.userAgent.indexOf(\"WebKit\") < 0) {
-	resizeMaster.setResizer(document.getElementById(\"resizer\"));
-}
-else {
-	// Reset alignment of postform to kusaba default for chrome users,
-	// because chrome have native textarea resizing support.
-	for(var stylesheetKey in document.styleSheets) {
-		if(document.styleSheets[stylesheetKey].href.indexOf(\"img_global.css\") >= 0) {
-			for(var ruleKey in document.styleSheets[stylesheetKey].cssRules) {
-				if(document.styleSheets[stylesheetKey].cssRules[ruleKey].selectorText.indexOf(\"postarea table\") >= 0)
-					document.styleSheets[stylesheetKey].cssRules[ruleKey].style.margin = \"0px auto\"
-			}
-		}
-	}
-}
-</script>
-";
-
-		
 		return $output;
 	}
 	
