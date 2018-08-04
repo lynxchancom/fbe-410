@@ -8,6 +8,7 @@
 var path = "{$ku_webpath}";
 var captcha_message = "{$captcha_message}";
 </script>
+{include file='metric.tpl'}
 <link rel="shortcut icon" href="{$ku_webpath}/favicon.ico">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
