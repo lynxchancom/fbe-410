@@ -1358,7 +1358,7 @@ class Board {
 					$info_post .= '	 <a href="#" onclick="expandthread(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Expand Thread"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="expandthread" alt="expand"></a>' . "\n";
 				}
 				if (KU_QUICKREPLY) {
-					$info_post .= '	 <a href="#postbox" onclick="quickreply(\'' . $post_thread_start_id . '\');" title="' . _gettext('Quick Reply') . '"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="quickreply" alt="quickreply"></a>' . "\n";
+					$info_post .= '	 <a href="#" onclick="return quickreply(\'' . $post_thread_start_id . '\');" title="' . _gettext('Quick Reply') . '"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="quickreply" alt="' . _gettext('Quick Reply') . '"></a>' . "\n";
 				}
 			}
 			$info_post .= '&nbsp;</span>' . "\n" .
@@ -2134,10 +2134,10 @@ size="28" maxlength="64" accesskey="f">
 					'		' . _gettext('Subject').'</td>' . "\n" .
 					'	<td>' . "\n" .
 					'		<input type="text" name="subject" size="35" maxlength="75" accesskey="s">&nbsp;<input type="submit" value="' . _gettext('Submit') . '" accesskey="z">';
-					/* Qucik reply indicator for a postbox on a board page */
+					/* Quick reply indicator for a postbox on a board page */
 					if (KU_QUICKREPLY && $replythread == 0 && ($this->board_type == 0 || $this->board_type == 3)) {
 						$output .= '&nbsp;<small><span id="posttypeindicator">' . _gettext('(new thread)') . '</span></small>';
-					/* Qucik reply indicator for a postbox on a thread page */
+					/* Quick reply indicator for a postbox on a thread page */
 					} elseif (KU_QUICKREPLY && $replythread != 0 && ($this->board_type == 0 || $this->board_type == 3)) {
 						$output .= '&nbsp;<small>(<span id="posttypeindicator"> ' . sprintf(_gettext('reply to %d'), $replythread) . '</span>)</small>';
 //reply to ' . $replythread . '</span>)</small>';
