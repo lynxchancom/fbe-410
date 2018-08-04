@@ -4,6 +4,7 @@
 <title>{$title}</title>
 {$head}<script src="{$ku_webpath}/lib/javascript/kusaba.js"></script>
 <script>
+{include file='metric.tpl'}
 var path = "{$ku_webpath}";
 var captcha_message = "{$captcha_message}";
 </script>
@@ -14,6 +15,6 @@ var captcha_message = "{$captcha_message}";
 <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
 {$page}
-<a name="bottom"></a>
+<a name="bottom"></a>++
 </body>
 </html>
