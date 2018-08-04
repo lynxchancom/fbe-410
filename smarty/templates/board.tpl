@@ -4,7 +4,6 @@
 <title>{$title}</title>
 {$head}<script src="{$ku_webpath}/lib/javascript/kusaba.js"></script>
 <script>
-{include file='metric.tpl'}
 var path = "{$ku_webpath}";
 var captcha_message = "{$captcha_message}";
 </script>
