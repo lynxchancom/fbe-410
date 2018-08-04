@@ -15,6 +15,6 @@ var captcha_message = "{$captcha_message}";
 <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
 {$page}
-<a name="bottom"></a>++
+<a name="bottom"></a>
 </body>
 </html>
