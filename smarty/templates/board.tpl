@@ -3,49 +3,10 @@
 <head>
 <title>{$title}</title>
 {$head}<script src="{$ku_webpath}/lib/javascript/kusaba.js"></script>
-		<script>
-		var path = "{$ku_webpath}";
-		var captcha_message = "{$captcha_message}";
-		var req = null;
-{literal}
-function request_faptcha(board) {
-	req = new XMLHttpRequest();
-	var f = document.getElementById('faptcha_input');
-	if(f) {
-		f.disabled = false;
-		f.value = "";
-	}
-
-	if(req) {
-		req.open('GET', path + '/api_adaptive.php?board=' + board);
-		req.onreadystatechange = handle;
-		req.send(null);
-	}
-	else {
-		alert("error");
-	}
-}
-function handle() {
-	var f = document.getElementById('faptcha_input');
-	if(f) {
-		try {
-			if(req.readyState == 4) {
-				var adapted = req.responseText;
-				if(adapted == 1) {
-					f.value = captcha_message;
-					f.disabled = true;
-				}
-			}
-		}
-		catch(e) {
-			alert(req.statusText);
-		}
-	}
-}
-		</script>
-{/literal}
 <script>
-	var hiddenthreads = getCookie('hiddenthreads').split('!');
+{include file='metric.tpl'}
+var path = "{$ku_webpath}";
+var captcha_message = "{$captcha_message}";
 </script>
 <link rel="shortcut icon" href="{$ku_webpath}/favicon.ico">
 <meta http-equiv="pragma" content="no-cache">
@@ -54,6 +15,6 @@ function handle() {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
 {$page}
-<a name="bottom"></a>
+<a name="bottom"></a>++
 </body>
 </html>
