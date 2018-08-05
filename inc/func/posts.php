@@ -90,6 +90,53 @@ function createThumbnail($name, $filename, $new_w, $new_h) {
 		} else {
 			return false;
 		}
+	} elseif (KU_THUMBMETHOD == 'ffmpeg') {
+		// original idea: https://nullnyan.net/b/thread/20928#P22458
+		// original implementation: https://gitgud.io/devarped/instant-0chan/commit/351c5f0230ec52e2738a589c1ee0fefca08639b8
+		// this code improves that, see https://bitbucket.org/Therapont/fbe-410/pull-requests/12 for the list of improvements
+		
+		$imagewidth = exec('ffprobe -v quiet -show_entries stream=width -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
+		$imageheight = exec('ffprobe -v quiet -show_entries stream=height -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
+		
+		if (substr($filename, 0, -3) != 'gif') { // not GIF, ignores KU_ANIMATEDTHUMBS
+			$convert = 'ffmpeg -i ' . escapeshellarg($name);
+			if ( ($imagewidth / $new_w) > ($imageheight / $new_h) ) {
+				$convert .= ' -vf "scale=' . $new_w . ':-1:flags=lanczos" ';
+			} else {
+				$convert .= ' -vf "scale=-1:' . $new_h . ':flags=lanczos" ';
+			}
+			if (substr($filename, 0, -3) == 'jpg') {
+				$convert .= '-q 1 '; // 89%, see http://www.ffmpeg-archive.org/Create-high-quality-JPEGs-td4669205.html
+			}
+			$convert .= escapeshellarg($filename);
+			exec($convert);
+		} else { // high quality GIF, see http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html
+			$palette = 'ffmpeg -i ' . escapeshellarg($name);
+			$convert = 'ffmpeg -i ' . escapeshellarg($name);
+			$convert .= ' -i ' . escapeshellarg($filename . '.palette.png');
+			if (!KU_ANIMATEDTHUMBS) {
+				$palette .= ' -vframes 1';
+				$convert .= ' -vframes 1';
+			}
+			if ( ($imagewidth / $new_w) > ($imageheight / $new_h) ) {
+				$palette .= ' -vf "scale=' . $new_w . ':-1:flags=lanczos,palettegen" ';
+				$convert .= ' -lavfi "scale=' . $new_w . ':-1:flags=lanczos [x]; [x][1:v] paletteuse=dither=floyd_steinberg" ';
+			} else {
+				$palette .= ' -vf "scale=-1:' . $new_h . ':flags=lanczos,palettegen" ';
+				$convert .= ' -lavfi "scale=-1:' . $new_h . ':flags=lanczos [x]; [x][1:v] paletteuse=dither=floyd_steinberg" ';
+			}
+			$palette .= escapeshellarg($filename . '.palette.png');
+			exec($palette);
+			$convert .= escapeshellarg($filename);
+			exec($convert);
+			unlink($filename . '.palette.png');
+		}
+		
+		if (is_file($filename)) {
+			return true;
+		} else {
+			return false;
+		}
 	} elseif (KU_THUMBMETHOD == 'gd') {
 		$uploaded_parts = pathinfo($name);
 		$type = $uploaded_parts['extension'];
