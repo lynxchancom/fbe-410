@@ -116,10 +116,10 @@ class Upload {
 						$this->imgHeight = $svg->height;
 					} else {
 						$imageDim = @getimagesize($_FILES['imagefile']['tmp_name']);
-						$this->imgWidth = $imageDim[0];
-						$this->imgHeight = $imageDim[1];
+						$this->imgWidth = intval($imageDim[0]);
+						$this->imgHeight = intval($imageDim[1]);
+						trigger_error($this->imgWidth);
 					}
-					
 					$this->file_type = strtolower($this->file_type);
 					$this->file_size = $_FILES['imagefile']['size'];
 
