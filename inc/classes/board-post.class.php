@@ -1358,7 +1358,7 @@ class Board {
 					$info_post .= '	 <a href="#" onclick="expandthread(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Expand Thread"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="expandthread" alt="expand"></a>' . "\n";
 				}
 				if (KU_QUICKREPLY) {
-					$info_post .= '	 <a href="#postbox" onclick="quickreply(\'' . $post_thread_start_id . '\');" title="' . _gettext('Quick Reply') . '"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="quickreply" alt="quickreply"></a>' . "\n";
+					$info_post .= '	 <a href="#" onclick="return quickreply(\'' . $post_thread_start_id . '\');" title="' . _gettext('Quick Reply') . '"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="quickreply" alt="' . _gettext('Quick Reply') . '"></a>' . "\n";
 				}
 			}
 			$info_post .= '&nbsp;</span>' . "\n" .
@@ -2125,7 +2125,7 @@ size="28" maxlength="20" accesskey="c">' . "\n" .
 						'	<td>' . "\n" .
 						'		<input type="text" name="faptcha" id="faptcha_input"
 size="28" maxlength="64" accesskey="f">
-[<a href="#" onclick="javacript: request_faptcha(\''.$this->board_dir.'\');" title="Check faptcha">@</a>] [<a href="'.KU_CGIPATH .'/news.php?p=faq" target="_blank" title="FAQ">?</a>]' . "\n" .
+[<a class="fapcheck" href="#" title="Check faptcha">@</a>] [<a href="'.KU_CGIPATH .'/news.php?p=faq" target="_blank" title="FAQ">?</a>]' . "\n" .
 						'	</td>' . "\n" .
 						'</tr>' . "\n";
 					}
@@ -2134,10 +2134,10 @@ size="28" maxlength="64" accesskey="f">
 					'		' . _gettext('Subject').'</td>' . "\n" .
 					'	<td>' . "\n" .
 					'		<input type="text" name="subject" size="35" maxlength="75" accesskey="s">&nbsp;<input type="submit" value="' . _gettext('Submit') . '" accesskey="z">';
-					/* Qucik reply indicator for a postbox on a board page */
+					/* Quick reply indicator for a postbox on a board page */
 					if (KU_QUICKREPLY && $replythread == 0 && ($this->board_type == 0 || $this->board_type == 3)) {
 						$output .= '&nbsp;<small><span id="posttypeindicator">' . _gettext('(new thread)') . '</span></small>';
-					/* Qucik reply indicator for a postbox on a thread page */
+					/* Quick reply indicator for a postbox on a thread page */
 					} elseif (KU_QUICKREPLY && $replythread != 0 && ($this->board_type == 0 || $this->board_type == 3)) {
 						$output .= '&nbsp;<small>(<span id="posttypeindicator"> ' . sprintf(_gettext('reply to %d'), $replythread) . '</span>)</small>';
 //reply to ' . $replythread . '</span>)</small>';
@@ -2269,30 +2269,6 @@ size="28" maxlength="64" accesskey="f">
 			'	set_inputs("postform");' . "\n" .
 			'</script>' . "\n";
 		}
-		$output .= "<script type=\"text/javascript\">
-request_faptcha('$this->board_dir');
-var mytextarea = document.forms.postform.message;
-mytextarea.style.width = mytextarea.clientWidth + 'px';
-mytextarea.style.height = mytextarea.clientHeight + 'px';
-if(navigator.userAgent.indexOf(\"Chrome\") < 0 && navigator.userAgent.indexOf(\"WebKit\") < 0) {
-	resizeMaster.setResizer(document.getElementById(\"resizer\"));
-}
-else {
-	// Reset alignment of postform to kusaba default for chrome users,
-	// because chrome have native textarea resizing support.
-	for(var stylesheetKey in document.styleSheets) {
-		if(document.styleSheets[stylesheetKey].href.indexOf(\"img_global.css\") >= 0) {
-			for(var ruleKey in document.styleSheets[stylesheetKey].cssRules) {
-				if(document.styleSheets[stylesheetKey].cssRules[ruleKey].selectorText.indexOf(\"postarea table\") >= 0)
-					document.styleSheets[stylesheetKey].cssRules[ruleKey].style.margin = \"0px auto\"
-			}
-		}
-	}
-}
-</script>
-";
-
-		
 		return $output;
 	}
 	
