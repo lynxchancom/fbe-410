@@ -1025,7 +1025,7 @@ class Board {
 							$buildthread_replies .= $this->BuildPost($page, $this->board_dir, $this->board_type, $line_reply);
 						}
 						if (!$page && $expandjavascript != '') {
-							$expandjavascript = '<a href="#" onclick="' . $expandjavascript . 'return false;">' . _gettext('Expand all images') . '</a>';
+							$expandjavascript = '<a class="expandAllImg" href="#">' . _gettext('Expand all images') . '</a>';
 						} else {
 							$expandjavascript = '';
 						}
@@ -1234,7 +1234,7 @@ class Board {
 				        }
 				        $info_file .= '>';
 					if (!$post_is_thread) {
-						$expandjavascript .= 'expandimg(\'' . $post['id'] . '\', \'' . $post_file_url . '\', \'' . $post_thumb . '\', \'' . $post['image_w'] . '\', \'' . $post['image_h'] . '\', \'' . $post['thumb_w'] . '\', \'' . $post['thumb_h'] . '\');';
+						$expandjavascript = 'not empty';
 					}
 				} else {
 					$info_file .= '<a ';
