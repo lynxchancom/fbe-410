@@ -5,6 +5,6 @@ define('KU_ADAPTIVE_CAPTCHA', serialize(array('a' => 1, 'int' => 1, 'cu' => 1, '
 /* server key */
 define('KU_SECRET', 'super secret');
 /* where keep user session (non-php) files */
-define('KU_SESSION', '/var/www/kusaba/.htsession');
+define('KU_SESSION', '/path/to/sites/410chan/.htsession');
 define('KU_ADAPCHA_TIMEOUT', 86400);
 ?>

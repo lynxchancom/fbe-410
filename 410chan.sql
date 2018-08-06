@@ -207,12 +207,12 @@ CREATE TABLE `filetypes` (
   `image_w` int(7) NOT NULL DEFAULT '0',
   `image_h` int(7) NOT NULL DEFAULT '0',
   `force_thumb` int(1) NOT NULL DEFAULT '1',
-  `mediatype` varchar(10),
+  `mediatype` varchar(10) NOT NULL DEFAULT 'image',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-INSERT INTO `filetypes` VALUES (1,'jpg','','',0,0,0),(2,'gif','','',0,0,0),(3,'png','','',0,0,0);
+INSERT INTO `filetypes` VALUES (1,'jpg','','',0,0,0,'image'),(2,'gif','','',0,0,0,'image'),(3,'png','','',0,0,0,'image');
 
 --
 -- Table structure for table `flags`
