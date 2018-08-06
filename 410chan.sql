@@ -142,6 +142,8 @@ CREATE TABLE `boards` (
   `enablecatalog` tinyint(1) NOT NULL DEFAULT '1',
   `loadbalanceurl` varchar(255)  NOT NULL DEFAULT '',
   `loadbalancepassword` varchar(255)  NOT NULL DEFAULT '',
+  `maxvideolength` int(5) NOT NULL DEFAULT '0',
+  `enablesoundinvideo` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -205,6 +207,7 @@ CREATE TABLE `filetypes` (
   `image_w` int(7) NOT NULL DEFAULT '0',
   `image_h` int(7) NOT NULL DEFAULT '0',
   `force_thumb` int(1) NOT NULL DEFAULT '1',
+  `mediatype` varchar(10),
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;

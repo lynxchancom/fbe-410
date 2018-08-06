@@ -46,14 +46,14 @@ class Parse {
 		$replaces =  array(
 			'<b>\\1</b>', 
 			'<i>\\1</i>',
-			'<span class="spoiler" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">\\1</span>', 
+			'<span class="spoiler">\\1</span>', 
 			'<b>\\1</b>', 
 			'<i>\\1</i>', 
 			'<span style="border-bottom: 1px solid">\\1</span>', 
 			'<strike>\\1</strike>', 
 			'<strike>\\1</strike>', 
 			'<span style="font-family: Mona,\'MS PGothic\' !important;">\\1</span>', 
-			'<span class="spoiler" onmouseover="this.style.color=\'white\';" onmouseout="this.style.color=\'black\';">\\1</span>',
+			'<span class="spoiler">\\1</span>',
 			'<span class="inline-code">\\1</span>',
 		);
 		$string = preg_replace($patterns, $replaces , $string);
@@ -163,8 +163,8 @@ class Parse {
 				return '&gt;&gt;' . $matches[1];
 			}
 
-//			$return = "[[btype != 1 ($query : {$res_type}$result)]]" . '<a href="'.KU_BOARDSFOLDER.$thread_board_return.'/res/'.$realid.'.html#'.$matches[1].'" onclick="highlight(\'' . $matches[1] . '\', true);" class="ref|' . $thread_board_return . '|' .$realid . '|' . $matches[1] . '">'.$matches[0].'</a>';
-			$return = '<a href="'.KU_BOARDSFOLDER.$thread_board_return.'/res/'.$realid.'.html#'.$matches[1].'" onclick="highlight(\'' . $matches[1] . '\', true);" class="ref|' . $thread_board_return . '|' .$realid . '|' . $matches[1] . '">'.$matches[0].'</a>';
+//			$return = "[[btype != 1 ($query : {$res_type}$result)]]" . '<a href="'.KU_BOARDSFOLDER.$thread_board_return.'/res/'.$realid.'.html#'.$matches[1].'" class="ref|' . $thread_board_return . '|' .$realid . '|' . $matches[1] . '">'.$matches[0].'</a>';
+			$return = '<a href="'.KU_BOARDSFOLDER.$thread_board_return.'/res/'.$realid.'.html#'.$matches[1].'" class="ref|' . $thread_board_return . '|' .$realid . '|' . $matches[1] . '">'.$matches[0].'</a>';
 		} else {
 			$return = $matches[0];
 

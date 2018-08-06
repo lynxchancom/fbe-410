@@ -79,17 +79,18 @@ class Upload {
 					       exitWithErrorPage('Unknown File Error');
 					}
 					
-					$this->file_type = preg_replace('/.*(\..+)/','\1',$_FILES['imagefile']['name']);
-					if ($this->file_type == '.jpeg') {
-						/* Fix for the rarely used 4-char format */
-						$this->file_type = '.jpg';
+					$this->file_type = preg_replace('/.*\.(.+)/','\1',$_FILES['imagefile']['name']);
+					$this->file_type = strtolower($this->file_type);
+ 					if ($this->file_type == 'jpeg') {
+  						/* Fix for the rarely used 4-char format */
+ 						$this->file_type = 'jpg';
 					}
 					
 					$pass = true;
 					if (!is_file($_FILES['imagefile']['tmp_name']) || !is_readable($_FILES['imagefile']['tmp_name'])) {
 						$pass = false;
 					} else {
-						if ($this->file_type == '.jpg' || $this->file_type == '.gif' || $this->file_type == '.png') {
+						if($board_class->allowed_file_types[$this->file_type] == 'image'){
 							if (!@getimagesize($_FILES['imagefile']['tmp_name'])) {
 								$pass = false;
 							}
@@ -109,24 +110,50 @@ class Upload {
 						exitWithErrorPage(_gettext('Duplicate file entry detected.'), sprintf(_gettext('Already posted %shere%s.'),'<a href="' . KU_BOARDSPATH . '/' . $board_class->board_dir . '/res/' . $exists_thread[0] . '.html#' . $exists_thread[1] . '">','</a>'));
 					}
 					
-					if (strtolower($this->file_type) == 'svg') {
+					if ($this->file_type == 'svg') {
 						require_once 'svg.class.php';
 						$svg = new Svg($_FILES['imagefile']['tmp_name']);
 						$this->imgWidth = $svg->width;
 						$this->imgHeight = $svg->height;
+ 					}
+ 					elseif ($board_class->allowed_file_types[$this->file_type][0] == 'video') {
+ 						$outp = [];
+ 						# Calculations should be postponed untill after load balancing, ideally... Probably
+ 						exec('ffprobe -v error -show_format '.$_FILES['imagefile']['tmp_name'], $outp);
+ 						$ft = array_values(preg_grep("/$this->file_type/m", $outp))[0];
+ 						if (!$ft){
+ 							exitWithErrorPage(_gettext('Filetype tampering detected'));
+ 						}
+ 						$duration = substr(array_values(preg_grep('/^duration=/m', $outp))[0], 9);
+ 						if (!is_numeric($duration)){
+ 							exitWithErrorPage(_gettext('Corrupted file: no duration'));
+ 						}
+ 						if($board_class->board_maxvideolength && $duration > $board_class->board_maxvideolength){
+ 							exitWithErrorPage(sprintf(_gettext("Video is too long! Maximum allowed length: %d seconds"), $board_class->board_maxvideolength));
+ 						}
+ 						exec('ffprobe -v error -show_streams '.$_FILES['imagefile']['tmp_name'], $outp);
+ 						$width = substr(array_values(preg_grep('/^width=/m', $outp))[0], 6);
+ 						$height = substr(array_values(preg_grep('/^height=/m', $outp))[0], 7);
+ 						if (!$board_class->board_enablesoundinvideo && preg_grep('/codec_type=audio/m', $outp)){
+ 							exitWithErrorPage(_gettext('Sound not allowed in video'));
+ 						}
+ 						$this->imgWidth = $width;
+ 						$this->imgHeight = $height;
 					} else {
 						$imageDim = @getimagesize($_FILES['imagefile']['tmp_name']);
 						$this->imgWidth = intval($imageDim[0]);
 						$this->imgHeight = intval($imageDim[1]);
-						trigger_error($this->imgWidth);
 					}
-					$this->file_type = strtolower($this->file_type);
 					$this->file_size = $_FILES['imagefile']['size'];
 
-					$filetype_forcethumb = $tc_db->GetOne("SELECT " . KU_DBPREFIX . "filetypes.force_thumb FROM " . KU_DBPREFIX . "boards, " . KU_DBPREFIX . "filetypes, " . KU_DBPREFIX . "board_filetypes WHERE " . KU_DBPREFIX . "boards.id = " . KU_DBPREFIX . "board_filetypes.boardid AND " . KU_DBPREFIX . "filetypes.id = " . KU_DBPREFIX . "board_filetypes.typeid AND " . KU_DBPREFIX . "boards.name = '" . $board_class->board_dir . "' and " . KU_DBPREFIX . "filetypes.filetype = '" . substr($this->file_type, 1) . "';");
+					$filetype_forcethumb = $tc_db->GetOne("SELECT " . KU_DBPREFIX . "filetypes.force_thumb FROM " . KU_DBPREFIX . "boards, " . KU_DBPREFIX . "filetypes, " . KU_DBPREFIX . "board_filetypes WHERE " . KU_DBPREFIX . "boards.id = " . KU_DBPREFIX . "board_filetypes.boardid AND " . KU_DBPREFIX . "filetypes.id = " . KU_DBPREFIX . "board_filetypes.typeid AND " . KU_DBPREFIX . "boards.name = '" . $board_class->board_dir . "' and " . KU_DBPREFIX . "filetypes.filetype = '" . $this->file_type . "';");
 					if ($filetype_forcethumb != '') {
 						if ($filetype_forcethumb == 0) {
 							$this->file_name = time() . mt_rand(1, 99);
+							$thumb_filetype = $this->file_type;
+							if($board_class->allowed_file_types[$thumb_filetype][0] == 'video'){
+								$thumb_filetype = 'jpg';
+							}
 							
 							/* If this board has a load balance url and password configured for it, attempt to use it */
 							if ($board_class->board_loadbalanceurl != '' && $board_class->board_loadbalancepassword != '') {
@@ -135,8 +162,9 @@ class Upload {
 								
 								$loadbalancer->url = $board_class->board_loadbalanceurl;
 								$loadbalancer->password = $board_class->board_loadbalancepassword;
+
 								
-								$response = $loadbalancer->Send('thumbnail', base64_encode(file_get_contents($_FILES['imagefile']['tmp_name'])), 'src/' . $this->file_name . $this->file_type, 'thumb/' . $this->file_name . 's' . $this->file_type, 'thumb/' . $this->file_name . 'c' . $this->file_type, '', $this->isreply, true);
+								$response = $loadbalancer->Send('thumbnail', base64_encode(file_get_contents($_FILES['imagefile']['tmp_name'])), 'src/' . $this->file_name . $this->file_type, 'thumb/' . $this->file_name . 's' . $this->file_type, 'thumb/' . $this->file_name . 'c.' . $this->file_type, '', $this->isreply, true);
 								
 								if ($response != 'failure' && $response != '') {
 									$response_unserialized = unserialize($response);
@@ -150,16 +178,16 @@ class Upload {
 								}
 							/* Otherwise, use this script alone */
 							} else {
-								$this->file_location = KU_BOARDSDIR . $board_class->board_dir . '/src/' . $this->file_name . $this->file_type;
-								$this->file_thumb_location = KU_BOARDSDIR . $board_class->board_dir . '/thumb/' . $this->file_name . 's' . $this->file_type;
-								$this->file_thumb_cat_location = KU_BOARDSDIR . $board_class->board_dir . '/thumb/' . $this->file_name . 'c' . $this->file_type;
+								$this->file_location = KU_BOARDSDIR . $board_class->board_dir . '/src/' . $this->file_name . '.' . $this->file_type;
+								$this->file_thumb_location = KU_BOARDSDIR . $board_class->board_dir . '/thumb/' . $this->file_name . 's.' . $thumb_filetype;
+								$this->file_thumb_cat_location = KU_BOARDSDIR . $board_class->board_dir . '/thumb/' . $this->file_name . 'c.' . $thumb_filetype;
 								
 								if (!move_uploaded_file($_FILES['imagefile']['tmp_name'], $this->file_location)) {
 									exitWithErrorPage(_gettext('Could not copy uploaded image.'));
 								}
 								
 								if ($_FILES['imagefile']['size'] == filesize($this->file_location)) {
-									if ((!$this->isreply && ($this->imgWidth > KU_THUMBWIDTH || $this->imgHeight > KU_THUMBHEIGHT)) || ($this->isreply && ($this->imgWidth > KU_REPLYTHUMBWIDTH || $this->imgHeight > KU_REPLYTHUMBHEIGHT))) {
+									if ((!$this->isreply && ($this->imgWidth > KU_THUMBWIDTH || $this->imgHeight > KU_THUMBHEIGHT)) || ($this->isreply && ($this->imgWidth > KU_REPLYTHUMBWIDTH || $this->imgHeight > KU_REPLYTHUMBHEIGHT)) || $board_class->allowed_file_types[$this->file_type][0] == 'video') {
 										if (!$this->isreply) {
 											if (!createThumbnail($this->file_location, $this->file_thumb_location, KU_THUMBWIDTH, KU_THUMBHEIGHT)) {
 												exitWithErrorPage(_gettext('Could not create thumbnail.'));
@@ -177,9 +205,36 @@ class Upload {
 									if (!createThumbnail($this->file_location, $this->file_thumb_cat_location, KU_CATTHUMBWIDTH, KU_CATTHUMBHEIGHT)) {
 										exitWithErrorPage(_gettext('Could not create thumbnail.'));
 									}
-									$imageDim_thumb = getimagesize($this->file_thumb_location);
-									$this->imgWidth_thumb = $imageDim_thumb[0];
-									$this->imgHeight_thumb = $imageDim_thumb[1];
+ 									if( $board_class->allowed_file_types[$this->file_type][0] != 'video' ) {
+ 										$imageDim_thumb = getimagesize($this->file_thumb_location);
+ 										$this->imgWidth_thumb = $imageDim_thumb[0];
+ 										$this->imgHeight_thumb = $imageDim_thumb[1];
+ 									}
+ 									else{
+ 										$percent=0.0;
+ 										if ($this->imgWidth > $this->imgHeight){
+ 											if(!$this->isreply){
+ 												$percent = KU_THUMBWIDTH * 1.0 / $this->imgWidth;
+ 												$this->imgWidth_thumb = KU_THUMBWIDTH;
+ 											}
+ 											else{
+ 												$percent = KU_REPLYTHUMBWIDTH * 1.0 / $this->imgWidth;
+ 												$this->imgWidth_thumb = KU_REPLYTHUMBWIDTH;
+ 											}
+ 											$this->imgHeight_thumb = round($this->imgHeight * $percent);
+ 										}
+ 										else{
+ 											if(!$this->isreply){
+ 												$percent = KU_THUMBHEIGHT * 1.0 / $this->imgHeight;
+ 												$this->imgHeight_thumb = KU_THUMBHEIGHT;
+ 											}
+ 											else{
+ 												$percent = KU_REPLYTHUMBHEIGHT * 1.0 / $this->imgHeight;
+ 												$this->imgHeight_thumb = KU_REPLYTHUMBHEIGHT;
+ 											}
+ 											$this->imgWidth_thumb = round($this->imgWidth * $percent);
+ 										}
+ 									}
 									$imageused = true;
 								} else {
 									exitWithErrorPage(_gettext('File was not fully uploaded.  Please go back and try again.'));
@@ -187,7 +242,7 @@ class Upload {
 							}
 						} else {
 							/* Fetch the mime requirement for this special filetype */
-							$filetype_required_mime = $tc_db->GetOne("SELECT `mime` FROM `" . KU_DBPREFIX . "filetypes` WHERE `filetype` = '" . mysqli_real_escape_string($tc_db->link, substr($this->file_type, 1)) . "'");
+							$filetype_required_mime = $tc_db->GetOne("SELECT `mime` FROM `" . KU_DBPREFIX . "filetypes` WHERE `filetype` = '" . mysqli_real_escape_string($tc_db->link, $this->file_type) . "'");
 							$this->file_name = time() . mt_rand(1, 99);
 							/*
 							$this->file_name = str_replace(' ', '_', $this->file_name);
@@ -210,12 +265,12 @@ class Upload {
 									$checkmime = '';
 								}
 								
-								$response = $loadbalancer->Send('direct', $_FILES['imagefile']['tmp_name'], 'src/' . $this->file_name . $this->file_type, '', '', $checkmime, false, true);
+								$response = $loadbalancer->Send('direct', $_FILES['imagefile']['tmp_name'], 'src/' . $this->file_name . '.' . $this->file_type, '', '', $checkmime, false, true);
 							
 								$this->file_is_special = true;
 							/* Otherwise, use this script alone */
 							} else {
-								$this->file_location = KU_BOARDSDIR . $board_class->board_dir . '/src/' . $this->file_name . $this->file_type;
+								$this->file_location = KU_BOARDSDIR . $board_class->board_dir . '/src/' . $this->file_name . '.' . $this->file_type;
 								
 								/* Move the file from the post data to the server */
 								if (!move_uploaded_file($_FILES['imagefile']['tmp_name'], $this->file_location)) {
@@ -256,12 +311,12 @@ class Upload {
 							switch ($_POST['embedtype']) {
 							case 'youtube':
 								$videourl_start = 'http://www.youtube.com/watch?v=';
-								$this->file_type = '.you';
+								$this->file_type = 'you';
 								break;
 								
 							case 'google':
 								$videourl_start = 'http://video.google.com/videoplay?docid=';
-								$this->file_type = '.goo';
+								$this->file_type = 'goo';
 								break;
 								
 							case 'redtube':
@@ -269,12 +324,12 @@ class Upload {
 								exitWithErrorPage('This board does not allow adult content.');
 							}
 								$videourl_start = 'http://www.redtube.com/';
-								$this->file_type = '.red';
+								$this->file_type = 'red';
 								break;
 								
 							case '5min':
 								$videourl_start = 'http://www.5min.com/Embeded/';
-								$this->file_type = '.5min';
+								$this->file_type = '5min';
 							break;
 								
 							default:
@@ -314,13 +369,13 @@ class Upload {
 			$this->file_name = time() . mt_rand(1, 99);
 			$this->original_file_name = $this->file_name;
 			$this->file_md5 = md5_file($oekaki);
-			$this->file_type = '.png';
+			$this->file_type = 'png';
 			$this->file_size = filesize($oekaki);
 			$imageDim = getimagesize($oekaki);
 			$this->imgWidth = $imageDim[0];
 			$this->imgHeight = $imageDim[1];
 			
-			if (!copy($oekaki, KU_BOARDSDIR . $board_class->board_dir . '/src/' . $this->file_name . $this->file_type)) {
+			if (!copy($oekaki, KU_BOARDSDIR . $board_class->board_dir . '/src/' . $this->file_name . '.' . $this->file_type)) {
 				exitWithErrorPage(_gettext('Could not copy uploaded image.'));
 			}
 			
@@ -332,8 +387,8 @@ class Upload {
 				unlink($oekaki_animation);
 			}
 			
-			$thumbpath = KU_BOARDSDIR . $board_class->board_dir . '/thumb/' . $this->file_name . 's' . $this->file_type;
-			$thumbpath_cat = KU_BOARDSDIR . $board_class->board_dir . '/thumb/' . $this->file_name . 'c' . $this->file_type;
+			$thumbpath = KU_BOARDSDIR . $board_class->board_dir . '/thumb/' . $this->file_name . 's.' . $this->file_type;
+			$thumbpath_cat = KU_BOARDSDIR . $board_class->board_dir . '/thumb/' . $this->file_name . 'c.' . $this->file_type;
 			if (
 				(!$this->isreply && ($this->imgWidth > KU_THUMBWIDTH || $this->imgHeight > KU_THUMBHEIGHT)) || 
 				($this->isreply && ($this->imgWidth > KU_REPLYTHUMBWIDTH || $this->imgHeight > KU_REPLYTHUMBHEIGHT))

@@ -252,11 +252,9 @@ class Manage {
 		$tpl_page .= '<h2>' . ucwords(_gettext('Edit filetypes')) . '</h2><br>';
 		if (isset($_GET['do'])) {
 			if ($_GET['do'] == 'addfiletype') {
-				if (isset($_POST['filetype']) || isset($_POST['image'])) {
-					if ($_POST['filetype'] != '' && $_POST['image'] != '') {
-						$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "filetypes` ( `filetype` , `mime` , `image` , `image_w` , `image_h` ) VALUES ( '" . mysqli_real_escape_string($tc_db->link, $_POST['filetype']) . "' , '" . mysqli_real_escape_string($tc_db->link, $_POST['mime']) . "' , '" . mysqli_real_escape_string($tc_db->link, $_POST['image']) . "' , '" . mysqli_real_escape_string($tc_db->link, $_POST['image_w']) . "' , '" . mysqli_real_escape_string($tc_db->link, $_POST['image_h']) . "' )");
-						$tpl_page .= _gettext('Filetype added.');
-					}
+				if (isset($_POST['filetype'])) {
+					$tc_db->Execute("INSERT HIGH_PRIORITY INTO `" . KU_DBPREFIX . "filetypes` ( `filetype` , `mime` , `image` , `image_w` , `image_h` , `mediatype` , `force_thumb` ) VALUES ( '" . mysqli_real_escape_string($tc_db->link, $_POST['filetype']) . "' , '" . mysqli_real_escape_string($tc_db->link, $_POST['mime']) . "' , '" . mysqli_real_escape_string($tc_db->link, $_POST['image']) . "' , '" . intval($_POST['image_w']) . "' , '" . intval($_POST['image_h']) . "' , '" . mysqli_real_escape_string($tc_db->link, $_POST['mediatype']) . "' , '" . (1-intval(in_array($_POST['mediatype'], ['video', 'image']))) . "' )");
+					$tpl_page .= _gettext('Filetype added.');
 				} else {
 					$tpl_page .= '<form action="?action=editfiletypes&do=addfiletype" method="post">
 					<label for="filetype">Filetype:</label>
@@ -278,6 +276,15 @@ class Manage {
 					<label for="image_h">Image height:</label>
 					<input type="text" name="image_h" value="48">
 					<div class="desc">See above.</div><br>
+ 
+ 					<label for="mediatype">Mediatype:</label>
+ 					<select name="mediatype">
+ 						<option value="image">Audio</option>
+ 						<option value="image" selected>Image</option>
+ 						<option value="video">Video</option>
+ 						<option value="misc">Other</option>
+ 					</select>
+ 					<div class="desc">See above.</div><br>
 					
 					<input type="submit" value="Add">
 					
@@ -288,7 +295,7 @@ class Manage {
 			if ($_GET['do'] == 'editfiletype' && $_GET['filetypeid'] > 0) {
 				if (isset($_POST['filetype'])) {
 					if ($_POST['filetype'] != '' && $_POST['image'] != '') {
-						$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "filetypes` SET `filetype` = '" . mysqli_real_escape_string($tc_db->link, $_POST['filetype']) . "' , `mime` = '" . mysqli_real_escape_string($tc_db->link, $_POST['mime']) . "' , `image` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image']) . "' , `image_w` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image_w']) . "' , `image_h` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image_h']) . "' WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_GET['filetypeid']) . "'");
+						$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "filetypes` SET `filetype` = '" . mysqli_real_escape_string($tc_db->link, $_POST['filetype']) . "' , `mime` = '" . mysqli_real_escape_string($tc_db->link, $_POST['mime']) . "' , `image` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image']) . "' , `image_w` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image_w']) . "' , `image_h` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image_h']) . "' , mediatype = '" . mysqli_real_escape_string($tc_db->link, $_POST['mediatype']) ."' WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_GET['filetypeid']) . "'");
 						if (KU_APC) {
 							apc_delete('filetype|' . $_POST['filetype']);
 						}
@@ -319,6 +326,31 @@ class Manage {
 							<label for="image_h">Image height:</label>
 							<input type="text" name="image_h" value="' . $line['image_h'] . '">
 							<div class="desc">See above.</div><br>
+
+ 							<label for="mediatype">Mediatype:</label>
+ 							<select name="mediatype">
+ 								<option value="audio"';
+ 							if ($line['mediatype'] == 'audio'){
+ 								$tpl_page .= ' selected';
+ 							}
+ 							$tpl_page.='>Audio</option>
+ 								<option value="image"';
+ 							if ($line['mediatype'] == 'image'){
+ 								$tpl_page .= ' selected';
+ 							}
+ 							$tpl_page.='>Image</option>
+ 								<option value="video"';
+ 							if ($line['mediatype'] == 'video'){
+ 								$tpl_page .= ' selected';
+ 							}
+ 							$tpl_page.='>Video</option>
+ 								<option value="misc"';
+ 							if ($line['mediatype'] == 'misc'){
+ 								$tpl_page .= ' selected';
+ 							}
+ 							$tpl_page.='>Other</option>
+ 							</select>
+ 							<div class="desc">See above.</div><br>
 							
 							<input type="submit" value="Edit">
 							
@@ -351,7 +383,7 @@ class Manage {
 	
 	/* Rebuild all boards */
 	function rebuildhtml() {
-		global $tc_db, $smarty, $tpl_page;
+		global $tc_db, $smarty, $tpl_page, $board_class;
 		$this->AdministratorsOnly();
 		$tpl_page .= '<h2>' . ucwords(_gettext('Rebuild HTML files')) . '</h2><br>';
 		if (isset($_POST['rebuild'])) {
@@ -942,7 +974,7 @@ class Manage {
 	
 	/* Edit a boards options */
 	function boardopts() {
-		global $tc_db, $smarty, $tpl_page;
+		global $tc_db, $smarty, $tpl_page, $board_class;
 		$this->AdministratorsOnly();
 		
 		$tpl_page .= '<h2>' . ucwords(_gettext('Board options')) . '</h2><br>';
@@ -962,6 +994,7 @@ class Manage {
 					}
 					$updateboard_enablecatalog = isset($_POST['enablecatalog']) ? '1' : '0';
 					$updateboard_enablenofile = isset($_POST['enablenofile']) ? '1' : '0';
+ 					$updateboard_enablesoundinvideo = isset($_POST['enablesoundinvideo']) ? '1' : '0';
 					$updateboard_redirecttothread = isset($_POST['redirecttothread']) ? '1' : '0';
 					$updateboard_enablereporting = isset($_POST['enablereporting']) ? '1' : '0';
 					$updateboard_enablecaptcha = isset($_POST['enablecaptcha']) ? '1' : '0';
@@ -976,7 +1009,7 @@ class Manage {
 					$updateboard_locked = isset($_POST['locked']) ? '1' : '0';
 					if (($_POST['type'] == '0' || $_POST['type'] == '1' || $_POST['type'] == '2' || $_POST['type'] == '3') && ($_POST['uploadtype'] == '0' || $_POST['uploadtype'] == '1' || $_POST['uploadtype'] == '2')) {
 						if (!($_POST['uploadtype'] != '0' && $_POST['type'] == '3')) {
-							$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "boards` SET `type` = '" . mysqli_real_escape_string($tc_db->link, $_POST['type']) . "' , `uploadtype` = '" . mysqli_real_escape_string($tc_db->link, $_POST['uploadtype']) . "' , `order` = '" . mysqli_real_escape_string($tc_db->link, $_POST['order']) . "' , `section` = '" . mysqli_real_escape_string($tc_db->link, $_POST['section']) . "' , `desc` = '" . mysqli_real_escape_string($tc_db->link, $_POST['desc']) . "' , `locale` = '" . mysqli_real_escape_string($tc_db->link, $_POST['locale']) . "' , `showid` = '" . $updateboard_showid . "' , `compactlist` = '" . $updateboard_compactlist . "' , `locked` = '" . $updateboard_locked . "' , `maximagesize` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maximagesize']) . "' , `messagelength` = '" . mysqli_real_escape_string($tc_db->link, $_POST['messagelength']) . "' , `maxpages` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maxpages']) . "' , `maxage` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maxage']) . "' , `markpage` = '" . mysqli_real_escape_string($tc_db->link, $_POST['markpage']) . "' , `maxreplies` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maxreplies']) . "' , `image` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image']) . "' , `includeheader` = '" . mysqli_real_escape_string($tc_db->link, $_POST['includeheader']) . "' , `redirecttothread` = '" . $updateboard_redirecttothread . "' , `anonymous` = '" . mysqli_real_escape_string($tc_db->link, $_POST['anonymous']) . "' , `forcedanon` = '" . $updateboard_forcedanon . "' , `trial` = '" . $updateboard_trial . "' , `popular` = '" . $updateboard_popular . "' , `defaultstyle` = '" . mysqli_real_escape_string($tc_db->link, $_POST['defaultstyle']) . "' , `enablereporting` = '" . $updateboard_enablereporting . "' , `enablecaptcha` = '" . $updateboard_enablecaptcha . "' , `enablefaptcha` = '" . $updateboard_enablefaptcha . "' , `enableporn` = '" . $updateboard_enableporn . "' , `enablenofile` = '" . $updateboard_enablenofile . "' , `enablearchiving` = '" . $updateboard_enablearchiving . "', `enablecatalog` = '" . $updateboard_enablecatalog . "' , `loadbalanceurl` = '" . mysqli_real_escape_string($tc_db->link, $_POST['loadbalanceurl']) . "' , `loadbalancepassword` = '" . mysqli_real_escape_string($tc_db->link, $_POST['loadbalancepassword']) . "' WHERE `name` = '" . mysqli_real_escape_string($tc_db->link, $_POST['updateboard']) . "'");
+							$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "boards` SET `type` = '" . mysqli_real_escape_string($tc_db->link, $_POST['type']) . "' , `uploadtype` = '" . mysqli_real_escape_string($tc_db->link, $_POST['uploadtype']) . "' , `order` = '" . mysqli_real_escape_string($tc_db->link, $_POST['order']) . "' , `section` = '" . mysqli_real_escape_string($tc_db->link, $_POST['section']) . "' , `desc` = '" . mysqli_real_escape_string($tc_db->link, $_POST['desc']) . "' , `locale` = '" . mysqli_real_escape_string($tc_db->link, $_POST['locale']) . "' , `showid` = '" . $updateboard_showid . "' , `compactlist` = '" . $updateboard_compactlist . "' , `locked` = '" . $updateboard_locked . "' , `maximagesize` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maximagesize']) . "' , `messagelength` = '" . mysqli_real_escape_string($tc_db->link, $_POST['messagelength']) . "' , `maxpages` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maxpages']) . "' , `maxage` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maxage']) . "' , `markpage` = '" . mysqli_real_escape_string($tc_db->link, $_POST['markpage']) . "' , `maxreplies` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maxreplies']) . "' , `image` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image']) . "' , `includeheader` = '" . mysqli_real_escape_string($tc_db->link, $_POST['includeheader']) . "' , `redirecttothread` = '" . $updateboard_redirecttothread . "' , `anonymous` = '" . mysqli_real_escape_string($tc_db->link, $_POST['anonymous']) . "' , `forcedanon` = '" . $updateboard_forcedanon . "' , `trial` = '" . $updateboard_trial . "' , `popular` = '" . $updateboard_popular . "' , `defaultstyle` = '" . mysqli_real_escape_string($tc_db->link, $_POST['defaultstyle']) . "' , `enablereporting` = '" . $updateboard_enablereporting . "' , `enablecaptcha` = '" . $updateboard_enablecaptcha . "' , `enablefaptcha` = '" . $updateboard_enablefaptcha . "' , `enableporn` = '" . $updateboard_enableporn . "' , `enablenofile` = '" . $updateboard_enablenofile . "' , `enablearchiving` = '" . $updateboard_enablearchiving . "', `enablecatalog` = '" . $updateboard_enablecatalog . "' , `loadbalanceurl` = '" . mysqli_real_escape_string($tc_db->link, $_POST['loadbalanceurl']) . "' , `loadbalancepassword` = '" . mysqli_real_escape_string($tc_db->link, $_POST['loadbalancepassword']) . "', `enablesoundinvideo` = '" . $updateboard_enablesoundinvideo . "' WHERE `name` = '" . mysqli_real_escape_string($tc_db->link, $_POST['updateboard']) . "'");
 							$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "board_filetypes` WHERE `boardid` = '" . $boardid . "'");
 							foreach ($filetypes as $filetype) {
 								$tc_db->Execute("INSERT INTO `" . KU_DBPREFIX . "board_filetypes` ( `boardid`, `typeid` ) VALUES ( '" . $boardid . "', '" . mysqli_real_escape_string($tc_db->link, $filetype) . "' )");
@@ -1112,6 +1145,20 @@ class Manage {
 					$tpl_page .= '<label for="maximagesize">'._gettext('Maximum image size').':</label>
 					<input type="text" name="maximagesize" value="'.$lineboard['maximagesize'].'">
 					<div class="desc">'._gettext('Maximum size of uploaded images, in <b>bytes</b>.') . ' ' . _gettext('Default').': <b>1024000</b></div><br>';
+
+					/* Maximum video length */
+					$tpl_page .= '<label for="maxnideolength">'._gettext('Maximum video length').':</label>
+					<input type="text" name="maxvideolength" value="'.$lineboard['maxvideolength'].'">
+					<div class="desc">'._gettext('Maxmimum length of uploaded videos, in <b>seconds</b>.') . ' ' . _gettext('Default').': <b>0</b> for no limit</div><br>';
+					
+					/* Enable sound in video */
+					$tpl_page .= '<label for="enablesoundinvideo">'._gettext('Enable sound in video').':</label>
+					<input type="checkbox" name="enablesoundinvideo"';
+					if ($lineboard['enablesoundinvideo'] == '1') {
+						$tpl_page .= ' checked';
+					}
+					$tpl_page .= '>
+					<div class="desc">'._gettext('If set to yes, video files posted can have an audio track.') . ' ' . _gettext('Default').': <b>'._gettext('No').'</b></div><br>';
 					
 					/* Maximum message length */
 					$tpl_page .= '<label for="messagelength">'._gettext('Maximum message length').':</label>
@@ -3875,12 +3922,15 @@ echo "stage 6<br>";
 		$boardlist = $this->BoardList($_SESSION['manageusername']);
 		foreach ($boardlist as $board) {
 			if ($imagesshown <= $_SESSION['imagesperpage']) {
-				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `parentid`, `filename`, `filetype`, `thumb_w`, `thumb_h` FROM `" . KU_DBPREFIX . "posts_" . $board . "` WHERE `postedat` > " . $dayago . " AND (`filetype` = 'jpg' OR `filetype` = 'gif' OR `filetype` = 'png') AND `reviewed` = 0 AND `IS_DELETED` = 0 ORDER BY RAND() LIMIT " . mysqli_real_escape_string($tc_db->link, $_SESSION['imagesperpage']));
+				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `parentid`, `filename`, p.`filetype`, `thumb_w`, `thumb_h`, `mediatype` FROM `" . KU_DBPREFIX . "posts_" . $board . "` AS p JOIN `" . KU_DBPREFIX . "filetypes` AS f ON f.filetype=p.filetype WHERE `postedat` > " . $dayago . " AND `mediatype` IN ('image','video') AND `reviewed` = 0 AND `IS_DELETED` = 0 ORDER BY RAND() LIMIT " . mysqli_real_escape_string($tc_db->link, $_SESSION['imagesperpage']));
 				if (count($results) > 0) {
 					$reviewsql = "UPDATE `" . KU_DBPREFIX . "posts_" . $board . "` SET `reviewed` = 1 WHERE ";
 					foreach ($results as $line) {
 						$reviewsql .= '`id` = ' . $line['id'] . ' OR ';
 						$real_parentid = ($line['parentid'] == 0) ? $line['id'] : $line['parentid'];
+						if($line['mediatype'] == 'video'){
+							$line['filetype']='jpg';
+						}
 						$tpl_page .= '<a href="' . KU_BOARDSPATH . '/' . $board . '/res/' . $real_parentid . '.html#' . $line['id'] . '"><img src="' . KU_BOARDSPATH . '/' . $board . '/thumb/' . $line['filename'] . 's.' . $line['filetype'] . '" width="' . $line['thumb_w'] . '" height="' . $line['thumb_h'] . '" border="0"></a> ';
 					}
 					
