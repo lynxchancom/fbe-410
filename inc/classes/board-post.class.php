@@ -1025,7 +1025,7 @@ class Board {
 							$buildthread_replies .= $this->BuildPost($page, $this->board_dir, $this->board_type, $line_reply);
 						}
 						if (!$page && $expandjavascript != '') {
-							$expandjavascript = '<a class="expandAllImg" href="#">' . _gettext('Expand all images') . '</a>';
+							$expandjavascript = '<a class="expandAllImg" href="#" data-remove="' . _gettext('Remove') . '">' . _gettext('Expand all images') . '</a>';
 						} else {
 							$expandjavascript = '';
 						}
