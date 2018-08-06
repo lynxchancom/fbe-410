@@ -1428,7 +1428,7 @@ class Board {
 			if ($post['filetype'] == 'you' || $post['filetype'] == 'goo' || $post['filetype'] == 'red' || $post['filetype'] == '5min') {
 				$buildpost_output .= embeddedVideoBox($post);
 			}
-			if($post['filetype'] == 'mp3' || $post['filetype'] == 'ogg') {
+			if($this->allowed_file_types[post['filetype']] == 'audio') {
 				$buildpost_output .= embeddedMusicBox($post, $this->board_dir);
 			}
 			
