@@ -1428,9 +1428,6 @@ class Board {
 			if ($post['filetype'] == 'you' || $post['filetype'] == 'goo' || $post['filetype'] == 'red' || $post['filetype'] == '5min') {
 				$buildpost_output .= embeddedVideoBox($post);
 			}
-			if($this->allowed_file_types[post['filetype']] == 'audio') {
-				$buildpost_output .= embeddedMusicBox($post, $this->board_dir);
-			}
 			
 			$buildpost_output .= formatLongMessage($post['message'], $this->board_dir, $post_thread_start_id, $page);
 			

@@ -34,14 +34,6 @@ function embeddedVideoBox($post) {
 	
 	return $output;
 }
-function embeddedMusicBox($post, $board) {
-	if(KU_MP3 == 'google') {
-		$output = '<span style="float: left;">' . "\n";
-		$output .= '<embed type="application/x-shockwave-flash" src="http://www.google.com/reader/ui/3247397568-audio-player.swf?audioUrl='. KU_WEBPATH . '/' . $board . '/src/'. $post['filename'] . '.' . $post['filetype'] . '" width="400" height="27" allowscriptaccess="never" quality="best" bgcolor="#ffffff" wmode="window" flashvars="playerMode=embedded" /></embed>';
-		$output .= '</span>&nbsp;' . "\n";
-	}
-	return $output;
-}
 
 /**
  * Check if the supplied md5 file hash is currently recorded inside of the database, attached to a non-deleted post
