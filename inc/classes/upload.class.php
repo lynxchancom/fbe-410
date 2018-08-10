@@ -205,36 +205,9 @@ class Upload {
 									if (!createThumbnail($this->file_location, $this->file_thumb_cat_location, KU_CATTHUMBWIDTH, KU_CATTHUMBHEIGHT)) {
 										exitWithErrorPage(_gettext('Could not create thumbnail.'));
 									}
- 									if( $board_class->allowed_file_types[$this->file_type][0] != 'video' ) {
- 										$imageDim_thumb = getimagesize($this->file_thumb_location);
- 										$this->imgWidth_thumb = $imageDim_thumb[0];
- 										$this->imgHeight_thumb = $imageDim_thumb[1];
- 									}
- 									else{
- 										$percent=0.0;
- 										if ($this->imgWidth > $this->imgHeight){
- 											if(!$this->isreply){
- 												$percent = KU_THUMBWIDTH * 1.0 / $this->imgWidth;
- 												$this->imgWidth_thumb = KU_THUMBWIDTH;
- 											}
- 											else{
- 												$percent = KU_REPLYTHUMBWIDTH * 1.0 / $this->imgWidth;
- 												$this->imgWidth_thumb = KU_REPLYTHUMBWIDTH;
- 											}
- 											$this->imgHeight_thumb = round($this->imgHeight * $percent);
- 										}
- 										else{
- 											if(!$this->isreply){
- 												$percent = KU_THUMBHEIGHT * 1.0 / $this->imgHeight;
- 												$this->imgHeight_thumb = KU_THUMBHEIGHT;
- 											}
- 											else{
- 												$percent = KU_REPLYTHUMBHEIGHT * 1.0 / $this->imgHeight;
- 												$this->imgHeight_thumb = KU_REPLYTHUMBHEIGHT;
- 											}
- 											$this->imgWidth_thumb = round($this->imgWidth * $percent);
- 										}
- 									}
+									$imageDim_thumb = getimagesize($this->file_thumb_location);
+									$this->imgWidth_thumb = $imageDim_thumb[0];
+									$this->imgHeight_thumb = $imageDim_thumb[1];
 									$imageused = true;
 								} else {
 									exitWithErrorPage(_gettext('File was not fully uploaded.  Please go back and try again.'));

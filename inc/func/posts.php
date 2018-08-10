@@ -74,14 +74,24 @@ function createThumbnail($name, $filename, $new_w, $new_h) {
 	_log(sprintf("%s will be %s, dims %d x %d\n", $name, $filename, $new_w, $new_h));
  	$filetype = preg_replace('/.*\.(.+)/','\1',$name);
 	if ($board_class->allowed_file_types[$filetype][0] == 'video'){
- 		exec('ffmpeg -i '.escapeshellarg($name).' -r 1 -frames:v 1 -s '.$new_w.'x'.$new_h.' '.escapeshellarg($filename));
-  		if (is_file($filename)) {
-  			return true;
-  		} else {
-  			return false;
+		$videowidth = exec('ffprobe -v quiet -show_entries stream=width -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
+		$videoheight = exec('ffprobe -v quiet -show_entries stream=height -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
+		
+		$convert = 'ffmpeg -i '.escapeshellarg($name).' -q 1 -frames:v 1 ';
+		if ( ($videowidth / $new_w) > ($videoheight / $new_h) ) {
+			$convert .= '-vf "scale=' . $new_w . ':-1:flags=lanczos" ';
+		} else {
+			$convert .= '-vf "scale=-1:' . $new_h . ':flags=lanczos" ';
 		}
-	}
-	if (KU_THUMBMETHOD == 'imagemagick') {
+		$convert .= escapeshellarg($filename);
+		exec($convert);
+		
+		if (is_file($filename)) {
+			return true;
+		} else {
+			return false;
+		}
+	} elseif (KU_THUMBMETHOD == 'imagemagick') {
 		$convert = 'convert ' . escapeshellarg($name) . ' ';
 		if (!KU_ANIMATEDTHUMBS) {
 			$convert .= '-coalesce ';
