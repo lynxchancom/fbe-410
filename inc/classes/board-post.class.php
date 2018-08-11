@@ -390,7 +390,6 @@ class Board {
  				$this->board_maxvideolength           = $line['maxvideolength'];
   				$this->board_loadbalanceurl_formatted = ($line['loadbalanceurl'] != '') ? substr($line['loadbalanceurl'], 0, strrpos($line['loadbalanceurl'], '/')) : '';
  				$this->allowed_file_types['video']    = [];
- 				$this->allowed_file_types['audio']    = [];
  				$this->allowed_file_types['image']    = [];
  				$this->allowed_file_types['misc']    = [];
 			}

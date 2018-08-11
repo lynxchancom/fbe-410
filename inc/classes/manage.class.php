@@ -328,12 +328,6 @@ class Manage {
 							<div class="desc">See above.</div><br>
 
  							<label for="mediatype">Mediatype:</label>
- 							<select name="mediatype">
- 								<option value="audio"';
- 							if ($line['mediatype'] == 'audio'){
- 								$tpl_page .= ' selected';
- 							}
- 							$tpl_page.='>Audio</option>
  								<option value="image"';
  							if ($line['mediatype'] == 'image'){
  								$tpl_page .= ' selected';
