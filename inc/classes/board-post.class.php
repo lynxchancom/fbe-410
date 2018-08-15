@@ -2120,7 +2120,7 @@ size="28" maxlength="20" accesskey="c">' . "\n" .
 					if ($this->board_enablefaptcha == 1) {
 						$output .= '<tr>' . "\n" .
 						'	<td class="'.$label_class.'" align="center">' . "\n" .
-						'		<a href="#" onclick="document.getElementById(\'faptchaimage\').src = \'' . KU_CGIPATH . '/faptcha.php?board='.$this->board_dir.'&amp;\' + Math.random();return false;"><img id="faptchaimage" src="' . KU_CGIPATH . '/faptcha.php?board='.$this->board_dir.'" border="0" width="90" height="50" alt="Animapcha image"></a>' . "\n" .
+						'		<a class="faplink" href="#"><img id="faptchaimage" src="' . KU_CGIPATH . '/faptcha.php?board='.$this->board_dir.'" border="0" width="90" height="50" alt="Animapcha image"></a>' . "\n" .
 						'	</td>' . "\n" .
 						'	<td>' . "\n" .
 						'		<input type="text" name="faptcha" id="faptcha_input"
