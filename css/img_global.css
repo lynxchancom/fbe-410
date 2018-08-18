@@ -55,6 +55,9 @@ form .trap {
 
 .thumb {
 	border: none;
+	background-size: 100% 100%;
+	display: block;
+	margin-bottom: 4px;
 }
 
 .imglink {
@@ -795,9 +798,6 @@ input[type=text], input[type=password], textarea {
 }
 .hidevideo, .hideaudio {
 	padding: 2px 20px 2px 0;
-}
-.thumb {
-	background-size: 100% 100%;
 }
 
 /*!

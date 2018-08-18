@@ -148,8 +148,8 @@ if (!$cache_loaded) {
 		$cf['KU_REPLYTHUMBHEIGHT'] = 200; /* Maximum thumbnail height (reply) */
 		$cf['KU_CATTHUMBWIDTH']    = 100; /* Maximum thumbnail width (catalog) */
 		$cf['KU_CATTHUMBHEIGHT']   = 100; /* Maximum thumbnail height (catalog) */
-		$cf['KU_THUMBMETHOD']      = 'gd'; /* Method to use when thumbnailing images in jpg, gif, or png format.  Options available: gd, imagemagick */
-		$cf['KU_ANIMATEDTHUMBS']   = false; /* Whether or not to allow animated thumbnails (only applies if using imagemagick) */
+		$cf['KU_THUMBMETHOD']      = 'gd'; /* Method to use when thumbnailing images in jpg, gif, or png format. Options available: ffmpeg, gd, imagemagick */
+		$cf['KU_ANIMATEDTHUMBS']   = false; /* Whether or not to allow animated thumbnails (only applies if using ffmpeg or imagemagick) */
 		
 	/* Post handling */
 		$cf['KU_NEWWINDOW']       = true; /* When a user clicks a thumbnail, whether to open the link in a new window or not */
@@ -229,7 +229,6 @@ if (!$cache_loaded) {
 		$cf['KU_PINGBACKDESC']    = ''; /* Description of site to send when making a ping to the chan directory.  This will have no effect if KU_PINGBACK is blank */
 		$cf['KU_MODLOG']   		  = ''; /* Name of the modlog */
 		$cf['KU_ANONYMOUS']       = ''; /* Name of the board which has no moderation. (No bans or moderator actions can be used, delete only)*/
-		$cf['KU_MP3']             = 'default'; /* Switch mp3 player, options: default/google
 		
 	/* Misc config */
 		$cf['KU_MODLOGDAYS']        = 7; /* Days to keep modlog entries before removing them */
