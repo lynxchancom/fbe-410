@@ -148,8 +148,8 @@ if (!$cache_loaded) {
 		$cf['KU_REPLYTHUMBHEIGHT'] = 200; /* Maximum thumbnail height (reply) */
 		$cf['KU_CATTHUMBWIDTH']    = 100; /* Maximum thumbnail width (catalog) */
 		$cf['KU_CATTHUMBHEIGHT']   = 100; /* Maximum thumbnail height (catalog) */
-		$cf['KU_THUMBMETHOD']      = 'gd'; /* Method to use when thumbnailing images in jpg, gif, or png format.  Options available: gd, imagemagick */
-		$cf['KU_ANIMATEDTHUMBS']   = false; /* Whether or not to allow animated thumbnails (only applies if using imagemagick) */
+		$cf['KU_THUMBMETHOD']      = 'gd'; /* Method to use when thumbnailing images in jpg, gif, or png format. Options available: ffmpeg, gd, imagemagick */
+		$cf['KU_ANIMATEDTHUMBS']   = false; /* Whether or not to allow animated thumbnails (only applies if using ffmpeg or imagemagick) */
 		
 	/* Post handling */
 		$cf['KU_NEWWINDOW']       = true; /* When a user clicks a thumbnail, whether to open the link in a new window or not */

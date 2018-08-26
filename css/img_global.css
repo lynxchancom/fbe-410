@@ -55,6 +55,9 @@ form .trap {
 
 .thumb {
 	border: none;
+	background-size: 100% 100%;
+	display: block;
+	margin-bottom: 4px;
 }
 
 .imglink {
@@ -774,9 +777,7 @@ input[type=text], input[type=password], textarea {
 
 /* jQuery-based remake of scripts (2018) is supported by the following: */
 
-#watchedthreadsdraghandle {
-	width: 100%;
-}
+span.removeExpandedImg,
 #watchedthreads {
 	-webkit-transition-property: opacity;
 	-webkit-transition-duration: 0.5s;
@@ -784,6 +785,9 @@ input[type=text], input[type=password], textarea {
 	transition-property: opacity;
 	transition-duration: 0.5s;
 	transition-timing-function: ease-in-out;
+}
+#watchedthreadsdraghandle {
+	width: 100%;
 }
 .videoplayer410, .audioplayer410 {
 	max-width: 100%;
@@ -795,9 +799,6 @@ input[type=text], input[type=password], textarea {
 }
 .hidevideo, .hideaudio {
 	padding: 2px 20px 2px 0;
-}
-.thumb {
-	background-size: 100% 100%;
 }
 
 /*!

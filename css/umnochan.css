@@ -279,3 +279,35 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 .unhidethread {
 	border-bottom:1px solid #D0AB65 !important;
 }
+
+.hidethread:hover {
+	background: transparent url('./icons/blue/icons.svg') -32px -16px no-repeat !important;
+}
+
+.unhidethread img:hover {
+	background: transparent url('./icons/blue/icons.svg') -48px 0px no-repeat !important;
+}
+
+.watchthread:hover {
+	background: transparent url('./icons/blue/icons.svg') -32px 0px no-repeat !important;
+}
+
+.expandthread:hover {
+	background: transparent url('./icons/blue/icons.svg') 0px -16px no-repeat !important;
+}
+
+.quickreply:hover {
+	background: transparent url('./icons/blue/icons.svg') 0px 0px no-repeat !important;
+}
+
+.hidewatchedthreads:hover {
+	background: transparent url('./icons/blue/icons.svg') -48px -16px no-repeat !important;
+}
+
+.refreshwatchedthreads:hover {
+	background: transparent url('./icons/blue/icons.svg') -16px -16px no-repeat !important;
+}
+
+.restorewatchedthreads:hover {
+	background: transparent url('./icons/blue/icons.svg') -16px 0px no-repeat !important;
+}
