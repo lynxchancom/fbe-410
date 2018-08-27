@@ -1253,7 +1253,7 @@ class Board {
 					$info_file .= ', ' . $post['image_w'] . '×' . $post['image_h'];
 				}
 				if ($post['filename_original'] != '' && $post['filename_original'] != $post['filename']) {
-					$info_file .= ', ' . htmlspecialchars($post['filename_original'], ENT_QUOTES) . '.' . $post['filetype'];
+					$info_file .= ', ' . htmlspecialchars($post['filename_original']) . '.' . $post['filetype'];
 				}
 				$info_file .= ')</span>' . "\n";
 				if (KU_THUMBMSG) {
