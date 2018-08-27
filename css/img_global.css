@@ -64,12 +64,19 @@ form .trap {
 .imglink {
 	float: left;
 	margin: 2px 20px;
+	position: relative;
 }
 
 .thumb[src*="/src/"] {
 	max-width: 100%;
 	max-height: unset;
 	height: auto;
+}
+
+.gen3foreground {
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 .nothumb {
