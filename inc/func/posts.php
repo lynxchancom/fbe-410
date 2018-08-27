@@ -77,7 +77,7 @@ function createThumbnail($name, $filename, $new_w, $new_h) {
 			$convert .= '-coalesce ';
 		}
 		$convert .= '-resize ' . $new_w . 'x' . $new_h . ' -quality ';
-		if (substr($filename, 0, -3) != 'gif') {
+		if (substr($filename, -3) != 'gif') {
 			$convert .= '70';
 		} else {
 			$convert .= '90';
@@ -98,14 +98,14 @@ function createThumbnail($name, $filename, $new_w, $new_h) {
 		$imagewidth = exec('ffprobe -v quiet -show_entries stream=width -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
 		$imageheight = exec('ffprobe -v quiet -show_entries stream=height -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
 		
-		if (substr($filename, 0, -3) != 'gif') { // not GIF, ignores KU_ANIMATEDTHUMBS
+		if (substr($filename, -3) != 'gif') { // not GIF, ignores KU_ANIMATEDTHUMBS
 			$convert = 'ffmpeg -i ' . escapeshellarg($name);
 			if ( ($imagewidth / $new_w) > ($imageheight / $new_h) ) {
 				$convert .= ' -vf "scale=' . $new_w . ':-1:flags=lanczos" ';
 			} else {
 				$convert .= ' -vf "scale=-1:' . $new_h . ':flags=lanczos" ';
 			}
-			if (substr($filename, 0, -3) == 'jpg') {
+			if (substr($filename, -3) == 'jpg') {
 				$convert .= '-q 1 '; // 89%, see http://www.ffmpeg-archive.org/Create-high-quality-JPEGs-td4669205.html
 			}
 			$convert .= escapeshellarg($filename);
