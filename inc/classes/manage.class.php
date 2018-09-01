@@ -279,7 +279,6 @@ class Manage {
  
  					<label for="mediatype">Mediatype:</label>
  					<select name="mediatype">
- 						<option value="image">Audio</option>
  						<option value="image" selected>Image</option>
  						<option value="video">Video</option>
  						<option value="misc">Other</option>
