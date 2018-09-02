@@ -81,7 +81,7 @@ function createThumbnail($name, $filename, $new_w, $new_h) {
 			}
 		} else $convert .= ' +profile "*"'; // removes ICM/EXIF/IPTC/other profiles,
 		//see https://legacy.imagemagick.org/script/command-line-options.php#profile
-		$convert .= ' -resize ' . $new_w . 'x' . $new_h;
+		$convert .= ' -resize ' . $new_w . 'x' . $new_h . '\>'; // escape from shell
 		//The `-quality` option is actually quite format-specific in ImageMagick,
 		//see https://legacy.imagemagick.org/script/command-line-options.php#quality
 		if (substr($filename, -4) == '.png') {
