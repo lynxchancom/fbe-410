@@ -71,17 +71,26 @@ function checkMd5($md5, $board) {
  */ 
 function createThumbnail($name, $filename, $new_w, $new_h) {
 	_log(sprintf("%s will be %s, dims %d x %d\n", $name, $filename, $new_w, $new_h));
-	if (KU_THUMBMETHOD == 'imagemagick') {
-		$convert = 'convert ' . escapeshellarg($name) . ' ';
-		if (!KU_ANIMATEDTHUMBS) {
-			$convert .= '-coalesce ';
-		}
-		$convert .= '-resize ' . $new_w . 'x' . $new_h . ' -quality ';
-		if (substr($filename, -4) != '.gif') {
-			$convert .= '70';
-		} else {
-			$convert .= '90';
-		}
+	if (KU_THUMBMETHOD == 'imagemagick') { // v6 has no `magick`, only `convert`
+		$convert = 'convert ' . escapeshellarg($name);
+		if (substr($filename, -4) == '.gif') { // special GIF processing:
+			if (KU_ANIMATEDTHUMBS) {
+				$convert .= ' -coalesce';
+			} else {
+				$convert .= '[0]'; // grab only the 0th frame of the GIF
+			}
+		} else $convert .= ' +profile "*"'; // removes ICM/EXIF/IPTC/other profiles,
+		//see https://legacy.imagemagick.org/script/command-line-options.php#profile
+		$convert .= ' -resize ' . $new_w . 'x' . $new_h . '\>'; // escape from shell
+		//The `-quality` option is actually quite format-specific in ImageMagick,
+		//see https://legacy.imagemagick.org/script/command-line-options.php#quality
+		if (substr($filename, -4) == '.png') {
+			$convert .= ' -quality 95'; // 9 = zlib level 9; 5 = adaptive filter
+		} elseif (substr($filename, -4) != '.gif') {
+			$convert .= ' -quality 80'; // does not make any sense to apply it to GIFs
+		} else $convert .= ' -dither FloydSteinberg'; //change GIF dithering method,
+		// see https://www.imagemagick.org/Usage/quantize/#dither_how for an example
+		// (note: Floyd-Steinberg used instead of Riemersma to lessen the speckling)
 		$convert .= ' ' . escapeshellarg($filename);
 		exec($convert);
 		
