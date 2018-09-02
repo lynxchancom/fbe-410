@@ -88,7 +88,9 @@ function createThumbnail($name, $filename, $new_w, $new_h) {
 			$convert .= ' -quality 95'; // 9 = zlib level 9; 5 = adaptive filter
 		} elseif (substr($filename, -4) != '.gif') {
 			$convert .= ' -quality 80'; // does not make any sense to apply it to GIFs
-		}
+		} else $convert .= ' -dither FloydSteinberg'; //change GIF dithering method,
+		// see https://www.imagemagick.org/Usage/quantize/#dither_how for an example
+		// (note: Floyd-Steinberg used instead of Riemersma to lessen the speckling)
 		$convert .= ' ' . escapeshellarg($filename);
 		exec($convert);
 		
