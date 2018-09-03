@@ -56,13 +56,12 @@ form .trap {
 .thumb {
 	border: none;
 	display: block;
-	margin-bottom: 4px;
 	-moz-force-broken-image-icon: 1;
 }
 
 .imglink {
 	float: left;
-	margin: 2px 20px;
+	margin: 2px 20px 4px;
 	position: relative;
 }
 
@@ -82,7 +81,7 @@ form .trap {
 	float: left;
 	text-align: center;
 	padding: 14px;
-	margin: 0 20px 2px 20px;
+	margin: 0 20px 4px;
 	border: 3px dashed;
 }
 
@@ -718,7 +717,7 @@ input[type=text], input[type=password], textarea {
 	}
 
 	.imglink {
-		margin: 2px 4px;
+		margin: 2px 4px 4px;
 	}
 
 	.adminbar select {
@@ -743,7 +742,7 @@ input[type=text], input[type=password], textarea {
 		background: #eee;
 		border: 2px dashed #aaa;
 		text-align: center;
-		margin: 2px 4px;
+		margin: 2px 4px 4px;
 		padding: 1em 0.5em 1em 0.5em;
 	}
 	.adminbar img[src="/css/icons/red/wt.svg"], img[src="/css/icons/red/search.svg"]{
@@ -800,7 +799,7 @@ span.removeExpandedImg,
 	max-width: 100%;
 	height: auto;
 	box-sizing: border-box;
-	margin: 2px 20px;
+	margin: 2px 20px 4px;
 	float: left;
 	clear: left;
 }
