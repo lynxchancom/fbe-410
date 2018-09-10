@@ -1053,7 +1053,7 @@ class Board {
 							$buildthread_replies .= $this->BuildPost($page, $this->board_dir, $this->board_type, $line_reply);
 						}
 						if (!$page && $expandjavascript != '') {
-							$expandjavascript = '<a class="expandAllImg" href="#">' . _gettext('Expand all images') . '</a>';
+							$expandjavascript = '<a class="expandAllImg" href="#" data-remove="' . _gettext('Remove') . '">' . _gettext('Expand all images') . '</a>';
 						} else {
 							$expandjavascript = '';
 						}
@@ -1287,7 +1287,7 @@ class Board {
 					$info_file .= ', ' . $post['image_w'] . '×' . $post['image_h'];
 				}
 				if ($post['filename_original'] != '' && $post['filename_original'] != $post['filename']) {
-					$info_file .= ', ' . htmlspecialchars($post['filename_original'], ENT_QUOTES) . '.' . $post['filetype'];
+					$info_file .= ', ' . htmlspecialchars($post['filename_original']) . '.' . $post['filetype'];
 				}
 				$info_file .= ')</span>' . "\n";
 				if (KU_THUMBMSG) {
@@ -2151,7 +2151,7 @@ size="28" maxlength="20" accesskey="c">' . "\n" .
 					if ($this->board_enablefaptcha == 1) {
 						$output .= '<tr>' . "\n" .
 						'	<td class="'.$label_class.'" align="center">' . "\n" .
-						'		<a href="#" onclick="document.getElementById(\'faptchaimage\').src = \'' . KU_CGIPATH . '/faptcha.php?board='.$this->board_dir.'&amp;\' + Math.random();return false;"><img id="faptchaimage" src="' . KU_CGIPATH . '/faptcha.php?board='.$this->board_dir.'" border="0" width="90" height="50" alt="Animapcha image"></a>' . "\n" .
+						'		<a class="faplink" href="#"><img id="faptchaimage" src="' . KU_CGIPATH . '/faptcha.php?board='.$this->board_dir.'" border="0" width="90" height="50" alt="Animapcha image"></a>' . "\n" .
 						'	</td>' . "\n" .
 						'	<td>' . "\n" .
 						'		<input type="text" name="faptcha" id="faptcha_input"
