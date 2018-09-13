@@ -119,27 +119,31 @@ class Upload {
  						# Calculations should be postponed untill after load balancing, ideally... Probably
  						$expectedFormat = $this->file_type;
  						if( $expectedFormat === 'ogv' ) $expectedFormat = 'ogg';
- 						$outp = [];
- 						exec('ffprobe -v error -show_format '.$_FILES['imagefile']['tmp_name'], $outp);
- 						$ft = preg_grep('/' . preg_quote($expectedFormat, '/') . '/', $outp);
- 						if( count($ft) < 1 ){
- 							exitWithErrorPage(_gettext('Filetype tampering detected'));
+ 						$formatCSV = exec('ffprobe -v quiet -show_entries format=format_name -of default=noprint_wrappers=1:nokey=1 ' . $_FILES['imagefile']['tmp_name']);
+ 						// never touch this *strict* comparison with FALSE because strpos might also return 0:
+ 						if( strpos($formatCSV, $expectedFormat) === FALSE ) exitWithErrorPage(_gettext('Filetype tampering detected'));
+ 						
+ 						$trackTypes = [];
+ 						exec('ffprobe -v quiet -show_entries stream=codec_type -of default=noprint_wrappers=1:nokey=1 ' . $_FILES['imagefile']['tmp_name'], $trackTypes);
+ 						$countVideoTracks = count( preg_grep('/video/', $trackTypes) );
+ 						$countAudioTracks = count( preg_grep('/audio/', $trackTypes) );
+ 						if( $countVideoTracks < 1 ){
+ 							exitWithErrorPage(_gettext('Video containers without video tracks are forbidden'));
+ 						} elseif ( $countVideoTracks > 1 ){
+ 							exitWithErrorPage(_gettext('Multiple video tracks are forbidden'));
  						}
- 						$duration = substr(array_values(preg_grep('/^duration=/m', $outp))[0], 9);
- 						if (!is_numeric($duration)){
- 							exitWithErrorPage(_gettext('Corrupted file: no duration'));
+ 						if( !$board_class->board_enablesoundinvideo && $countAudioTracks > 0 ){
+ 							exitWithErrorPage(_gettext('Sound tracks in video are forbidden on this board'));
  						}
+ 						
+ 						$duration = exec('ffprobe -v quiet -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ' . $_FILES['imagefile']['tmp_name']);
+ 						if( !is_numeric($duration) ) exitWithErrorPage(_gettext('Corrupted video file: no duration'));
  						if($board_class->board_maxvideolength && $duration > $board_class->board_maxvideolength){
  							exitWithErrorPage(sprintf(_gettext("Video is too long! Maximum allowed length: %d seconds"), $board_class->board_maxvideolength));
  						}
- 						exec('ffprobe -v error -show_streams '.$_FILES['imagefile']['tmp_name'], $outp);
- 						$width = substr(array_values(preg_grep('/^width=/m', $outp))[0], 6);
- 						$height = substr(array_values(preg_grep('/^height=/m', $outp))[0], 7);
- 						if (!$board_class->board_enablesoundinvideo && preg_grep('/codec_type=audio/m', $outp)){
- 							exitWithErrorPage(_gettext('Sound not allowed in video'));
- 						}
- 						$this->imgWidth = $width;
- 						$this->imgHeight = $height;
+ 						
+ 						$this->imgWidth = exec('ffprobe -v quiet -show_entries stream=width -of default=noprint_wrappers=1:nokey=1 ' . $_FILES['imagefile']['tmp_name']);
+ 						$this->imgHeight = exec('ffprobe -v quiet -show_entries stream=height -of default=noprint_wrappers=1:nokey=1 ' . $_FILES['imagefile']['tmp_name']);
 					} else {
 						$imageDim = @getimagesize($_FILES['imagefile']['tmp_name']);
 						$this->imgWidth = intval($imageDim[0]);
