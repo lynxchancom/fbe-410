@@ -115,13 +115,14 @@ class Upload {
 						$svg = new Svg($_FILES['imagefile']['tmp_name']);
 						$this->imgWidth = $svg->width;
 						$this->imgHeight = $svg->height;
- 					}
- 					elseif ($board_class->allowed_file_types[$this->file_type][0] == 'video') {
- 						$outp = [];
+ 					} elseif ($board_class->allowed_file_types[$this->file_type][0] == 'video') {
  						# Calculations should be postponed untill after load balancing, ideally... Probably
+ 						$expectedFormat = $this->file_type;
+ 						if( $expectedFormat === 'ogv' ) $expectedFormat = 'ogg';
+ 						$outp = [];
  						exec('ffprobe -v error -show_format '.$_FILES['imagefile']['tmp_name'], $outp);
- 						$ft = array_values(preg_grep("/$this->file_type/m", $outp))[0];
- 						if (!$ft){
+ 						$ft = preg_grep('/' . preg_quote($expectedFormat, '/') . '/', $outp);
+ 						if( count($ft) < 1 ){
  							exitWithErrorPage(_gettext('Filetype tampering detected'));
  						}
  						$duration = substr(array_values(preg_grep('/^duration=/m', $outp))[0], 9);
