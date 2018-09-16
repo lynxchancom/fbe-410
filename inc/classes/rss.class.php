@@ -21,7 +21,7 @@
 * +------------------------------------------------------------------------------+
 */
 class RSS {
-	function GenerateRSS($rssboard) {
+	function GenerateRSS($rssboard, $board_class) {
 		if (isset($rssboard)) {
 			global $tc_db;
 			
@@ -47,7 +47,13 @@ class RSS {
 				if ($row['filename']!='')
 				{
 					$items .= '<a href="'.KU_BOARDSPATH.'/'.$rssboard.'/src/'.$row['filename'].'.'.$row['filetype'].'">';
-					$items .= '<img src="'.KU_BOARDSPATH.'/'.$rssboard.'/thumb/'.$row['filename'].'s.'.$row['filetype'].'" /></a><br />';
+					$media_type = $board_class->allowed_file_types[$row['filetype']][0];
+					if ($media_type == 'image'){
+						$items .= '<img src="'.KU_BOARDSPATH.'/'.$rssboard.'/thumb/'.$row['filename'].'s.'.$row['filetype'].'" /></a><br />';
+					}
+					elseif ($media_type == 'video'){
+						$items .= '<img src="'.KU_BOARDSPATH.'/'.$rssboard.'/thumb/'.$row['filename'].'s.jpg" /></a><br />';
+					}
 				}
 				if (trim($row['message'])!='') {
 					$items .= stripslashes($row['message']).'<br>';
