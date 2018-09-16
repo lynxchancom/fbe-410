@@ -34,14 +34,6 @@ function embeddedVideoBox($post) {
 	
 	return $output;
 }
-function embeddedMusicBox($post, $board) {
-	if(KU_MP3 == 'google') {
-		$output = '<span style="float: left;">' . "\n";
-		$output .= '<embed type="application/x-shockwave-flash" src="http://www.google.com/reader/ui/3247397568-audio-player.swf?audioUrl='. KU_WEBPATH . '/' . $board . '/src/'. $post['filename'] . '.' . $post['filetype'] . '" width="400" height="27" allowscriptaccess="never" quality="best" bgcolor="#ffffff" wmode="window" flashvars="playerMode=embedded" /></embed>';
-		$output .= '</span>&nbsp;' . "\n";
-	}
-	return $output;
-}
 
 /**
  * Check if the supplied md5 file hash is currently recorded inside of the database, attached to a non-deleted post
@@ -70,8 +62,29 @@ function checkMd5($md5, $board) {
  * @return boolean Success/fail 
  */ 
 function createThumbnail($name, $filename, $new_w, $new_h) {
+	global $board_class;
 	_log(sprintf("%s will be %s, dims %d x %d\n", $name, $filename, $new_w, $new_h));
-	if (KU_THUMBMETHOD == 'imagemagick') { // v6 has no `magick`, only `convert`
+	$filetype = preg_replace('/.*\.(.+)/', '\1', $name);
+	if ($board_class->allowed_file_types[$filetype][0] == 'video'){
+		$videowidth = exec('ffprobe -v quiet -show_entries stream=width -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
+		$videoheight = exec('ffprobe -v quiet -show_entries stream=height -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
+		
+		$convert = 'ffmpeg -i '.escapeshellarg($name).' -q 1 -frames:v 1 ';
+		if ( ($videowidth / $new_w) > ($videoheight / $new_h) ) {
+			$convert .= '-vf "scale=' . $new_w . ':-1:flags=lanczos" ';
+		} else {
+			$convert .= '-vf "scale=-1:' . $new_h . ':flags=lanczos" ';
+		}
+		$convert .= escapeshellarg($filename);
+		exec($convert);
+		
+		if (is_file($filename)) {
+			return true;
+		} else {
+			return false;
+		}
+	} elseif (KU_THUMBMETHOD == 'imagemagick') {
+		// ImageMagick v6.x does not have `magick` command, only `convert`:
 		$convert = 'convert ' . escapeshellarg($name);
 		if (substr($filename, -4) == '.gif') { // special GIF processing:
 			if (KU_ANIMATEDTHUMBS) {
