@@ -54,6 +54,10 @@ class RSS {
 					elseif ($media_type == 'video'){
 						$items .= '<img src="'.KU_BOARDSPATH.'/'.$rssboard.'/thumb/'.$row['filename'].'s.jpg" /></a><br />';
 					}
+					else {
+
+						$items .= '<img src="'.KU_BOARDSPATH.'/'.$board_class->allowed_file_types[$line['filetype']][1].'" /></a><br />';
+					}
 				}
 				if (trim($row['message'])!='') {
 					$items .= stripslashes($row['message']).'<br>';
