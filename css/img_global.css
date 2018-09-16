@@ -800,7 +800,7 @@ span.removeExpandedImg,
 	height: auto;
 	box-sizing: border-box;
 	margin: 0;
-	padding: 2px 20px 4px;
+	padding: 2px 20px 4px 4px;
 	float: left;
 	clear: left;
 }
