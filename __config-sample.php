@@ -229,7 +229,6 @@ if (!$cache_loaded) {
 		$cf['KU_PINGBACKDESC']    = ''; /* Description of site to send when making a ping to the chan directory.  This will have no effect if KU_PINGBACK is blank */
 		$cf['KU_MODLOG']   		  = ''; /* Name of the modlog */
 		$cf['KU_ANONYMOUS']       = ''; /* Name of the board which has no moderation. (No bans or moderator actions can be used, delete only)*/
-		$cf['KU_MP3']             = 'default'; /* Switch mp3 player, options: default/google
 		
 	/* Misc config */
 		$cf['KU_MODLOGDAYS']        = 7; /* Days to keep modlog entries before removing them */
