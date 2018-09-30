@@ -13,7 +13,7 @@
 --
 -- Table structure for table `announcements`
 --
-
+use kusaba;
 DROP TABLE IF EXISTS `announcements`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -113,7 +113,7 @@ CREATE TABLE `boards` (
   `type` tinyint(1) NOT NULL DEFAULT '0',
   `uploadtype` tinyint(1) NOT NULL DEFAULT '0',
   `desc` varchar(75)  NOT NULL,
-  `image` varchar(255)  NOT NULL,
+  `image` varchar(255)  NOT NULL DEFAULT '',
   `section` tinyint(2) NOT NULL DEFAULT '0',
   `maximagesize` int(20) NOT NULL DEFAULT '1024000',
   `maxpages` int(20) NOT NULL DEFAULT '10',
@@ -123,25 +123,27 @@ CREATE TABLE `boards` (
   `messagelength` int(10) NOT NULL DEFAULT '8192',
   `createdon` int(20) NOT NULL,
   `locked` tinyint(1) NOT NULL DEFAULT '0',
-  `includeheader` text  NOT NULL,
+  `includeheader` text  NOT NULL DEFAULT '',
   `redirecttothread` tinyint(1) NOT NULL DEFAULT '0',
   `anonymous` varchar(255)  NOT NULL DEFAULT 'Anonymous',
   `forcedanon` tinyint(1) NOT NULL DEFAULT '0',
   `trial` tinyint(1) NOT NULL DEFAULT '0',
   `popular` tinyint(1) NOT NULL DEFAULT '0',
-  `defaultstyle` varchar(50)  NOT NULL,
-  `locale` varchar(30)  NOT NULL,
+  `defaultstyle` varchar(50)  NOT NULL DEFAULT 'futaba',
+  `locale` varchar(30)  NOT NULL DEFAULT 'en',
   `showid` tinyint(1) NOT NULL DEFAULT '0',
   `compactlist` tinyint(1) NOT NULL DEFAULT '0',
   `enablereporting` tinyint(1) NOT NULL DEFAULT '1',
   `enablecaptcha` tinyint(1) NOT NULL DEFAULT '0',
-  `enablefaptcha` int(1) NOT NULL,
-  `enableporn` int(1) NOT NULL,
+  `enablefaptcha` int(1) NOT NULL default 0,
+  `enableporn` int(1) NOT NULL DEFAULT 0,
   `enablenofile` tinyint(1) NOT NULL DEFAULT '0',
   `enablearchiving` tinyint(1) NOT NULL DEFAULT '0',
   `enablecatalog` tinyint(1) NOT NULL DEFAULT '1',
-  `loadbalanceurl` varchar(255)  NOT NULL,
-  `loadbalancepassword` varchar(255)  NOT NULL,
+  `loadbalanceurl` varchar(255)  NOT NULL DEFAULT '',
+  `loadbalancepassword` varchar(255)  NOT NULL DEFAULT '',
+  `maxvideolength` int(5) NOT NULL DEFAULT '0',
+  `enablesoundinvideo` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -205,11 +207,12 @@ CREATE TABLE `filetypes` (
   `image_w` int(7) NOT NULL DEFAULT '0',
   `image_h` int(7) NOT NULL DEFAULT '0',
   `force_thumb` int(1) NOT NULL DEFAULT '1',
+  `mediatype` varchar(10) NOT NULL DEFAULT 'image',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-INSERT INTO `filetypes` VALUES (1,'jpg','','',0,0,0),(2,'gif','','',0,0,0),(3,'png','','',0,0,0);
+INSERT INTO `filetypes` VALUES (1,'jpg','','',0,0,0,'image'),(2,'gif','','',0,0,0,'image'),(3,'png','','',0,0,0,'image');
 
 --
 -- Table structure for table `flags`
