@@ -649,7 +649,7 @@ if (KU_RSS) {
 	require_once KU_ROOTDIR . 'inc/classes/rss.class.php';
 	$rss_class = new RSS();
 	
-	print_page(KU_BOARDSDIR.$_POST['board'].'/rss.xml',$rss_class->GenerateRSS($_POST['board']),$_POST['board']);
+	print_page(KU_BOARDSDIR.$_POST['board'].'/rss.xml',$rss_class->GenerateRSS($_POST['board'], $board_class),$_POST['board']);
 }
 
 if ($board_class->board_redirecttothread == 1 || isset($_POST['noko']) && $_POST['noko'] == 'on') {
