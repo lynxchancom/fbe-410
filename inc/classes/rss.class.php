@@ -52,7 +52,8 @@ class RSS {
 						$items .= '<img src="'.KU_BOARDSPATH.'/'.$rssboard.'/thumb/'.$row['filename'].'s.'.$row['filetype'].'" /></a><br />';
 					}
 					elseif ($media_type == 'video'){
-						$items .= '<img src="'.KU_BOARDSPATH.'/'.$rssboard.'/thumb/'.$row['filename'].'s.jpg" /></a><br />';
+						// $items .= '<img src="'.KU_BOARDSPATH.'/'.$rssboard.'/thumb/'.$row['filename'].'s.jpg" /></a><br />';
+						$items .= '<img src="'.KU_BOARDSPATH.'/inc/filetypes/'.$board_class->allowed_file_types[$row['filetype']][1].'" /></a><br />';
 					}
 					else {
 
