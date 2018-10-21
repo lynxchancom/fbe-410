@@ -3915,7 +3915,7 @@ echo "stage 6<br>";
 		$boardlist = $this->BoardList($_SESSION['manageusername']);
 		foreach ($boardlist as $board) {
 			if ($imagesshown <= $_SESSION['imagesperpage']) {
-				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `parentid`, `filename`, p.`filetype`, `thumb_w`, `thumb_h`, `mediatype` FROM `" . KU_DBPREFIX . "posts_" . $board . "` AS p JOIN `" . KU_DBPREFIX . "filetypes` AS f ON f.filetype=p.filetype WHERE `postedat` > " . $dayago . " AND `mediatype` IN ('image','video') AND `reviewed` = 0 AND `IS_DELETED` = 0 ORDER BY RAND() LIMIT " . mysqli_real_escape_string($tc_db->link, $_SESSION['imagesperpage']));
+				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY p.`id`, p.`parentid`, p.`filename`, p.`filetype`, p.`thumb_w`, p.`thumb_h`, f.`mediatype` FROM `" . KU_DBPREFIX . "posts_" . $board . "` AS p JOIN `" . KU_DBPREFIX . "filetypes` AS f ON f.filetype=p.filetype WHERE `postedat` > " . $dayago . " AND `mediatype` IN ('image','video') AND `reviewed` = 0 AND `IS_DELETED` = 0 ORDER BY RAND() LIMIT " . mysqli_real_escape_string($tc_db->link, $_SESSION['imagesperpage']));
 				if (count($results) > 0) {
 					$reviewsql = "UPDATE `" . KU_DBPREFIX . "posts_" . $board . "` SET `reviewed` = 1 WHERE ";
 					foreach ($results as $line) {
