@@ -204,7 +204,7 @@ table td {
 	background: transparent url('./icons/beige/icons.svg') 0px 0px no-repeat;
 }
 
-.hidewatchedthreads {
+.hidewatchedthreads, .hidebutton {
 	background: transparent url('./icons/beige/icons.svg') -48px -16px no-repeat;
 }
 

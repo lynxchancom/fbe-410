@@ -219,7 +219,7 @@ a:hover {
 	background: transparent url('./icons/blue/icons.svg') 0px 0px no-repeat !important;
 }
 
-.hidewatchedthreads {
+.hidewatchedthreads, .hidebutton {
 	background: transparent url('./icons/blue/icons.svg') -48px -16px no-repeat !important;
 }
 
