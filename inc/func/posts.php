@@ -34,14 +34,6 @@ function embeddedVideoBox($post) {
 	
 	return $output;
 }
-function embeddedMusicBox($post, $board) {
-	if(KU_MP3 == 'google') {
-		$output = '<span style="float: left;">' . "\n";
-		$output .= '<embed type="application/x-shockwave-flash" src="http://www.google.com/reader/ui/3247397568-audio-player.swf?audioUrl='. KU_WEBPATH . '/' . $board . '/src/'. $post['filename'] . '.' . $post['filetype'] . '" width="400" height="27" allowscriptaccess="never" quality="best" bgcolor="#ffffff" wmode="window" flashvars="playerMode=embedded" /></embed>';
-		$output .= '</span>&nbsp;' . "\n";
-	}
-	return $output;
-}
 
 /**
  * Check if the supplied md5 file hash is currently recorded inside of the database, attached to a non-deleted post
@@ -70,18 +62,48 @@ function checkMd5($md5, $board) {
  * @return boolean Success/fail 
  */ 
 function createThumbnail($name, $filename, $new_w, $new_h) {
+	global $board_class;
 	_log(sprintf("%s will be %s, dims %d x %d\n", $name, $filename, $new_w, $new_h));
-	if (KU_THUMBMETHOD == 'imagemagick') {
-		$convert = 'convert ' . escapeshellarg($name) . ' ';
-		if (!KU_ANIMATEDTHUMBS) {
-			$convert .= '-coalesce ';
-		}
-		$convert .= '-resize ' . $new_w . 'x' . $new_h . ' -quality ';
-		if (substr($filename, 0, -3) != 'gif') {
-			$convert .= '70';
+	$filetype = preg_replace('/.*\.(.+)/', '\1', $name);
+	if ($board_class->allowed_file_types[$filetype][0] == 'video'){
+		$videowidth = exec('ffprobe -v quiet -show_entries stream=width -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
+		$videoheight = exec('ffprobe -v quiet -show_entries stream=height -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
+		
+		$convert = 'ffmpeg -i '.escapeshellarg($name).' -q 1 -frames:v 1 ';
+		if ( ($videowidth / $new_w) > ($videoheight / $new_h) ) {
+			$convert .= '-vf "scale=' . $new_w . ':-1:flags=lanczos" ';
 		} else {
-			$convert .= '90';
+			$convert .= '-vf "scale=-1:' . $new_h . ':flags=lanczos" ';
 		}
+		$convert .= escapeshellarg($filename);
+		exec($convert);
+		
+		if (is_file($filename)) {
+			return true;
+		} else {
+			return false;
+		}
+	} elseif (KU_THUMBMETHOD == 'imagemagick') {
+		// ImageMagick v6.x does not have `magick` command, only `convert`:
+		$convert = 'convert ' . escapeshellarg($name);
+		if (substr($filename, -4) == '.gif') { // special GIF processing:
+			if (KU_ANIMATEDTHUMBS) {
+				$convert .= ' -coalesce';
+			} else {
+				$convert .= '[0]'; // grab only the 0th frame of the GIF
+			}
+		} else $convert .= ' +profile "*"'; // removes ICM/EXIF/IPTC/other profiles,
+		//see https://legacy.imagemagick.org/script/command-line-options.php#profile
+		$convert .= ' -resize ' . $new_w . 'x' . $new_h . '\>'; // escape from shell
+		//The `-quality` option is actually quite format-specific in ImageMagick,
+		//see https://legacy.imagemagick.org/script/command-line-options.php#quality
+		if (substr($filename, -4) == '.png') {
+			$convert .= ' -quality 95'; // 9 = zlib level 9; 5 = adaptive filter
+		} elseif (substr($filename, -4) != '.gif') {
+			$convert .= ' -quality 80'; // does not make any sense to apply it to GIFs
+		} else $convert .= ' -dither FloydSteinberg'; //change GIF dithering method,
+		// see https://www.imagemagick.org/Usage/quantize/#dither_how for an example
+		// (note: Floyd-Steinberg used instead of Riemersma to lessen the speckling)
 		$convert .= ' ' . escapeshellarg($filename);
 		exec($convert);
 		
@@ -98,14 +120,14 @@ function createThumbnail($name, $filename, $new_w, $new_h) {
 		$imagewidth = exec('ffprobe -v quiet -show_entries stream=width -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
 		$imageheight = exec('ffprobe -v quiet -show_entries stream=height -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
 		
-		if (substr($filename, 0, -3) != 'gif') { // not GIF, ignores KU_ANIMATEDTHUMBS
+		if (substr($filename, -4) != '.gif') { // not GIF, ignores KU_ANIMATEDTHUMBS
 			$convert = 'ffmpeg -i ' . escapeshellarg($name);
 			if ( ($imagewidth / $new_w) > ($imageheight / $new_h) ) {
 				$convert .= ' -vf "scale=' . $new_w . ':-1:flags=lanczos" ';
 			} else {
 				$convert .= ' -vf "scale=-1:' . $new_h . ':flags=lanczos" ';
 			}
-			if (substr($filename, 0, -3) == 'jpg') {
+			if (substr($filename, -4) == '.jpg') {
 				$convert .= '-q 1 '; // 89%, see http://www.ffmpeg-archive.org/Create-high-quality-JPEGs-td4669205.html
 			}
 			$convert .= escapeshellarg($filename);

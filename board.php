@@ -461,7 +461,6 @@ if ($posting_class->CheckValidPost($is_oekaki)) {
 			$tripcode = '';
 		}
 		
-		$filetype_withoutdot = substr($upload_class->file_type, 1);
 		$post_passwordmd5 = ($post_password == '') ? '' : md5($post_password);
 		
 		if ($post_autosticky == true) {
@@ -534,7 +533,7 @@ if ($posting_class->CheckValidPost($is_oekaki)) {
 			}	
 			$post_class = new Post(0, $board_class->board_dir, true);
 			$time = time();
-			$post_id = $post_class->Insert($thread_replyto, $post['name'], $post['tripcode'], $post['email'], $post['subject'], addslashes($post['message']), $upload_class->file_name, $upload_class->original_file_name, $filetype_withoutdot, $upload_class->file_md5, $upload_class->imgWidth, $upload_class->imgHeight, $upload_class->file_size, $upload_class->imgWidth_thumb, $upload_class->imgHeight_thumb, $post_passwordmd5, $time, $time, $_SERVER['REMOTE_ADDR'], $user_authority_display, $post['tag'], $sticky, $lock);
+			$post_id = $post_class->Insert($thread_replyto, $post['name'], $post['tripcode'], $post['email'], $post['subject'], addslashes($post['message']), $upload_class->file_name, $upload_class->original_file_name, $upload_class->file_type, $upload_class->file_md5, $upload_class->imgWidth, $upload_class->imgHeight, $upload_class->file_size, $upload_class->imgWidth_thumb, $upload_class->imgHeight_thumb, $post_passwordmd5, $time, $time, $_SERVER['REMOTE_ADDR'], $user_authority_display, $post['tag'], $sticky, $lock);
 			if(KU_SEARCH == 1) {
 				create_search_record($post_id, $thread_replyto, $post['board'], $raw_message, $time);
 			}
@@ -650,7 +649,7 @@ if (KU_RSS) {
 	require_once KU_ROOTDIR . 'inc/classes/rss.class.php';
 	$rss_class = new RSS();
 	
-	print_page(KU_BOARDSDIR.$_POST['board'].'/rss.xml',$rss_class->GenerateRSS($_POST['board']),$_POST['board']);
+	print_page(KU_BOARDSDIR.$_POST['board'].'/rss.xml',$rss_class->GenerateRSS($_POST['board'], $board_class),$_POST['board']);
 }
 
 if ($board_class->board_redirecttothread == 1 || isset($_POST['noko']) && $_POST['noko'] == 'on') {

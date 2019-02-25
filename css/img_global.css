@@ -55,14 +55,14 @@ form .trap {
 
 .thumb {
 	border: none;
-	background-size: 100% 100%;
 	display: block;
-	margin-bottom: 4px;
+	-moz-force-broken-image-icon: 1;
 }
 
 .imglink {
 	float: left;
-	margin: 2px 20px;
+	margin: 2px 20px 4px;
+	position: relative;
 }
 
 .thumb[src*="/src/"] {
@@ -71,11 +71,17 @@ form .trap {
 	height: auto;
 }
 
+.gen3foreground {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
 .nothumb {
 	float: left;
 	text-align: center;
 	padding: 14px;
-	margin: 0 20px 2px 20px;
+	margin: 0 20px 4px;
 	border: 3px dashed;
 }
 
@@ -711,7 +717,7 @@ input[type=text], input[type=password], textarea {
 	}
 
 	.imglink {
-		margin: 2px 4px;
+		margin: 2px 4px 4px;
 	}
 
 	.adminbar select {
@@ -736,7 +742,7 @@ input[type=text], input[type=password], textarea {
 		background: #eee;
 		border: 2px dashed #aaa;
 		text-align: center;
-		margin: 2px 4px;
+		margin: 2px 4px 4px;
 		padding: 1em 0.5em 1em 0.5em;
 	}
 	.adminbar img[src="/css/icons/red/wt.svg"], img[src="/css/icons/red/search.svg"]{
@@ -777,9 +783,7 @@ input[type=text], input[type=password], textarea {
 
 /* jQuery-based remake of scripts (2018) is supported by the following: */
 
-#watchedthreadsdraghandle {
-	width: 100%;
-}
+span.removeExpandedImg,
 #watchedthreads {
 	-webkit-transition-property: opacity;
 	-webkit-transition-duration: 0.5s;
@@ -788,13 +792,20 @@ input[type=text], input[type=password], textarea {
 	transition-duration: 0.5s;
 	transition-timing-function: ease-in-out;
 }
+#watchedthreadsdraghandle {
+	width: 100%;
+}
 .videoplayer410, .audioplayer410 {
 	max-width: 100%;
 	height: auto;
 	box-sizing: border-box;
-	margin: 2px 20px;
+	margin: 0;
+	padding: 2px 20px 4px 4px;
 	float: left;
 	clear: left;
+}
+.videoplayer410 {
+	max-height: calc(100vh - 64px);
 }
 .hidevideo, .hideaudio {
 	padding: 2px 20px 2px 0;

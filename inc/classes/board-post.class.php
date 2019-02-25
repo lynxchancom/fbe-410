@@ -329,6 +329,14 @@ class Board {
 	 * @var class Load balancer
 	 */	 
 	var $loadbalancer;
+ 	/**
+ 	 * Allowed file types
+ 	 *
+ 	 * @var array Filetypes
+ 	 *
+ 	 */
+ 	var $allowed_file_types;
+ 
 	
 	/**
 	 * Initialization function for the Board class, which is called when a new
@@ -378,8 +386,22 @@ class Board {
 				$this->board_enablecatalog            = $line['enablecatalog'];
 				$this->board_loadbalanceurl           = $line['loadbalanceurl'];
 				$this->board_loadbalancepassword      = $line['loadbalancepassword'];
-				$this->board_loadbalanceurl_formatted = ($line['loadbalanceurl'] != '') ? substr($line['loadbalanceurl'], 0, strrpos($line['loadbalanceurl'], '/')) : '';
+ 				$this->board_enablesoundinvideo	      = $line['enablesoundinvideo'];
+ 				$this->board_maxvideolength           = $line['maxvideolength'];
+  				$this->board_loadbalanceurl_formatted = ($line['loadbalanceurl'] != '') ? substr($line['loadbalanceurl'], 0, strrpos($line['loadbalanceurl'], '/')) : '';
+ 				$this->allowed_file_types['video']    = [];
+ 				$this->allowed_file_types['image']    = [];
+ 				$this->allowed_file_types['misc']    = [];
 			}
+			/* Populate allowed filetypes 
+			 * As a hack, also map filetypes back to their media type */
+ 			$query = "SELECT f.`filetype`, f.`mediatype`, f.`image`, f.`image_w`, f.`image_h` FROM `".KU_DBPREFIX."board_filetypes` AS b JOIN `".KU_DBPREFIX."filetypes` AS f ON f.`id` = b.`typeid` WHERE b.`boardid` = '".$this->board_id."'";
+ 			$results = $tc_db->GetAll($query);
+ 			$c = 0;
+ 			foreach($results AS $line) {
+				array_push($this->allowed_file_types[$line[1]], $line[0]);
+				$this->allowed_file_types[$line[0]] = [$line[1], $line[2], $line[3], $line[4]];
+ 			}
 			
 			/* Format the postbox according to this board */
 			 $this->board_postboxnotice = $this->FormatPostbox(KU_POSTBOX, $this->board_dir, $this->board_locale);
@@ -619,12 +641,18 @@ class Board {
 						$catalog_page .= '<a href="' . KU_BOARDSFOLDER . $this->board_dir . '/res/' . $line['id'] . '.html">' .
 							'<div class="' . $catalog_class . '">' . "\n";
 						if ($line['filename'] != '' && $line['filename'] != 'removed') {
-							if ($line['filetype'] == 'jpg' || $line['filetype'] == 'png' || $line['filetype'] == 'gif') {
-								$file_path = getCLBoardPath($this->board_dir, $this->board_loadbalanceurl_formatted, $this->archive_dir);
+							$file_path = getCLBoardPath($this->board_dir, $this->board_loadbalanceurl_formatted, $this->archive_dir);
+							$media_type = $this->allowed_file_types[$line['filetype']][0];
+							if ($media_type == 'image'){
 								$catalog_page .= '<img class="catalogpic" src="' . $file_path . '/thumb/' . $line['filename'] . 'c.' . $line['filetype'] . '" alt="' . $line['id'] . '">';
-							} else {
-								$catalog_page .= _gettext('File');
 							}
+							elseif ($media_type == 'video'){
+								$catalog_page .= '<img src="' . $file_path . '/thumb/' . $line['filename'] . 'c.jpg" alt="' . $line['id'] . '" border="0">';
+							}
+							else{
+								$catalog_page .= '<img src="' .  $this->allowed_file_types[$line['filetype']][1] . '" alt="' . $line['id'] . '" border="0">';
+							}
+
 						} elseif ($line['filename'] == 'removed') {
 							$catalog_page .= '<div hspace="20" style="text-align:center;padding:14px;margin:3px;border:black 3px dashed;">'. _gettext('File<br>Removed') .'</div>';
 						} else {
@@ -1025,7 +1053,7 @@ class Board {
 							$buildthread_replies .= $this->BuildPost($page, $this->board_dir, $this->board_type, $line_reply);
 						}
 						if (!$page && $expandjavascript != '') {
-							$expandjavascript = '<a class="expandAllImg" href="#">' . _gettext('Expand all images') . '</a>';
+							$expandjavascript = '<a class="expandAllImg" href="#" data-remove="' . _gettext('Remove') . '">' . _gettext('Expand all images') . '</a>';
 						} else {
 							$expandjavascript = '';
 						}
@@ -1202,19 +1230,25 @@ class Board {
 			$post_is_standard = true;
 			$post_is_nofile = true;
 			$file_path = getCLBoardPath($this->board_dir, $this->board_loadbalanceurl_formatted, $this->archive_dir);
-			$post_thumb = $file_path . '/thumb/' . htmlspecialchars($post['filename'], ENT_QUOTES) . 's.' . $post['filetype'];
+			$post_thumb = '';
+
 			if ($post['filename'] != '' || $post['filetype'] != '' || $post_is_thread != '') {
 				$post_is_nofile = false;
 				if ($post['filename']=='removed') {
 					$post_thumb = 'removed';
 				} else {
 					/* Check if the filetype is not a default type */
-					if ($post['filetype']!='jpg'&&$post['filetype']!='gif'&&$post['filetype']!='png'&&$post['filetype']!='you'&&$post['filetype']!='goo'&&$post['filetype']!='red'&&$post['filetype']!='5min') {
-						$post_is_standard = false;
-						$filetype_info = getfiletypeinfo($post['filetype']);
-						$post_thumb = KU_WEBPATH . '/inc/filetypes/' . $filetype_info[0];
-						$post['thumb_w'] = $filetype_info[1];
-						$post['thumb_h'] = $filetype_info[2];
+					$media_type = $this->allowed_file_types[$post['filetype']][0];
+					if($media_type == 'image'){
+						$post_thumb = $file_path . '/thumb/' . htmlspecialchars($post['filename'], ENT_QUOTES) . 's.' . $post['filetype'];
+					}
+					elseif($media_type == 'video'){
+						$post_thumb = $file_path . '/thumb/' . htmlspecialchars($post['filename'], ENT_QUOTES) . 's.jpg';
+					}
+					else{
+						$post_thumb = KU_WEBPATH . '/inc/filetypes/' . $this->allowed_file_types[$post['filetype']][1];
+						$post['thumb_w'] = $this->allowed_file_types[$post['filetype']][2];
+						$post['thumb_h'] = $this->allowed_file_types[$post['filetype']][3];
 					}
 				}
 			}
@@ -1253,7 +1287,7 @@ class Board {
 					$info_file .= ', ' . $post['image_w'] . '×' . $post['image_h'];
 				}
 				if ($post['filename_original'] != '' && $post['filename_original'] != $post['filename']) {
-					$info_file .= ', ' . htmlspecialchars($post['filename_original'], ENT_QUOTES) . '.' . $post['filetype'];
+					$info_file .= ', ' . htmlspecialchars($post['filename_original']) . '.' . $post['filetype'];
 				}
 				$info_file .= ')</span>' . "\n";
 				if (KU_THUMBMSG) {
@@ -1392,9 +1426,6 @@ class Board {
 			$buildpost_output .= sprintf("<div class=\"postbody\"><blockquote id=\"post%d\">\n", $post['id']);
 			if ($post['filetype'] == 'you' || $post['filetype'] == 'goo' || $post['filetype'] == 'red' || $post['filetype'] == '5min') {
 				$buildpost_output .= embeddedVideoBox($post);
-			}
-			if($post['filetype'] == 'mp3' || $post['filetype'] == 'ogg') {
-				$buildpost_output .= embeddedMusicBox($post, $this->board_dir);
 			}
 			
 			$buildpost_output .= formatLongMessage($post['message'], $this->board_dir, $post_thread_start_id, $page);
@@ -2120,7 +2151,7 @@ size="28" maxlength="20" accesskey="c">' . "\n" .
 					if ($this->board_enablefaptcha == 1) {
 						$output .= '<tr>' . "\n" .
 						'	<td class="'.$label_class.'" align="center">' . "\n" .
-						'		<a href="#" onclick="document.getElementById(\'faptchaimage\').src = \'' . KU_CGIPATH . '/faptcha.php?board='.$this->board_dir.'&amp;\' + Math.random();return false;"><img id="faptchaimage" src="' . KU_CGIPATH . '/faptcha.php?board='.$this->board_dir.'" border="0" width="90" height="50" alt="Animapcha image"></a>' . "\n" .
+						'		<a class="faplink" href="#"><img id="faptchaimage" src="' . KU_CGIPATH . '/faptcha.php?board='.$this->board_dir.'" border="0" width="90" height="50" alt="Animapcha image"></a>' . "\n" .
 						'	</td>' . "\n" .
 						'	<td>' . "\n" .
 						'		<input type="text" name="faptcha" id="faptcha_input"
@@ -2535,21 +2566,32 @@ class Post extends Board {
 	function Delete($allow_archive = false) {
 		global $tc_db;
 //		echo "$allow_archive, $this->post_isthread, $this->board_enablearchiving";
-		
+
+		/* We are redefining the thumbnail position here to correctly handle video miniatures.
+		 * Be aware: to handle filetypes with 'default' miniatures, copy is called with @,
+		 * meaning that any error is suppressed */
+ 		$thumb_filetype = $this->post_filetype;
+ 		if($this->allowed_file_types[$thumb_filetype][0] == 'video'){
+ 			$thumb_filetype = 'jpg';
+ 		}
 		$i = 0;
 		if ($this->post_isthread == true) {
 			if ($allow_archive && $this->board_enablearchiving == 1 && $this->board_loadbalanceurl == '') {
 				$this->ArchiveMode(true);
 				$this->RegenerateThread($this->post_id);
 				@copy(KU_BOARDSDIR . $this->board_dir . '/src/' . $this->post_filename . '.' . $this->post_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $this->post_filename . '.' . $this->post_filetype);
-				@copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $this->post_filename . 's.' . $this->post_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $this->post_filename . 's.' . $this->post_filetype);
+				@copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $this->post_filename . 's.' . $this->post_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $this->post_filename . 's.' . $thumb_filetype);
 			}
 			$results = $tc_db->GetAll("SELECT `id`, `filename`, `filetype` FROM `".KU_DBPREFIX."posts_".$this->board_dir."` WHERE `IS_DELETED` = 0 AND `parentid` = ".mysqli_real_escape_string($tc_db->link, $this->post_id));
 			foreach($results AS $line) {
 				$i++;
+ 				$thumb_filetype = line['filetype'];
+				if($this->allowed_file_types[$thumb_filetype][0] == 'video'){
+					$thumb_filetype = 'jpg';
+				}
 				if ($allow_archive && $this->board_enablearchiving == 1) {
 					@copy(KU_BOARDSDIR . $this->board_dir . '/src/' . $line['filename'] . '.' . $line['filetype'], KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $line['filename'] . '.' . $line['filetype']);
-					@copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $line['filename'] . 's.' . $line['filetype'], KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $line['filename'] . 's.' . $line['filetype']);
+					@copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $line['filename'] . 's.' . $line['filetype'], KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype);
 				}
 			}
 			if ($allow_archive && $this->board_enablearchiving == 1) {
@@ -2613,10 +2655,14 @@ class Post extends Board {
 						if ($this->board_loadbalanceurl != '') {
 							$this->loadbalancer->Delete($line['filename'], $line['filetype']);
 						} else {
-							@unlink(KU_BOARDSDIR.$this->board_dir.'/src/'.$line['filename'].'.'.$line['filetype']);
-							@unlink(KU_BOARDSDIR.$this->board_dir.'/src/'.$line['filename'].'.pch');
-							@unlink(KU_BOARDSDIR.$this->board_dir.'/thumb/'.$line['filename'].'s.'.$line['filetype']);
-							@unlink(KU_BOARDSDIR.$this->board_dir.'/thumb/'.$line['filename'].'c.'.$line['filetype']);
+ 							# If you have files with same names but diffirent filetypes, 
+ 							# and only one of those need to be deleted,
+ 							# then something's wrong with you or your install
+ 							@array_map('unlink', KU_BOARDSDIR.$this->board_dir.'/src/'.$line['filename'].'.*');
+ 							# In case this lives long enough that we get another digit, we can't
+ 							# use * after original filename. We can use ? however, and prey for well-behaved
+ 							# server and maintainer
+ 							@array_map('unlink', KU_BOARDSDIR.$this->board_dir.'/thumb/'.$line['filename'].'?.*');
 						}
 						if ($update_to_removed) {
 							$tc_db->Execute("UPDATE `".KU_DBPREFIX."posts_".$this->board_dir."` SET `filename` = 'removed', `filemd5` = '' WHERE `id` = ".$line['id']." LIMIT 1");
@@ -2631,10 +2677,10 @@ class Post extends Board {
 				if ($this->board_loadbalanceurl != '') {
 					$this->loadbalancer->Delete($this->post_filename, $this->post_filetype);
 				} else {
-					@unlink(KU_BOARDSDIR.$this->board_dir.'/src/'.$this->post_filename.'.'.$this->post_filetype);
-					@unlink(KU_BOARDSDIR.$this->board_dir.'/src/'.$this->post_filename.'.pch');
-					@unlink(KU_BOARDSDIR.$this->board_dir.'/thumb/'.$this->post_filename.'s.'.$this->post_filetype);
-					@unlink(KU_BOARDSDIR.$this->board_dir.'/thumb/'.$this->post_filename.'c.'.$this->post_filetype);
+ 					# If I wasn't here for quick fixes, this code would've gone into a function
+ 					# See notes above
+ 					@array_map('unlink', KU_BOARDSDIR.$this->board_dir.'/src/'.$line['filename'].'.*');
+ 					@array_map('unlink', KU_BOARDSDIR.$this->board_dir.'/thumb/'.$line['filename'].'?.*');
 				}
 				if ($update_to_removed) {
 					$tc_db->Execute("UPDATE `".KU_DBPREFIX."posts_".$this->board_dir."` SET `filename` = 'removed', `filemd5` = '' WHERE `id` = ".mysqli_real_escape_string($tc_db->link, $this->post_id)." LIMIT 1");
