@@ -2629,7 +2629,30 @@ class Post extends Board {
 			return $i.' ';
 		} else {
 			$this->DeleteFile(false);
+			// If we were to revert the last bump, then we'd need to make sure:
+			// 1. The deletion order is ALWAYS from earliest to newest posts (by default)
+			// 2. Revertion only happens if it is the last post and the thread is NOT in bumplimit
+			// 3. These checks are only relevant if we're not deleting the entire thread
+			// 4. A potentional optimisation would be to allow bulk deletions - less DB interations (probably), but way more logic
+
+			// Start transaction, delete post
+			$tc_db->Execute("START TRANSACTION");
 			$tc_db->Execute("UPDATE `".KU_DBPREFIX."posts_".$this->board_dir."` SET `IS_DELETED` = 1 , `deletedat` = '" . time() . "' WHERE `id` = ".mysqli_real_escape_string($tc_db->link, $this->post_id)." LIMIT 1");
+
+			// Now perform checks
+			$cnt = $tc_db->GetOne("SELECT COUNT(*) FROM `".KU_DBPREFIX."posts_".$this->board_dir."` WHERE `id` > ".mysqli_real_escape_string($tc_db->link, $this->post_id)." AND `parentid` = ".mysqli_real_escape_string($tc_db->link, $this->post_parentid)." AND `IS_DELETED` = 0");
+			if($cnt == 0){
+				// We were on the last post
+				// Get count of posts in thread now and date of now last post
+				// Don't use lastbump as we could remove it entirelly later
+				$res = $tc_db->GetOne("SELECT COUNT(*), MAX(postedat) FROM `".KU_DBPREFIX."posts_".$this->board_dir."` WHERE `parentid` = ".mysqli_real_escape_string($tc_db->link, $this->post_parentid));
+				if($res[0] < $this->board_maxreplies){
+					// We were in the position where last post was still bumping
+					$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "posts_" . $this->board_dir . "` SET `lastbumped` = ".mysqli_real_escape_string($tc_db->link, $res[1]));
+				}
+			}
+
+			$tc_db->Execute("COMMIT");
 			clearPostCache($this->post_id, $this->board_dir);
 			
 			if(KU_SEARCH == 1) {
