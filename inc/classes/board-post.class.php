@@ -2642,7 +2642,6 @@ class Post extends Board {
 
 			// Now perform checks
 			$cnt = $tc_db->GetAll("SELECT COUNT(*), COUNT(IF(`id` > ".mysqli_real_escape_string($tc_db->link, $this->post_id).",1,NULL)), MAX(postedat) FROM `".KU_DBPREFIX."posts_".$this->board_dir."` WHERE `parentid` = ".mysqli_real_escape_string($tc_db->link, $this->post_parentid)." AND `IS_DELETED` = 0");
-					trigger_error("parent ".$this->post_parentid." count ".$cnt[0][0]." date ".$cnt[0][2]." ".$cnt[0][1]);
 			if($cnt[0][1] == 0){
 				// We were on the last post
 				// Get count of posts in thread now and date of now last post
