@@ -300,7 +300,7 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	background: transparent url('./icons/blue/icons.svg') 0px 0px no-repeat !important;
 }
 
-.hidewatchedthreads:hover {
+.hidewatchedthreads:hover, .hidebutton:hover {
 	background: transparent url('./icons/blue/icons.svg') -48px -16px no-repeat !important;
 }
 

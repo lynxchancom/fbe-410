@@ -179,7 +179,7 @@ form .trap {
 	background: transparent url('./icons/red/icons.svg') 0px 0px no-repeat;
 }
 
-.hidewatchedthreads {
+.hidewatchedthreads, .hidebutton {
 	background: transparent url('./icons/red/icons.svg') -48px -16px no-repeat;
 }
 
@@ -636,7 +636,7 @@ input[type=text], input[type=password], textarea {
 		background: transparent url('./icons/red/icons.svg') 0px 0px no-repeat;
 	}
 
-	.hidewatchedthreads {
+	.hidewatchedthreads, .hidebutton {
 		background: transparent url('./icons/red/icons.svg') -48px -16px no-repeat;
 	}
 
