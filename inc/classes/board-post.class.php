@@ -2644,7 +2644,7 @@ class Post extends Board {
 			// Get new postcount, number of posts after the deleted one (0 if it was the last post) and datetime of now last post
 			// Don't use lastbump as we can get rid of it later
 			$cnt = $tc_db->GetAll("SELECT COUNT(*), COUNT(IF(`id` > ".mysqli_real_escape_string($tc_db->link, $this->post_id).",1,NULL)), MAX(postedat) FROM `".KU_DBPREFIX."posts_".$this->board_dir."` WHERE `parentid` = ".mysqli_real_escape_string($tc_db->link, $this->post_parentid)." AND `IS_DELETED` = 0");
-			if($cnt[0][1] == 0){
+			if($cnt[0][1] == 0 && $cnt[0][2){
 				// We were on the last post
 				if($cnt[0][0] < $this->board_maxreplies){
 					// We were in the position where last post was still bumping
