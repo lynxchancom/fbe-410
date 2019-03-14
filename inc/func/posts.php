@@ -85,8 +85,8 @@ function createThumbnail($name, $filename, $new_w, $new_h) {
 		}
 	} elseif (KU_THUMBMETHOD == 'imagemagick') {
 		// ImageMagick v6.x does not have `magick` command, only `convert`:
-		$convert = 'convert ' . escapeshellarg($name);
-		if (substr($filename, -4) == '.gif') { // special GIF processing:
+		$convert = 'convert ' . $filetype . ':' . escapeshellarg($name);
+		if ($filetype == 'gif') { // special GIF processing:
 			if (KU_ANIMATEDTHUMBS) {
 				$convert .= ' -coalesce';
 			} else {
@@ -120,8 +120,8 @@ function createThumbnail($name, $filename, $new_w, $new_h) {
 		$imagewidth = exec('ffprobe -v quiet -show_entries stream=width -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
 		$imageheight = exec('ffprobe -v quiet -show_entries stream=height -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
 		
-		if (substr($filename, -4) != '.gif') { // not GIF, ignores KU_ANIMATEDTHUMBS
-			$convert = 'ffmpeg -i ' . escapeshellarg($name);
+		if ($filetype != 'gif') { // not GIF, ignores KU_ANIMATEDTHUMBS
+			$convert = 'ffmpeg -i ' . escapeshellarg($name) . ' -f ' . $filetype;
 			if ( ($imagewidth / $new_w) > ($imageheight / $new_h) ) {
 				$convert .= ' -vf "scale=' . $new_w . ':-1:flags=lanczos" ';
 			} else {
@@ -133,8 +133,8 @@ function createThumbnail($name, $filename, $new_w, $new_h) {
 			$convert .= escapeshellarg($filename);
 			exec($convert);
 		} else { // high quality GIF, see http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html
-			$palette = 'ffmpeg -i ' . escapeshellarg($name);
-			$convert = 'ffmpeg -i ' . escapeshellarg($name);
+			$palette = 'ffmpeg -i ' . escapeshellarg($name) . ' -f gif';
+			$convert = 'ffmpeg -i ' . escapeshellarg($name) . ' -f gif';
 			$convert .= ' -i ' . escapeshellarg($filename . '.palette.png');
 			if (!KU_ANIMATEDTHUMBS) {
 				$palette .= ' -vframes 1';
