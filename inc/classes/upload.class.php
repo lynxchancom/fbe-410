@@ -195,19 +195,23 @@ class Upload {
 									if ((!$this->isreply && ($this->imgWidth > KU_THUMBWIDTH || $this->imgHeight > KU_THUMBHEIGHT)) || ($this->isreply && ($this->imgWidth > KU_REPLYTHUMBWIDTH || $this->imgHeight > KU_REPLYTHUMBHEIGHT)) || $board_class->allowed_file_types[$this->file_type][0] == 'video') {
 										if (!$this->isreply) {
 											if (!createThumbnail($this->file_location, $this->file_thumb_location, KU_THUMBWIDTH, KU_THUMBHEIGHT)) {
+												unlink($this->file_location);
 												exitWithErrorPage(_gettext('Could not create thumbnail.'));
 											}
 										} else {
 											if (!createThumbnail($this->file_location, $this->file_thumb_location, KU_REPLYTHUMBWIDTH, KU_REPLYTHUMBHEIGHT)) {
+												unlink($this->file_location);
 												exitWithErrorPage(_gettext('Could not create thumbnail.'));
 											}
 										}
 									} else {
 										if (!createThumbnail($this->file_location, $this->file_thumb_location, $this->imgWidth, $this->imgHeight)) {
+											unlink($this->file_location);
 											exitWithErrorPage(_gettext('Could not create thumbnail.'));
 										}
 									}
 									if (!createThumbnail($this->file_location, $this->file_thumb_cat_location, KU_CATTHUMBWIDTH, KU_CATTHUMBHEIGHT)) {
+										unlink($this->file_location);
 										exitWithErrorPage(_gettext('Could not create thumbnail.'));
 									}
 									$imageDim_thumb = getimagesize($this->file_thumb_location);
@@ -215,6 +219,7 @@ class Upload {
 									$this->imgHeight_thumb = $imageDim_thumb[1];
 									$imageused = true;
 								} else {
+									unlink($this->file_location);
 									exitWithErrorPage(_gettext('File was not fully uploaded.  Please go back and try again.'));
 								}
 							}

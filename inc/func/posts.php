@@ -85,8 +85,8 @@ function createThumbnail($name, $filename, $new_w, $new_h) {
 		}
 	} elseif (KU_THUMBMETHOD == 'imagemagick') {
 		// ImageMagick v6.x does not have `magick` command, only `convert`:
-		$convert = 'convert ' . escapeshellarg($name);
-		if (substr($filename, -4) == '.gif') { // special GIF processing:
+		$convert = 'convert ' . $filetype . ':' . escapeshellarg($name);
+		if ($filetype == 'gif') { // special GIF processing:
 			if (KU_ANIMATEDTHUMBS) {
 				$convert .= ' -coalesce';
 			} else {
@@ -97,9 +97,9 @@ function createThumbnail($name, $filename, $new_w, $new_h) {
 		$convert .= ' -resize ' . $new_w . 'x' . $new_h . '\>'; // escape from shell
 		//The `-quality` option is actually quite format-specific in ImageMagick,
 		//see https://legacy.imagemagick.org/script/command-line-options.php#quality
-		if (substr($filename, -4) == '.png') {
+		if ($filetype == '.png') {
 			$convert .= ' -quality 95'; // 9 = zlib level 9; 5 = adaptive filter
-		} elseif (substr($filename, -4) != '.gif') {
+		} elseif ($filetype != '.gif') {
 			$convert .= ' -quality 80'; // does not make any sense to apply it to GIFs
 		} else $convert .= ' -dither FloydSteinberg'; //change GIF dithering method,
 		// see https://www.imagemagick.org/Usage/quantize/#dither_how for an example
@@ -120,21 +120,21 @@ function createThumbnail($name, $filename, $new_w, $new_h) {
 		$imagewidth = exec('ffprobe -v quiet -show_entries stream=width -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
 		$imageheight = exec('ffprobe -v quiet -show_entries stream=height -of default=noprint_wrappers=1:nokey=1 '. escapeshellarg($name));
 		
-		if (substr($filename, -4) != '.gif') { // not GIF, ignores KU_ANIMATEDTHUMBS
-			$convert = 'ffmpeg -i ' . escapeshellarg($name);
+		if ($filetype != 'gif') { // not GIF, ignores KU_ANIMATEDTHUMBS
+			$convert = 'ffmpeg -f image2 -pattern_type none -i ' . escapeshellarg($name);
 			if ( ($imagewidth / $new_w) > ($imageheight / $new_h) ) {
 				$convert .= ' -vf "scale=' . $new_w . ':-1:flags=lanczos" ';
 			} else {
 				$convert .= ' -vf "scale=-1:' . $new_h . ':flags=lanczos" ';
 			}
-			if (substr($filename, -4) == '.jpg') {
+			if ($filetype == 'jpg') {
 				$convert .= '-q 1 '; // 89%, see http://www.ffmpeg-archive.org/Create-high-quality-JPEGs-td4669205.html
 			}
 			$convert .= escapeshellarg($filename);
 			exec($convert);
 		} else { // high quality GIF, see http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html
-			$palette = 'ffmpeg -i ' . escapeshellarg($name);
-			$convert = 'ffmpeg -i ' . escapeshellarg($name);
+			$palette = 'ffmpeg -f gif -i ' . escapeshellarg($name);
+			$convert = 'ffmpeg -f gif -i ' . escapeshellarg($name);
 			$convert .= ' -i ' . escapeshellarg($filename . '.palette.png');
 			if (!KU_ANIMATEDTHUMBS) {
 				$palette .= ' -vframes 1';
