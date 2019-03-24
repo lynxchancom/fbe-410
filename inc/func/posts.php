@@ -97,9 +97,9 @@ function createThumbnail($name, $filename, $new_w, $new_h) {
 		$convert .= ' -resize ' . $new_w . 'x' . $new_h . '\>'; // escape from shell
 		//The `-quality` option is actually quite format-specific in ImageMagick,
 		//see https://legacy.imagemagick.org/script/command-line-options.php#quality
-		if ($filetype == '.png') {
+		if ($filetype == 'png') {
 			$convert .= ' -quality 95'; // 9 = zlib level 9; 5 = adaptive filter
-		} elseif ($filetype != '.gif') {
+		} elseif ($filetype != 'gif') {
 			$convert .= ' -quality 80'; // does not make any sense to apply it to GIFs
 		} else $convert .= ' -dither FloydSteinberg'; //change GIF dithering method,
 		// see https://www.imagemagick.org/Usage/quantize/#dither_how for an example
