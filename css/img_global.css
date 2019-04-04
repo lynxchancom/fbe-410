@@ -870,3 +870,7 @@ cursor: n-resize;
 .resizable-resizing-b {
 cursor: s-resize;
 }
+
+.iichanbar{
+	float: left;
+}
