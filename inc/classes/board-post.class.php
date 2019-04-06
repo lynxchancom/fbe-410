@@ -1725,6 +1725,9 @@ class Board {
 			'</script>' . "\n" .
 			'</div>' . "\n";
 		}
+		if(in_array($this->board_dir, CONGLOMERATE)){
+			$output .= $this->smarty->fetch('iichanpanel.tpl');
+		}
 		if ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) 
 		{
 // banner
