@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   version="1.1"
+   id="svg34"
+   inkscape:version="0.92.4 (unknown)"
+   sodipodi:docname="plus.svg">
+  <defs
+     id="defs28" />
+  
+  <metadata
+     id="metadata31">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       style="fill:#d40000;fill-opacity:1;stroke:none"
+       d="M7.9589815 1.0039C6.8522455 1.0039 5.9628875 1.89521 5.9628875 3.00195C5.9628875 3.00195 5.9628875 5.98437 5.9628875 5.98437C5.9628875 5.98437 2.8925755 5.98437 2.8925755 5.98437C1.8529365 5.98437 1.0156225 6.82168 1.0156225 7.86132C1.0156225 7.86132 1.0156225 8.08788 1.0156225 8.08788C1.0156225 9.12753 1.8529365 9.96484 2.8925755 9.96484C2.8925755 9.96484 5.9628875 9.96484 5.9628875 9.96484C5.9628875 9.96484 5.9628875 12.99805 5.9628875 12.99805C5.9628875 14.10479 6.8522455 14.99609 7.9589815 14.99609C7.9589815 14.99609 7.9746115 14.99609 7.9746115 14.99609C9.0813475 14.99609 9.9707055 14.10479 9.9707055 12.99805C9.9707055 12.99805 9.9707055 9.96484 9.9707055 9.96484C9.9707055 9.96484 13.107425 9.96484 13.107425 9.96484C14.147063 9.96484 14.984378 9.12753 14.984378 8.08788C14.984378 8.08788 14.984378 7.86132 14.984378 7.86132C14.984378 6.82168 14.147063 5.98437 13.107425 5.98437C13.107425 5.98437 9.9707005 5.98437 9.9707005 5.98437C9.9707005 5.98437 9.9707005 3.00195 9.9707005 3.00195C9.9707005 1.89521 9.0813425 1.0039 7.9746065 1.0039C7.9746065 1.0039 7.9589815 1.0039 7.9589815 1.0039"
+       id="rect5331" />
+  </g>
+</svg>

@@ -265,3 +265,21 @@ body {
 	border-bottom:1px solid #BBBBBB !important;
 }
 
+.post-badge {
+	fill: white;
+	background: #aba8a6;
+}
+
+.nav-btn {
+	fill: #ff6600;
+}
+
+.post-btn,
+.btn-small {
+	fill: #aba8a6;
+}
+
+.post-btn:hover,
+.btn-small:hover {
+	fill: #ff6600;
+}

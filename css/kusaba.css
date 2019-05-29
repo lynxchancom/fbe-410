@@ -263,3 +263,14 @@ a:hover {
 .thrdcntnr {
 	border-bottom: 1px solid #117743 !important;
 }
+
+.post-badge {
+  fill: white;
+  background: #117743;
+}
+
+.nav-btn,
+.btn-small,
+.post-btn {
+  fill: #117743;
+}
