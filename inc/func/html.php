@@ -100,9 +100,9 @@ function deletionForm($board) {
 function unHideThreadSpan($id, $board) {
 	return '<div class="unhidethread" id="unhidethread' . $id . $board . '" style="display: none;">' . "\n" .
 	'	Thread <a href="' . KU_BOARDSFOLDER . $board . '/res/' . $id . '.html">' . $id . '</a> hidden. ' . "\n" .
-	'	<a href="#" onclick="togglethread(\'' . $id . $board . '\');return false;" title="Un-Hide Thread">' . "\n" .
-	'		<img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="unhidethread" alt="unhide">' . "\n" .
-	'	</a>' . "\n" .
+	'	<a class="btn-small btn-unidethread" href="#" onclick="togglethread(\'' . $id . $board . '\');return false;" title="Un-Hide Thread">' . "\n" .
+	'<svg class="icon icon-16"><use xlink:href="/css/icons/sprite.symbol.svg#plus" width="16" height="16" viewBox="0 0 16 16"></use></svg>' .
+	'</a>' . "\n" .
 	'</div>' . "\n";
 }
 

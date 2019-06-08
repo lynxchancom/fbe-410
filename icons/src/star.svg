@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   version="1.1"
+   id="svg34"
+   inkscape:version="0.92.4 (unknown)"
+   sodipodi:docname="star.svg">
+  <defs
+     id="defs28" />
+  
+  <metadata
+     id="metadata31">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       id="path2383"
+       d="M8.0075658 1.14286C8.0075658 1.14286 5.7531568 5.65816 5.7531568 5.65816C5.7531568 5.65816 0.72991085 6.39287 0.72991085 6.39287C0.72991085 6.39287 4.3763028 9.89796 4.3763028 9.89796C4.3763028 9.89796 3.5138788 14.85715 3.5138788 14.85715C3.5138788 14.85715 8.0075658 12.51529 8.0075658 12.51529C8.0075658 12.51529 12.501252 14.85715 12.501252 14.85715C12.501252 14.85715 11.638828 9.89796 11.638828 9.89796C11.638828 9.89796 15.270089 6.37755 15.270089 6.37755C15.270089 6.37755 10.246843 5.65816 10.246843 5.65816C10.246843 5.65816 8.0075658 1.14286 8.0075658 1.14286"
+       style="opacity:1;stroke-opacity:1;fill-rule:evenodd;fill-opacity:1;stroke-dashoffset:0;stroke:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-width:2.82842712475;fill:#d40000" />
+  </g>
+</svg>

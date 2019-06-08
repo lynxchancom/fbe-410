@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   version="1.1"
+   id="svg34"
+   inkscape:version="0.92.4 (unknown)"
+   sodipodi:docname="minus.svg">
+  <defs
+     id="defs28" />
+  
+  <metadata
+     id="metadata31">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       style="fill:#d40000;fill-opacity:1;stroke:none"
+       d="M2.8925781 6.0097656C1.8529395 6.0097656 1.015625 6.8470801 1.015625 7.8867188C1.015625 7.8867188 1.015625 8.1132812 1.015625 8.1132812C1.015625 9.1529199 1.8529395 9.9902344 2.8925781 9.9902344C2.8925781 9.9902344 13.107422 9.9902344 13.107422 9.9902344C14.147061 9.9902344 14.984375 9.1529199 14.984375 8.1132812C14.984375 8.1132812 14.984375 7.8867188 14.984375 7.8867188C14.984375 6.8470801 14.147061 6.0097656 13.107422 6.0097656C13.107422 6.0097656 2.8925781 6.0097656 2.8925781 6.0097656C2.8925781 6.0097656 2.8925781 6.0097656 2.8925781 6.0097656"
+       id="rect5331-5-8" />
+  </g>
+</svg>

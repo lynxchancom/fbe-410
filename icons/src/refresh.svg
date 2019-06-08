@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   version="1.1"
+   id="svg34"
+   inkscape:version="0.92.4 (unknown)"
+   sodipodi:docname="refresh.svg">
+  <defs
+     id="defs28" />
+  
+  <metadata
+     id="metadata31">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       id="path5455"
+       d="M10.437356 10.34993C10.437356 10.34993 14.069226 11.42501 14.069226 11.42501C1.2681608 21.33618 -2.5471252 7.24541 8.1735938 3.36942C8.1735938 3.36942 6.4943518 1.10723 6.4943518 1.10723C6.4943518 1.10723 13.901472 2.12669 13.901472 2.12669C13.901472 2.12669 11.302619 8.67694 11.302619 8.67694C11.302619 8.67694 9.8542195 5.88638 9.8542195 5.88638C1.4613368 8.12518 5.2057148 13.7957 10.437359 10.34997C10.437359 10.34997 10.437356 10.34993 10.437356 10.34993"
+       style="stroke-linejoin:miter;stroke-opacity:1;fill-rule:evenodd;fill-opacity:1;stroke:none;stroke-linecap:butt;stroke-width:2.82842712475;fill:#d40000" />
+  </g>
+</svg>

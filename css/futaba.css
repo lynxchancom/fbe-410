@@ -199,34 +199,13 @@ a:hover {
 	border-bottom:1px solid #D9BFB7 !important;
 }
 
-.hidethread {
-	background: transparent url('./icons/blue/icons.svg') -32px -16px no-repeat !important;
+.post-badge {
+	fill: white;
+	background: #133b5e;
 }
 
-.unhidethread img {
-	background: transparent url('./icons/blue/icons.svg') -48px 0px no-repeat !important;
-}
-
-.watchthread {
-	background: transparent url('./icons/blue/icons.svg') -32px 0px no-repeat !important;
-}
-
-.expandthread {
-	background: transparent url('./icons/blue/icons.svg') 0px -16px no-repeat !important;
-}
-
-.quickreply {
-	background: transparent url('./icons/blue/icons.svg') 0px 0px no-repeat !important;
-}
-
-.hidewatchedthreads, .hidebutton {
-	background: transparent url('./icons/blue/icons.svg') -48px -16px no-repeat !important;
-}
-
-.refreshwatchedthreads {
-	background: transparent url('./icons/blue/icons.svg') -16px -16px no-repeat !important;
-}
-
-.restorewatchedthreads {
-	background: transparent url('./icons/blue/icons.svg') -16px 0px no-repeat !important;
+.nav-btn,
+.post-btn,
+.btn-small {
+	fill: #133b5e;
 }
