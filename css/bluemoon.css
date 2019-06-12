@@ -204,38 +204,6 @@ input, textarea {
 	border-right: 1px solid #B6C2CF;
 }
 
-.hidethread {
-	background: transparent url('./icons/beige/icons.svg') -32px -16px no-repeat !important;
-}
-
-.unhidethread img {
-	background: transparent url('./icons/beige/icons.svg') -48px 0px no-repeat !important;
-}
-
-.watchthread {
-	background: transparent url('./icons/beige/icons.svg') -32px 0px no-repeat !important;
-}
-
-.expandthread {
-	background: transparent url('./icons/beige/icons.svg') 0px -16px no-repeat !important;
-}
-
-.quickreply {
-	background: transparent url('./icons/beige/icons.svg') 0px 0px no-repeat !important;
-}
-
-.hidewatchedthreads {
-	background: transparent url('./icons/beige/icons.svg') -48px -16px no-repeat !important;
-}
-
-.refreshwatchedthreads {
-	background: transparent url('./icons/beige/icons.svg') -16px -16px no-repeat !important;
-}
-
-.restorewatchedthreads {
-	background: transparent url('./icons/beige/icons.svg') -16px 0px no-repeat !important;
-}
-
 hr {
 	border-style: solid none none none;
 	border-width: 1px;
@@ -271,4 +239,18 @@ hr {
 
 .thrdcntnr {
 	border-bottom:1px solid !important;
+}
+
+.post-badge {
+  fill: white;
+  background: #aba8a6;
+}
+
+.nav-btn {
+	fill: white;
+}
+
+.post-btn,
+.btn-small {
+  fill: #aba8a6;
 }

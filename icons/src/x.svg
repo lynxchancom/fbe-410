@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   version="1.1"
+   id="svg34"
+   inkscape:version="0.92.4 (unknown)"
+   sodipodi:docname="x.svg">
+  <defs
+     id="defs28" />
+  
+  <metadata
+     id="metadata31">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       style="fill:#d40000;fill-opacity:1;stroke:none"
+       d="M11.734373 2.03935C11.182659 2.04235 10.633241 2.25405 10.212888 2.67606C10.212888 2.67606 7.9472627 4.95146 7.9472627 4.95146C7.9472627 4.95146 5.5878877 2.637 5.5878877 2.637C4.7890717 1.85316 3.5085517 1.85971 2.7187477 2.6526C2.7187477 2.6526 2.5468727 2.82448 2.5468727 2.82448C1.7570677 3.6174 1.7656337 4.88829 2.5644527 5.67213C2.5644527 5.67213 4.9238277 7.98659 4.9238277 7.98659C4.9238277 7.98659 2.6191397 10.29909 2.6191397 10.29909C1.7784337 11.14311 1.7864197 12.49402 2.6367197 13.32838C2.6367197 13.32838 2.6484397 13.34008 2.6484397 13.34008C3.4987387 14.17444 4.8604687 14.16653 5.7011737 13.32248C5.7011737 13.32248 8.0039087 11.00998 8.0039087 11.00998C8.0039087 11.00998 10.414065 13.37327 10.414065 13.37327C11.212882 14.15711 12.491448 14.15056 13.281253 13.35767C13.281253 13.35767 13.453128 13.18384 13.453128 13.18384C14.242932 12.39092 14.234366 11.12198 13.435548 10.33813C13.435548 10.33813 11.027344 7.97485 11.027344 7.97485C11.027344 7.97485 13.292969 5.69946 13.292969 5.69946C14.133675 4.85544 14.12569 3.50452 13.275389 2.67016C13.275389 2.67016 13.265589 2.65846 13.265589 2.65846C12.840439 2.24128 12.286052 2.03617 11.734339 2.03932C11.734339 2.03932 11.734373 2.03935 11.734373 2.03935"
+       id="rect5331-3" />
+  </g>
+</svg>

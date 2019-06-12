@@ -34,6 +34,12 @@ error_reporting(E_ALL);
 require_once "lib/search.php";
 
 
+function svgIcon($iconName, $iconSize) {
+	$spriteUrl = KU_WEBPATH.'/css/icons/sprite.symbol.svg';
+	return '<svg class="icon icon-' . $iconSize . '"><use xlink:href="' . $spriteUrl . '#' . $iconName . '" width="' . $iconSize . '" height="' . $iconSize . '" viewBox="0 0 ' . $iconSize . ' ' . $iconSize . '"></use></svg>';
+}
+
+
 function random_appeal($year, $board) 
 { // appeals
 	return array(
@@ -1373,26 +1379,26 @@ class Board {
 			}*/
 			$info_post .= '<span class="extrabtns">' . "\n";
 			if ($post['locked']==1) {
-				$info_post .= '	 <img class="lckd" src="' . getCLBoardPath() . 'css/locked.svg" alt="'._gettext('Locked').'">' . "\n";
+				$info_post .= '	 <span class="post-badge post-badge-locked" title="' . _gettext('Locked') . '">' . svgIcon('locked', '16') . '</span>' . "\n";
 			}
 			if ($post['stickied']==1) {
-				$info_post .= '	<img class="stckd" src="' . getCLBoardPath() . 'css/sticky.svg" alt="'._gettext('Stickied').'">' . "\n";
+				$info_post .= '	<span class="post-badge post-badge-sticky" title="' . _gettext('Stickied') . '">' . svgIcon('sticky', '16') . '</span>' . "\n";
 			}
 			if ($page && $post_is_thread) {
-				$info_post .= '	 <span id="hide' . $post['id'] . '"><a href="#" onclick="togglethread(\'' . $post_thread_start_id . $this->board_dir . '\');return false;" title="Hide Thread"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="hidethread" alt="hide"></a></span>' . "\n";
+				$info_post .= '	 <span id="hide' . $post['id'] . '"><a class="post-btn post-btn-hide" href="#" onclick="togglethread(\'' . $post_thread_start_id . $this->board_dir . '\');return false;" title="Hide Thread">' . svgIcon('minus', '16') . '</a></span>' . "\n";
 			}
 			if (KU_WATCHTHREADS && $post_is_thread) {
-				$info_post .= '	 <a href="#" onclick="addtowatchedthreads(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Watch Thread"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="watchthread" alt="watch"></a>' . "\n";
+				$info_post .= '	 <a class="post-btn post-btn-watch" href="#" onclick="addtowatchedthreads(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Watch Thread">' . svgIcon('star', '16') . '</a>' . "\n";
 			}
 			if (KU_POSTSPY) {
 				$info_post .= '&nbsp;[<a href="#" onclick="togglePostSpy();return false" title="' . _gettext('Post Spy') . '">PS</a>]';
 			}
 			if ($page && $post_is_thread) {
 				if (KU_EXPAND && $thread_replies > KU_REPLIES && $thread_replies < 300) {
-					$info_post .= '	 <a href="#" onclick="expandthread(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Expand Thread"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="expandthread" alt="expand"></a>' . "\n";
+					$info_post .= '	 <a class="post-btn post-btn-expandthread" href="#" onclick="expandthread(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Expand Thread">' . svgIcon('expandthread', '16') . '</a>' . "\n";
 				}
 				if (KU_QUICKREPLY) {
-					$info_post .= '	 <a href="#" onclick="return quickreply(\'' . $post_thread_start_id . '\');" title="' . _gettext('Quick Reply') . '"><img src="' . getCLBoardPath() . 'css/icons/blank.gif" border="0" class="quickreply" alt="' . _gettext('Quick Reply') . '"></a>' . "\n";
+					$info_post .= '	 <a class="post-btn post-btn-reply" href="#" onclick="return quickreply(\'' . $post_thread_start_id . '\');" title="' . _gettext('Quick Reply') . '">' . svgIcon('reply', '16') . '</a>' . "\n";
 				}
 			}
 			$info_post .= '&nbsp;</span>' . "\n" .
@@ -1676,17 +1682,17 @@ class Board {
 			}
 			$output .= '</select>&nbsp;';
 			if (KU_WATCHTHREADS) {
-				$output .= '<a href="#" onclick="showwatchedthreads();return false" title="' . _gettext('Watched Threads') . '"><img src="'.KU_WEBPATH.'/css/icons/blank.png" class="wtnav" alt="[WT]"/></a>&nbsp;';
+				$output .= '<a href="#" class="nav-btn nav-btn-wt" onclick="showwatchedthreads();return false" title="' . _gettext('Watched Threads') . '">' . svgIcon('wt', '32') . '</a>&nbsp;';
 			}
 			if($this->board_enablearchiving == 1) {
-				$output .= "<a href=\"" .KU_WEBPATH. "/" . $this->board_dir . "/arch/res/\"><img src=\"".KU_WEBPATH."/css/icons/blank.png\" class=\"archnav\" title=\"Архив\" alt=\"[Архив]\"/></a>&nbsp;";
+				$output .= '<a class="nav-btn nav-btn-archive" href="' .KU_WEBPATH. '/' . $this->board_dir . '"/arch/res/" title="Архив">' . svgIcon('archive', '32') . '</a>&nbsp;';
 			}
 			if($this->board_enablecatalog == 1) {
-				$output .= ($this->board_type != 1 && $this->board_type != 3) ? '<a href="' . KU_BOARDSFOLDER . $this->board_dir . '/catalog.html" title="' . _gettext('View catalog') . '"><img src="'.KU_WEBPATH.'/css/icons/blank.png" class="catnav" />' . '</a>&nbsp;' : '';
+				$output .= ($this->board_type != 1 && $this->board_type != 3) ? '<a class="nav-btn nav-btn-catalog" href="' . KU_BOARDSFOLDER . $this->board_dir . '/catalog.html" title="' . _gettext('View catalog') . '">' . svgIcon('catalog', '32') . '</a>&nbsp;' : '';
 			}
-			$output .= '<a href="'.KU_WEBPATH.'/search.php"><img src="'.KU_WEBPATH.'/css/icons/blank.png" class="senav" title="Поиск" alt="[Поиск]"/></a>&nbsp;' .
-			'<a href="'.KU_WEBPATH.'/" target="_top"><img src="'.KU_WEBPATH.'/css/icons/blank.png" class="homenav" title="' . _gettext('Home') . '" alt="' . _gettext('Home') . '"/></a>&nbsp;' .
-			'<a href="' . KU_CGIPATH . '/manage.php" target="_top"><img src="'.KU_WEBPATH.'/css/icons/blank.png" class="manav" title="' . _gettext('Manage') . '" alt="' . _gettext('Manage') . '"/></a></div>' . "\n" .
+			$output .= '<a class="nav-btn nav-btn-search" href="'.KU_WEBPATH.'/search.php" title="Поиск">' . svgIcon('search', '32') . '</a>&nbsp;' .
+			'<a class="nav-btn nav-btn-home" href="'.KU_WEBPATH.'/" target="_top" title="' . _gettext('Home') . '">' . svgIcon('mainpage', '32') . '</a>&nbsp;' .
+			'<a class="nav-btn nav-btn-admin" href="' . KU_CGIPATH . '/manage.php" target="_top" title="' . _gettext('Manage') . '">' . svgIcon('admin', '32') . '</a></div>' . "\n" .
 			$this->DisplayBoardList(false);
 			$output .= '</div>';
 		} else {

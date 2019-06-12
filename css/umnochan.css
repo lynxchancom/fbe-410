@@ -311,3 +311,19 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 .restorewatchedthreads:hover {
 	background: transparent url('./icons/blue/icons.svg') -16px 0px no-repeat !important;
 }
+
+.post-badge {
+	fill: white;
+	background: #d60c0c;
+}
+
+.nav-btn,
+.btn-small,
+.post-btn {
+	fill: #d60c0c;
+}
+
+.post-btn:hover,
+.btn-small:hover {
+	fill: #133b5e;
+}

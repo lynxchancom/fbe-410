@@ -159,63 +159,6 @@ form .trap {
 	vertical-align: middle;
 }
 
-.hidethread {
-	background: transparent url('./icons/red/icons.svg') -32px -16px no-repeat;
-}
-
-.unhidethread img {
-	background: transparent url('./icons/red/icons.svg') -48px 0px no-repeat;
-}
-
-.watchthread {
-	background: transparent url('./icons/red/icons.svg') -32px 0px no-repeat;
-}
-
-.expandthread {
-	background: transparent url('./icons/red/icons.svg') 0px -16px no-repeat;
-}
-
-.quickreply {
-	background: transparent url('./icons/red/icons.svg') 0px 0px no-repeat;
-}
-
-.hidewatchedthreads, .hidebutton {
-	background: transparent url('./icons/red/icons.svg') -48px -16px no-repeat;
-}
-
-.refreshwatchedthreads {
-	background: transparent url('./icons/red/icons.svg') -16px -16px no-repeat;
-}
-
-.restorewatchedthreads {
-	background: transparent url('./icons/red/icons.svg') -16px 0px no-repeat;
-}
-
-.wtnav {
-	background: transparent url('./icons/red/wt.svg') 0px 0px no-repeat;
-}
-
-.archnav {
-	background: transparent url('./icons/red/archive.svg') 0px 0px no-repeat;
-}
-
-.catnav {
-	background: transparent url('./icons/red/catalog.svg') 0px 0px no-repeat;
-}
-
-.senav {
-	display: none;
-	/* background: transparent url('./icons/red/search.svg') 0px 0px no-repeat; */
-}
-
-.homenav {
-	background: transparent url('./icons/red/mainpage.svg') 0px 0px no-repeat;
-}
-
-.manav {
-	background: transparent url('./icons/red/admin.svg') 0px 0px no-repeat;
-}
-
 .reflinkpreview {
 	position: absolute;
 	padding: 5px;
@@ -330,6 +273,10 @@ input[type=text], input[type=password], textarea {
 
 .doubledash {
 	display:none;
+}
+
+.adminbar select {
+	margin-top: 5px;
 }
 
 /*Keep this while search is broken*/
@@ -874,4 +821,35 @@ cursor: s-resize;
 .iichanbar{
 	float: left;
 	padding-bottom: 4px;
+}
+
+.icon {
+	vertical-align: top;
+}
+
+.svg-icon {
+	fill: inherit;
+}
+
+.icon-32 {
+	width: 32px;
+	height: 32px;
+}
+
+.icon-16 {
+	width: 16px;
+	height: 16px;
+}
+
+.nav-btn-search {
+	display: none;
+}
+
+.post-btn,
+.post-badge,
+.btn-small {
+	border-radius: 3px;
+	width: 16px;
+	height: 16px;
+	display: inline-block;
 }
