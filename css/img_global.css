@@ -275,6 +275,10 @@ input[type=text], input[type=password], textarea {
 	display:none;
 }
 
+.adminbar select {
+	margin-top: 5px;
+}
+
 /*Keep this while search is broken*/
 .adminbar img[src="/css/icons/red/search.svg"] {
 	display:none !important;
