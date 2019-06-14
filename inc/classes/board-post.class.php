@@ -1685,7 +1685,7 @@ class Board {
 				$output .= '<a href="#" class="nav-btn nav-btn-wt" onclick="showwatchedthreads();return false" title="' . _gettext('Watched Threads') . '">' . svgIcon('wt', '32') . '</a>&nbsp;';
 			}
 			if($this->board_enablearchiving == 1) {
-				$output .= '<a class="nav-btn nav-btn-archive" href="' .KU_WEBPATH. '/' . $this->board_dir . '"/arch/res/" title="Архив">' . svgIcon('archive', '32') . '</a>&nbsp;';
+				$output .= '<a class="nav-btn nav-btn-archive" href="' .KU_WEBPATH. '/' . $this->board_dir . '/arch/res/" title="Архив">' . svgIcon('archive', '32') . '</a>&nbsp;';
 			}
 			if($this->board_enablecatalog == 1) {
 				$output .= ($this->board_type != 1 && $this->board_type != 3) ? '<a class="nav-btn nav-btn-catalog" href="' . KU_BOARDSFOLDER . $this->board_dir . '/catalog.html" title="' . _gettext('View catalog') . '">' . svgIcon('catalog', '32') . '</a>&nbsp;' : '';
