@@ -209,3 +209,9 @@ a:hover {
 .btn-small {
 	fill: #133b5e;
 }
+
+.nav-btn:hover,
+.post-btn:hover,
+.btn-small:hover {
+	fill: #d60c0c;
+}
