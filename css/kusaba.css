@@ -266,11 +266,17 @@ a:hover {
 
 .post-badge {
   fill: white;
-  background: #117743;
+  background: #345C34;
 }
 
 .nav-btn,
 .btn-small,
 .post-btn {
-  fill: #117743;
+  fill: #345C34;
+}
+
+.nav-btn:hover,
+.post-btn:hover,
+.btn-small:hover {
+	fill: #117743;
 }
