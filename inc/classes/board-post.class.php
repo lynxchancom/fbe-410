@@ -1656,14 +1656,10 @@ class Board {
 		}
 		$tpl['head'] .= '";' . "\n" .
 		'</script>' . "\n";
-		if ($this->board_type == 1) {
-			if ($replythread == 0) {
-				$output .= '<body class="board">' . "\n";
-			} else {
-				$output .= '<body class="read">' . "\n";
-			}
+		if ($replythread == 0) {
+			$output .= '<body class="board">' . "\n";
 		} else {
-			$output .= '<body>' . "\n";
+			$output .= '<body class="read">' . "\n";
 		}
 		if ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) {
 			$output .= '<div class="topmenu"><div class="adminbar"><select name="switcher" onchange="set_stylesheet(this.value);">' . "\n";
