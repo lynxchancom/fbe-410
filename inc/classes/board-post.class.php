@@ -1005,12 +1005,12 @@ class Board {
 					} else {
 						// {{{ Page reply fetch
 						
-						$buildthread_output .= '<div id="replies'.$line['id'].$this->board_dir.'">';
 						if ($line['stickied'] == 0) {
 							$numrepliesdisplayed = KU_REPLIES;
 						} else {
 							$numrepliesdisplayed = KU_REPLIESSTICKY;
 						}
+						$buildthread_output .= '<div id="replies'.$line['id'].$this->board_dir.'" data-show-replies="'.$numrepliesdisplayed.'">';
 						if ($numReplies > $numrepliesdisplayed) {
 							$buildthread_output .= '<span class="omittedposts">' . "\n" .
 							'	 ' . ($numReplies-$numrepliesdisplayed) . ' ';
