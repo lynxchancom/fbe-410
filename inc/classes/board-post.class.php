@@ -2600,7 +2600,7 @@ class Post extends Board {
 			$results = $tc_db->GetAll("SELECT `id`, `filename`, `filetype` FROM `".KU_DBPREFIX."posts_".$this->board_dir."` WHERE `IS_DELETED` = 0 AND `parentid` = ".mysqli_real_escape_string($tc_db->link, $this->post_id));
 			foreach($results AS $line) {
 				$i++;
- 				$thumb_filetype = line['filetype'];
+ 				$thumb_filetype = $line['filetype'];
 				if($this->allowed_file_types[$thumb_filetype][0] == 'video'){
 					$thumb_filetype = 'jpg';
 				}
