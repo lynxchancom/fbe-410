@@ -351,7 +351,10 @@ class Board {
 	 *
 	 * @param string $board Board name/directory	 
 	 * @return class	 	 
-	 */	  
+	 */
+	function __construct($board) {
+		return $this->Board($board);
+	}
 	function Board($board) {
 		global $tc_db;
 
@@ -366,8 +369,8 @@ class Board {
 				$this->board_dir                      = $line['name'];
 				$this->board_desc                     = $line['desc'];
 				$this->board_enablereporting          = $line['enablereporting'];
-				$this->board_enablespoiler            = $line['enablespoiler'];
-				$this->board_spoilerimage             = $line['spoilerimage'];
+				$this->board_enablespoiler            = @$line['enablespoiler'];
+				$this->board_spoilerimage             = @$line['spoilerimage'];
 				$this->board_image                    = $line['image'];
 				$this->board_includeheader            = $line['includeheader'];
 				$this->board_anonymous                = $line['anonymous'];
@@ -2531,7 +2534,10 @@ class Post extends Board {
 	var $post_password;
 	var $post_isreported;
 	var $post_isthread;
-	
+
+	function __construct($postid, $board, $is_inserting = false) {
+		return $this->Post($postid, $board, $is_inserting);
+	}
 	function Post($postid, $board, $is_inserting = false) {
 		global $tc_db;
 //		echo "<pre>"; var_dump($postid); echo "</pre>";
