@@ -2595,18 +2595,18 @@ class Post extends Board {
 				$this->ArchiveMode(true);
 				$this->RegenerateThread($this->post_id);
 				@copy(KU_BOARDSDIR . $this->board_dir . '/src/' . $this->post_filename . '.' . $this->post_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $this->post_filename . '.' . $this->post_filetype);
-				@copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $this->post_filename . 's.' . $this->post_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $this->post_filename . 's.' . $thumb_filetype);
+				@copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $this->post_filename . 's.' . $thumb_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $this->post_filename . 's.' . $thumb_filetype);
 			}
 			$results = $tc_db->GetAll("SELECT `id`, `filename`, `filetype` FROM `".KU_DBPREFIX."posts_".$this->board_dir."` WHERE `IS_DELETED` = 0 AND `parentid` = ".mysqli_real_escape_string($tc_db->link, $this->post_id));
 			foreach($results AS $line) {
 				$i++;
- 				$thumb_filetype = $line['filetype'];
-				if($this->allowed_file_types[$thumb_filetype][0] == 'video'){
-					$thumb_filetype = 'jpg';
+				$thumb_filetype = $line['filetype'];
+				if(strcmp($this->allowed_file_types[$thumb_filetype][0], "video") == 0) {
+					$thumb_filetype = "jpg";
 				}
 				if ($allow_archive && $this->board_enablearchiving == 1) {
-					@copy(KU_BOARDSDIR . $this->board_dir . '/src/' . $line['filename'] . '.' . $line['filetype'], KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $line['filename'] . '.' . $line['filetype']);
-					@copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $line['filename'] . 's.' . $line['filetype'], KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype);
+					copy(KU_BOARDSDIR . $this->board_dir . '/src/' . $line['filename'] . '.' . $line['filetype'], KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $line['filename'] . '.' . $line['filetype']);
+					copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype);
 				}
 			}
 			if ($allow_archive && $this->board_enablearchiving == 1) {
