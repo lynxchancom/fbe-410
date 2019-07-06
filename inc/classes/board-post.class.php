@@ -1008,12 +1008,12 @@ class Board {
 					} else {
 						// {{{ Page reply fetch
 						
-						$buildthread_output .= '<div id="replies'.$line['id'].$this->board_dir.'">';
 						if ($line['stickied'] == 0) {
 							$numrepliesdisplayed = KU_REPLIES;
 						} else {
 							$numrepliesdisplayed = KU_REPLIESSTICKY;
 						}
+						$buildthread_output .= '<div id="replies'.$line['id'].$this->board_dir.'" data-show-replies="'.$numrepliesdisplayed.'">';
 						if ($numReplies > $numrepliesdisplayed) {
 							$buildthread_output .= '<span class="omittedposts">' . "\n" .
 							'	 ' . ($numReplies-$numrepliesdisplayed) . ' ';
@@ -1659,14 +1659,10 @@ class Board {
 		}
 		$tpl['head'] .= '";' . "\n" .
 		'</script>' . "\n";
-		if ($this->board_type == 1) {
-			if ($replythread == 0) {
-				$output .= '<body class="board">' . "\n";
-			} else {
-				$output .= '<body class="read">' . "\n";
-			}
+		if ($replythread == 0) {
+			$output .= '<body class="board">' . "\n";
 		} else {
-			$output .= '<body>' . "\n";
+			$output .= '<body class="read">' . "\n";
 		}
 		if ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) {
 			$output .= '<div class="topmenu"><div class="adminbar"><select name="switcher" onchange="set_stylesheet(this.value);">' . "\n";
