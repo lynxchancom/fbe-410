@@ -351,7 +351,10 @@ class Board {
 	 *
 	 * @param string $board Board name/directory	 
 	 * @return class	 	 
-	 */	  
+	 */
+	function __construct($board) {
+		return $this->Board($board);
+	}
 	function Board($board) {
 		global $tc_db;
 
@@ -366,8 +369,8 @@ class Board {
 				$this->board_dir                      = $line['name'];
 				$this->board_desc                     = $line['desc'];
 				$this->board_enablereporting          = $line['enablereporting'];
-				$this->board_enablespoiler            = $line['enablespoiler'];
-				$this->board_spoilerimage             = $line['spoilerimage'];
+				$this->board_enablespoiler            = @$line['enablespoiler'];
+				$this->board_spoilerimage             = @$line['spoilerimage'];
 				$this->board_image                    = $line['image'];
 				$this->board_includeheader            = $line['includeheader'];
 				$this->board_anonymous                = $line['anonymous'];
@@ -1005,12 +1008,12 @@ class Board {
 					} else {
 						// {{{ Page reply fetch
 						
-						$buildthread_output .= '<div id="replies'.$line['id'].$this->board_dir.'">';
 						if ($line['stickied'] == 0) {
 							$numrepliesdisplayed = KU_REPLIES;
 						} else {
 							$numrepliesdisplayed = KU_REPLIESSTICKY;
 						}
+						$buildthread_output .= '<div id="replies'.$line['id'].$this->board_dir.'" data-show-replies="'.$numrepliesdisplayed.'">';
 						if ($numReplies > $numrepliesdisplayed) {
 							$buildthread_output .= '<span class="omittedposts">' . "\n" .
 							'	 ' . ($numReplies-$numrepliesdisplayed) . ' ';
@@ -1656,14 +1659,10 @@ class Board {
 		}
 		$tpl['head'] .= '";' . "\n" .
 		'</script>' . "\n";
-		if ($this->board_type == 1) {
-			if ($replythread == 0) {
-				$output .= '<body class="board">' . "\n";
-			} else {
-				$output .= '<body class="read">' . "\n";
-			}
+		if ($replythread == 0) {
+			$output .= '<body class="board">' . "\n";
 		} else {
-			$output .= '<body>' . "\n";
+			$output .= '<body class="read">' . "\n";
 		}
 		if ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) {
 			$output .= '<div class="topmenu"><div class="adminbar"><select name="switcher" onchange="set_stylesheet(this.value);">' . "\n";
@@ -2531,7 +2530,10 @@ class Post extends Board {
 	var $post_password;
 	var $post_isreported;
 	var $post_isthread;
-	
+
+	function __construct($postid, $board, $is_inserting = false) {
+		return $this->Post($postid, $board, $is_inserting);
+	}
 	function Post($postid, $board, $is_inserting = false) {
 		global $tc_db;
 //		echo "<pre>"; var_dump($postid); echo "</pre>";
@@ -2589,18 +2591,18 @@ class Post extends Board {
 				$this->ArchiveMode(true);
 				$this->RegenerateThread($this->post_id);
 				@copy(KU_BOARDSDIR . $this->board_dir . '/src/' . $this->post_filename . '.' . $this->post_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $this->post_filename . '.' . $this->post_filetype);
-				@copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $this->post_filename . 's.' . $this->post_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $this->post_filename . 's.' . $thumb_filetype);
+				@copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $this->post_filename . 's.' . $thumb_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $this->post_filename . 's.' . $thumb_filetype);
 			}
 			$results = $tc_db->GetAll("SELECT `id`, `filename`, `filetype` FROM `".KU_DBPREFIX."posts_".$this->board_dir."` WHERE `IS_DELETED` = 0 AND `parentid` = ".mysqli_real_escape_string($tc_db->link, $this->post_id));
 			foreach($results AS $line) {
 				$i++;
- 				$thumb_filetype = line['filetype'];
-				if($this->allowed_file_types[$thumb_filetype][0] == 'video'){
-					$thumb_filetype = 'jpg';
+				$thumb_filetype = $line['filetype'];
+				if(strcmp($this->allowed_file_types[$thumb_filetype][0], "video") == 0) {
+					$thumb_filetype = "jpg";
 				}
 				if ($allow_archive && $this->board_enablearchiving == 1) {
-					@copy(KU_BOARDSDIR . $this->board_dir . '/src/' . $line['filename'] . '.' . $line['filetype'], KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $line['filename'] . '.' . $line['filetype']);
-					@copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $line['filename'] . 's.' . $line['filetype'], KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype);
+					copy(KU_BOARDSDIR . $this->board_dir . '/src/' . $line['filename'] . '.' . $line['filetype'], KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $line['filename'] . '.' . $line['filetype']);
+					copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype);
 				}
 			}
 			if ($allow_archive && $this->board_enablearchiving == 1) {

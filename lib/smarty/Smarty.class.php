@@ -566,6 +566,9 @@ class Smarty
     /**
      * The class constructor.
      */
+    function __construct() {
+        return $this->Smarty();
+    }
     function Smarty()
     {
       $this->assign('SCRIPT_NAME', isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME']
