@@ -2601,8 +2601,8 @@ class Post extends Board {
 					$thumb_filetype = "jpg";
 				}
 				if ($allow_archive && $this->board_enablearchiving == 1) {
-					copy(KU_BOARDSDIR . $this->board_dir . '/src/' . $line['filename'] . '.' . $line['filetype'], KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $line['filename'] . '.' . $line['filetype']);
-					copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype);
+					@copy(KU_BOARDSDIR . $this->board_dir . '/src/' . $line['filename'] . '.' . $line['filetype'], KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $line['filename'] . '.' . $line['filetype']);
+					@copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype);
 				}
 			}
 			if ($allow_archive && $this->board_enablearchiving == 1) {
@@ -2692,11 +2692,11 @@ class Post extends Board {
  							# If you have files with same names but diffirent filetypes, 
  							# and only one of those need to be deleted,
  							# then something's wrong with you or your install
- 							@array_map('unlink', KU_BOARDSDIR.$this->board_dir.'/src/'.$line['filename'].'.*');
+ 							@array_map('unlink', glob(KU_BOARDSDIR.$this->board_dir.'/src/'.$line['filename'].'.*'));
  							# In case this lives long enough that we get another digit, we can't
  							# use * after original filename. We can use ? however, and prey for well-behaved
  							# server and maintainer
- 							@array_map('unlink', KU_BOARDSDIR.$this->board_dir.'/thumb/'.$line['filename'].'?.*');
+ 							@array_map('unlink', glob(KU_BOARDSDIR.$this->board_dir.'/thumb/'.$line['filename'].'?.*'));
 						}
 						if ($update_to_removed) {
 							$tc_db->Execute("UPDATE `".KU_DBPREFIX."posts_".$this->board_dir."` SET `filename` = 'removed', `filemd5` = '' WHERE `id` = ".$line['id']." LIMIT 1");
@@ -2713,8 +2713,8 @@ class Post extends Board {
 				} else {
  					# If I wasn't here for quick fixes, this code would've gone into a function
  					# See notes above
- 					@array_map('unlink', KU_BOARDSDIR.$this->board_dir.'/src/'.$line['filename'].'.*');
- 					@array_map('unlink', KU_BOARDSDIR.$this->board_dir.'/thumb/'.$line['filename'].'?.*');
+ 					@array_map('unlink', glob(KU_BOARDSDIR.$this->board_dir.'/src/'.$this->post_filename.'.*'));
+ 					@array_map('unlink', glob(KU_BOARDSDIR.$this->board_dir.'/thumb/'.$this->post_filename.'?.*'));
 				}
 				if ($update_to_removed) {
 					$tc_db->Execute("UPDATE `".KU_DBPREFIX."posts_".$this->board_dir."` SET `filename` = 'removed', `filemd5` = '' WHERE `id` = ".mysqli_real_escape_string($tc_db->link, $this->post_id)." LIMIT 1");
