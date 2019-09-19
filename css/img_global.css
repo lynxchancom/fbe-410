@@ -279,6 +279,18 @@ input[type=text], input[type=password], textarea {
 	margin-top: 5px;
 }
 
+.read {
+	counter-reset:num;
+}
+
+.read div[id^="thread"] span.reflink:after{
+	counter-increment:num;content:"#"counter(num);
+	vertical-align:1px;
+	font:bold 13px;
+	cursor:default;
+	margin-left:10px;
+}
+
 /*Keep this while search is broken*/
 .adminbar img[src="/css/icons/red/search.svg"] {
 	display:none !important;
