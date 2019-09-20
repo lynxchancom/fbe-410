@@ -284,9 +284,10 @@ input[type=text], input[type=password], textarea {
 }
 
 .read div[id^="thread"] span.reflink:after{
-	counter-increment:num;content:"#"counter(num);
+	counter-increment:num;
+	content:"#"counter(num);
 	vertical-align:1px;
-	font:13px;
+	font-size:13px;
 	cursor:default;
 	margin-left:10px;
 }
