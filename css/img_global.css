@@ -866,3 +866,33 @@ cursor: s-resize;
 	height: 16px;
 	display: inline-block;
 }
+.spoiler-image.imglink::after {
+  content : '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url('/css/bus-spoiler.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  opacity : 1;
+  transition: opacity .2s;
+}
+
+.spoiler-image .thumb {
+  opacity: 0;
+  transition: opacity .2s;
+}
+
+.spoiler-image.img-full .thumb,
+.spoiler-image:hover .thumb {
+  opacity: 1;
+}
+
+.spoiler-image.imglink.img-full::after,
+.spoiler-image.imglink:hover::after {
+  opacity: 0;
+}
