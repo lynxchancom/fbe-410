@@ -140,7 +140,7 @@ CREATE TABLE `boards` (
   `enablenofile` tinyint(1) NOT NULL DEFAULT '0',
   `enablearchiving` tinyint(1) NOT NULL DEFAULT '0',
   `enablecatalog` tinyint(1) NOT NULL DEFAULT '1',
-  `enablespoiler` tinyint(1) NOT NULL DEFAULT '1',
+  `enablespoiler` tinyint(1) NOT NULL DEFAULT '0',
   `loadbalanceurl` varchar(255)  NOT NULL DEFAULT '',
   `loadbalancepassword` varchar(255)  NOT NULL DEFAULT '',
   `maxvideolength` int(5) NOT NULL DEFAULT '0',
