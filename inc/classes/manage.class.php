@@ -986,6 +986,7 @@ class Manage {
 						}
 					}
 					$updateboard_enablecatalog = isset($_POST['enablecatalog']) ? '1' : '0';
+					$updateboard_enablespoiler = isset($_POST['enablespoiler']) ? '1' : '0';
 					$updateboard_enablenofile = isset($_POST['enablenofile']) ? '1' : '0';
  					$updateboard_enablesoundinvideo = isset($_POST['enablesoundinvideo']) ? '1' : '0';
 					$updateboard_redirecttothread = isset($_POST['redirecttothread']) ? '1' : '0';
@@ -1002,7 +1003,8 @@ class Manage {
 					$updateboard_locked = isset($_POST['locked']) ? '1' : '0';
 					if (($_POST['type'] == '0' || $_POST['type'] == '1' || $_POST['type'] == '2' || $_POST['type'] == '3') && ($_POST['uploadtype'] == '0' || $_POST['uploadtype'] == '1' || $_POST['uploadtype'] == '2')) {
 						if (!($_POST['uploadtype'] != '0' && $_POST['type'] == '3')) {
-							$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "boards` SET `type` = '" . mysqli_real_escape_string($tc_db->link, $_POST['type']) . "' , `uploadtype` = '" . mysqli_real_escape_string($tc_db->link, $_POST['uploadtype']) . "' , `order` = '" . mysqli_real_escape_string($tc_db->link, $_POST['order']) . "' , `section` = '" . mysqli_real_escape_string($tc_db->link, $_POST['section']) . "' , `desc` = '" . mysqli_real_escape_string($tc_db->link, $_POST['desc']) . "' , `locale` = '" . mysqli_real_escape_string($tc_db->link, $_POST['locale']) . "' , `showid` = '" . $updateboard_showid . "' , `compactlist` = '" . $updateboard_compactlist . "' , `locked` = '" . $updateboard_locked . "' , `maximagesize` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maximagesize']) . "' , `messagelength` = '" . mysqli_real_escape_string($tc_db->link, $_POST['messagelength']) . "' , `maxpages` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maxpages']) . "' , `maxage` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maxage']) . "' , `markpage` = '" . mysqli_real_escape_string($tc_db->link, $_POST['markpage']) . "' , `maxreplies` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maxreplies']) . "' , `image` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image']) . "' , `includeheader` = '" . mysqli_real_escape_string($tc_db->link, $_POST['includeheader']) . "' , `redirecttothread` = '" . $updateboard_redirecttothread . "' , `anonymous` = '" . mysqli_real_escape_string($tc_db->link, $_POST['anonymous']) . "' , `forcedanon` = '" . $updateboard_forcedanon . "' , `trial` = '" . $updateboard_trial . "' , `popular` = '" . $updateboard_popular . "' , `defaultstyle` = '" . mysqli_real_escape_string($tc_db->link, $_POST['defaultstyle']) . "' , `enablereporting` = '" . $updateboard_enablereporting . "' , `enablecaptcha` = '" . $updateboard_enablecaptcha . "' , `enablefaptcha` = '" . $updateboard_enablefaptcha . "' , `enableporn` = '" . $updateboard_enableporn . "' , `enablenofile` = '" . $updateboard_enablenofile . "' , `enablearchiving` = '" . $updateboard_enablearchiving . "', `enablecatalog` = '" . $updateboard_enablecatalog . "' , `loadbalanceurl` = '" . mysqli_real_escape_string($tc_db->link, $_POST['loadbalanceurl']) . "' , `loadbalancepassword` = '" . mysqli_real_escape_string($tc_db->link, $_POST['loadbalancepassword']) . "', `enablesoundinvideo` = '" . $updateboard_enablesoundinvideo . "' WHERE `name` = '" . mysqli_real_escape_string($tc_db->link, $_POST['updateboard']) . "'");
+							// Why, God, WHY!?
+							$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "boards` SET `type` = '" . mysqli_real_escape_string($tc_db->link, $_POST['type']) . "' , `uploadtype` = '" . mysqli_real_escape_string($tc_db->link, $_POST['uploadtype']) . "' , `order` = '" . mysqli_real_escape_string($tc_db->link, $_POST['order']) . "' , `section` = '" . mysqli_real_escape_string($tc_db->link, $_POST['section']) . "' , `desc` = '" . mysqli_real_escape_string($tc_db->link, $_POST['desc']) . "' , `locale` = '" . mysqli_real_escape_string($tc_db->link, $_POST['locale']) . "' , `showid` = '" . $updateboard_showid . "' , `compactlist` = '" . $updateboard_compactlist . "' , `locked` = '" . $updateboard_locked . "' , `maximagesize` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maximagesize']) . "' , `messagelength` = '" . mysqli_real_escape_string($tc_db->link, $_POST['messagelength']) . "' , `maxpages` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maxpages']) . "' , `maxage` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maxage']) . "' , `markpage` = '" . mysqli_real_escape_string($tc_db->link, $_POST['markpage']) . "' , `maxreplies` = '" . mysqli_real_escape_string($tc_db->link, $_POST['maxreplies']) . "' , `image` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image']) . "' , `includeheader` = '" . mysqli_real_escape_string($tc_db->link, $_POST['includeheader']) . "' , `redirecttothread` = '" . $updateboard_redirecttothread . "' , `anonymous` = '" . mysqli_real_escape_string($tc_db->link, $_POST['anonymous']) . "' , `forcedanon` = '" . $updateboard_forcedanon . "' , `trial` = '" . $updateboard_trial . "' , `popular` = '" . $updateboard_popular . "' , `defaultstyle` = '" . mysqli_real_escape_string($tc_db->link, $_POST['defaultstyle']) . "' , `enablereporting` = '" . $updateboard_enablereporting . "' , `enablecaptcha` = '" . $updateboard_enablecaptcha . "' , `enablefaptcha` = '" . $updateboard_enablefaptcha . "' , `enableporn` = '" . $updateboard_enableporn . "' , `enablenofile` = '" . $updateboard_enablenofile . "' , `enablearchiving` = '" . $updateboard_enablearchiving . "', `enablecatalog` = '" . $updateboard_enablecatalog . "' , `enablespoiler` = '" . $updateboard_enablespoiler . "' , `loadbalanceurl` = '" . mysqli_real_escape_string($tc_db->link, $_POST['loadbalanceurl']) . "' , `loadbalancepassword` = '" . mysqli_real_escape_string($tc_db->link, $_POST['loadbalancepassword']) . "', `enablesoundinvideo` = '" . $updateboard_enablesoundinvideo . "' WHERE `name` = '" . mysqli_real_escape_string($tc_db->link, $_POST['updateboard']) . "'");
 							$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "board_filetypes` WHERE `boardid` = '" . $boardid . "'");
 							foreach ($filetypes as $filetype) {
 								$tc_db->Execute("INSERT INTO `" . KU_DBPREFIX . "board_filetypes` ( `boardid`, `typeid` ) VALUES ( '" . $boardid . "', '" . mysqli_real_escape_string($tc_db->link, $filetype) . "' )");
@@ -1273,6 +1275,15 @@ class Manage {
 					}
 					$tpl_page .= '>
 					<div class="desc">If set to yes, a catalog.html file will be built with the other files, displaying the original picture of every thread in a box.  This will only work on normal/oekaki imageboards. ' . _gettext('Default').': <b>'._gettext('Yes').'</b></div><br>';
+					
+					/* Enable catalog */
+					$tpl_page .= '<label for="enablespoiler">Enable spoiler images:</label>
+					<input type="checkbox" name="enablespoiler"';
+					if ($lineboard['enablespoiler'] == '1') {
+						$tpl_page .= ' checked';
+					}
+					$tpl_page .= '>
+					<div class="desc">Allow to mark image as spoiler on upload. ' . _gettext('Default').': <b>'._gettext('Yes').'</b></div><br>';
 					
 					/* Enable "no file" posting */
 					$tpl_page .= '<label for="enablenofile">'._gettext('Enable "no file" posting').':</label>
@@ -2811,6 +2822,7 @@ function reason(why) {
 							  `filemd5` char(32) NOT NULL,
 							  `image_w` smallint(5) NOT NULL default '0',
 							  `image_h` smallint(5) NOT NULL default '0',
+							  `spoiler` tinyint(1) NOT NULL default '0',
 							  `filesize` int(10) NOT NULL default '0',
 							  `filesize_formatted` varchar(255) NOT NULL,
 							  `thumb_w` smallint(5) NOT NULL default '0',
