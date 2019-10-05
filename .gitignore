@@ -3,4 +3,9 @@ config.php
 menu.html
 menu_dirs.html
 smarty/templates_c
-b/*
+.htlog.txt
+\w+/*.html
+\w+/src/*
+\w+/res/*
+\w+/thumb/*
+
