@@ -1330,8 +1330,9 @@ class Board {
 					'	' . _gettext('File<br>Removed') . "\n" .
 					'</div>' . "\n";
 				} else {
+					$media_type = $this->allowed_file_types[$post['filetype']][0];
 					$imglinkclass = 'imglink';
-					if ($post['spoiler'] == 1) {
+					if ($post['spoiler'] == 1 && $media_type != 'other') {
 						$imglinkclass .= ' spoiler-image';
 					}
 					$info_image .= '<a class="' . $imglinkclass .'" ';
