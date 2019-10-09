@@ -634,7 +634,7 @@ class Board {
 			$catalog_page = $this->PageHeader(0, 0, -1, -1, false, true) .
 			'&#91;<a href="' . KU_BOARDSFOLDER . $this->board_dir . '/">'._gettext('Return').'</a>&#93; <div class="catalogmode">'._gettext('Catalog Mode').'</div>' . "\n";
 			
-			$results = $tc_db->GetAll("SELECT `id`, `subject`, `message`, `filename` , `filetype`, `stickied`, `locked` FROM `".KU_DBPREFIX."posts_".$this->board_dir."` WHERE `IS_DELETED` = 0 AND `parentid` = 0 ORDER BY `stickied` DESC, `lastbumped` DESC");
+			$results = $tc_db->GetAll("SELECT `id`, `subject`, `message`, `filename` , `filetype`, `stickied`, `locked`, `spoiler` FROM `".KU_DBPREFIX."posts_".$this->board_dir."` WHERE `IS_DELETED` = 0 AND `parentid` = 0 ORDER BY `stickied` DESC, `lastbumped` DESC");
 			$numresults = count($results);
 			if ($numresults > 0) {
 				$catalog_page .= '<div class="cataloglist">';
@@ -652,14 +652,24 @@ class Board {
 						if ($line['filename'] != '' && $line['filename'] != 'removed') {
 							$file_path = getCLBoardPath($this->board_dir, $this->board_loadbalanceurl_formatted, $this->archive_dir);
 							$media_type = $this->allowed_file_types[$line['filetype']][0];
-							if ($media_type == 'image'){
-								$catalog_page .= '<img class="catalogpic" src="' . $file_path . '/thumb/' . $line['filename'] . 'c.' . $line['filetype'] . '" alt="' . $line['id'] . '">';
+							$imgclass = 'catalogpic';
+							if ($this->board_enablespoiler == 1 && $line['spoiler'] == 1 && $media_type != 'other') {
+								$imgclass .= ' spoiler-image';
+							}
+							if ($media_type == 'image') {
+								$catalog_page .= '<div class="'.$imgclass.'">';
+								$catalog_page .= '<img src="' . $file_path . '/thumb/' . $line['filename'] . 'c.' . $line['filetype'] . '" alt="' . $line['id'] . '">';
+								$catalog_page .= '</div>';
 							}
 							elseif ($media_type == 'video'){
+								$catalog_page .= '<div class="'.$imgclass.'">';
 								$catalog_page .= '<img src="' . $file_path . '/thumb/' . $line['filename'] . 'c.jpg" alt="' . $line['id'] . '" border="0">';
+								$catalog_page .= '</div>';
 							}
 							else{
+								$catalog_page .= '<div class="'.$imgclass.'">';
 								$catalog_page .= '<img src="' .  $this->allowed_file_types[$line['filetype']][1] . '" alt="' . $line['id'] . '" border="0">';
+								$catalog_page .= '</div>';
 							}
 
 						} elseif ($line['filename'] == 'removed') {
