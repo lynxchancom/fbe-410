@@ -866,6 +866,12 @@ cursor: s-resize;
 	height: 16px;
 	display: inline-block;
 }
+
+.catalogpic {
+	position: relative;
+}
+
+.catalogpic.spoiler-image::after,
 .spoiler-image.imglink::after {
   content : '';
   display: block;
@@ -882,16 +888,19 @@ cursor: s-resize;
   transition: opacity .2s;
 }
 
+.catalogpic.spoiler-image img,
 .spoiler-image .thumb {
   opacity: 0;
   transition: opacity .2s;
 }
 
+.catalogpic.spoiler-image:hover img,
 .spoiler-image.img-full .thumb,
 .spoiler-image:hover .thumb {
   opacity: 1;
 }
 
+.catalogpic.spoiler-image:hover::after,
 .spoiler-image.imglink.img-full::after,
 .spoiler-image.imglink:hover::after {
   opacity: 0;
