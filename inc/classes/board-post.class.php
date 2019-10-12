@@ -369,7 +369,7 @@ class Board {
 				$this->board_dir                      = $line['name'];
 				$this->board_desc                     = $line['desc'];
 				$this->board_enablereporting          = $line['enablereporting'];
-				$this->board_enablespoiler            = @$line['enablespoiler'];
+				$this->board_enablespoiler            = $line['enablespoiler'];
 				$this->board_spoilerimage             = @$line['spoilerimage'];
 				$this->board_image                    = $line['image'];
 				$this->board_includeheader            = $line['includeheader'];
@@ -634,7 +634,7 @@ class Board {
 			$catalog_page = $this->PageHeader(0, 0, -1, -1, false, true) .
 			'&#91;<a href="' . KU_BOARDSFOLDER . $this->board_dir . '/">'._gettext('Return').'</a>&#93; <div class="catalogmode">'._gettext('Catalog Mode').'</div>' . "\n";
 			
-			$results = $tc_db->GetAll("SELECT `id`, `subject`, `message`, `filename` , `filetype`, `stickied`, `locked` FROM `".KU_DBPREFIX."posts_".$this->board_dir."` WHERE `IS_DELETED` = 0 AND `parentid` = 0 ORDER BY `stickied` DESC, `lastbumped` DESC");
+			$results = $tc_db->GetAll("SELECT `id`, `subject`, `message`, `filename` , `filetype`, `stickied`, `locked`, `spoiler` FROM `".KU_DBPREFIX."posts_".$this->board_dir."` WHERE `IS_DELETED` = 0 AND `parentid` = 0 ORDER BY `stickied` DESC, `lastbumped` DESC");
 			$numresults = count($results);
 			if ($numresults > 0) {
 				$catalog_page .= '<div class="cataloglist">';
@@ -652,14 +652,24 @@ class Board {
 						if ($line['filename'] != '' && $line['filename'] != 'removed') {
 							$file_path = getCLBoardPath($this->board_dir, $this->board_loadbalanceurl_formatted, $this->archive_dir);
 							$media_type = $this->allowed_file_types[$line['filetype']][0];
-							if ($media_type == 'image'){
-								$catalog_page .= '<img class="catalogpic" src="' . $file_path . '/thumb/' . $line['filename'] . 'c.' . $line['filetype'] . '" alt="' . $line['id'] . '">';
+							$imgclass = 'catalogpic';
+							if ($this->board_enablespoiler == 1 && $line['spoiler'] == 1 && $media_type != 'other') {
+								$imgclass .= ' spoiler-image';
+							}
+							if ($media_type == 'image') {
+								$catalog_page .= '<div class="'.$imgclass.'">';
+								$catalog_page .= '<img src="' . $file_path . '/thumb/' . $line['filename'] . 'c.' . $line['filetype'] . '" alt="' . $line['id'] . '">';
+								$catalog_page .= '</div>';
 							}
 							elseif ($media_type == 'video'){
+								$catalog_page .= '<div class="'.$imgclass.'">';
 								$catalog_page .= '<img src="' . $file_path . '/thumb/' . $line['filename'] . 'c.jpg" alt="' . $line['id'] . '" border="0">';
+								$catalog_page .= '</div>';
 							}
 							else{
+								$catalog_page .= '<div class="'.$imgclass.'">';
 								$catalog_page .= '<img src="' .  $this->allowed_file_types[$line['filetype']][1] . '" alt="' . $line['id'] . '" border="0">';
+								$catalog_page .= '</div>';
 							}
 
 						} elseif ($line['filename'] == 'removed') {
@@ -1320,7 +1330,12 @@ class Board {
 					'	' . _gettext('File<br>Removed') . "\n" .
 					'</div>' . "\n";
 				} else {
-					$info_image .= '<a class="imglink" ';
+					$media_type = $this->allowed_file_types[$post['filetype']][0];
+					$imglinkclass = 'imglink';
+					if ($post['spoiler'] == 1 && $media_type != 'other') {
+						$imglinkclass .= ' spoiler-image';
+					}
+					$info_image .= '<a class="' . $imglinkclass .'" ';
                     $info_image .= 'data-full-src="' . $post_file_url . '" data-thumb-src="' . $post_thumb . '" data-full-width="' . $post['image_w'] . '" data-full-height="' . $post['image_h'] . '" data-thumb-width="' . $post['thumb_w'] . '" data-thumb-height="' . $post['thumb_h'] . '" ';
 					$info_image .= 'href="' . $file_path . '/src/'.htmlspecialchars($post['filename'], ENT_QUOTES).'.'.$post['filetype'].'">' . "\n" .
 					'<span id="thumb' . $post['id'] . '">' . $post_file_thumblement . '</span>' . "\n" .
@@ -1660,9 +1675,9 @@ class Board {
 		$tpl['head'] .= '";' . "\n" .
 		'</script>' . "\n";
 		if ($replythread == 0) {
-			$output .= '<body class="board">' . "\n";
+			$output .= '<body class="board board_' . $this->board_dir . '">' . "\n";
 		} else {
-			$output .= '<body class="read">' . "\n";
+			$output .= '<body class="read board_' . $this->board_dir . '">' . "\n";
 		}
 		if ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) {
 			$output .= '<div class="topmenu"><div class="adminbar"><select name="switcher" onchange="set_stylesheet(this.value);">' . "\n";
@@ -2724,10 +2739,10 @@ class Post extends Board {
 		}
 	}
 
-	function Insert($parentid, $name, $tripcode, $email, $subject, $message, $filename, $filename_original, $filetype, $filemd5, $image_w, $image_h, $filesize, $thumb_w, $thumb_h, $password, $postedat, $lastbumped, $ip, $posterauthority, $tag, $stickied, $locked) {
+	function Insert($parentid, $name, $tripcode, $email, $subject, $message, $filename, $filename_original, $filetype, $filemd5, $image_w, $image_h, $filesize, $thumb_w, $thumb_h, $password, $postedat, $lastbumped, $ip, $posterauthority, $tag, $stickied, $locked, $spoiler) {
 		global $tc_db;
 		
-		$query = "INSERT INTO `".KU_DBPREFIX."posts_".$this->board_dir."` ( `parentid` , `name` , `tripcode` , `email` , `subject` , `message` , `filename` , `filename_original`, `filetype` , `filemd5` , `image_w` , `image_h` , `filesize` , `filesize_formatted` , `thumb_w` , `thumb_h` , `password` , `postedat` , `lastbumped` , `ip` , `ipmd5` , `posterauthority` , `tag` , `stickied` , `locked` ) VALUES ( '".mysqli_real_escape_string($tc_db->link, $parentid)."', '".mysqli_real_escape_string($tc_db->link, $name)."', '".mysqli_real_escape_string($tc_db->link, $tripcode)."', '', '".mysqli_real_escape_string($tc_db->link, $subject)."', '".mysqli_real_escape_string($tc_db->link, $message)."', '".mysqli_real_escape_string($tc_db->link, $filename)."', '".mysqli_real_escape_string($tc_db->link, $filename_original)."', '".mysqli_real_escape_string($tc_db->link, $filetype)."', '".mysqli_real_escape_string($tc_db->link, $filemd5)."', '".mysqli_real_escape_string($tc_db->link, $image_w)."', '".mysqli_real_escape_string($tc_db->link, $image_h)."', '".mysqli_real_escape_string($tc_db->link, $filesize)."', '".mysqli_real_escape_string($tc_db->link, ConvertBytes($filesize))."', '".mysqli_real_escape_string($tc_db->link, $thumb_w)."', '".mysqli_real_escape_string($tc_db->link, $thumb_h)."', '".mysqli_real_escape_string($tc_db->link, $password)."', '".mysqli_real_escape_string($tc_db->link, $postedat)."', '".mysqli_real_escape_string($tc_db->link, $lastbumped)."', '".mysqli_real_escape_string($tc_db->link, md5_encrypt($ip, KU_RANDOMSEED))."', '".md5($ip)."', '".mysqli_real_escape_string($tc_db->link, $posterauthority)."', '".mysqli_real_escape_string($tc_db->link, $tag)."', '".mysqli_real_escape_string($tc_db->link, $stickied)."', '".mysqli_real_escape_string($tc_db->link, $locked)."' )";
+		$query = "INSERT INTO `".KU_DBPREFIX."posts_".$this->board_dir."` ( `parentid` , `name` , `tripcode` , `email` , `subject` , `message` , `filename` , `filename_original`, `filetype` , `filemd5` , `image_w` , `image_h` , `filesize` , `filesize_formatted` , `thumb_w` , `thumb_h` , `password` , `postedat` , `lastbumped` , `ip` , `ipmd5` , `posterauthority` , `tag` , `stickied` , `locked`, `spoiler` ) VALUES ( '".mysqli_real_escape_string($tc_db->link, $parentid)."', '".mysqli_real_escape_string($tc_db->link, $name)."', '".mysqli_real_escape_string($tc_db->link, $tripcode)."', '', '".mysqli_real_escape_string($tc_db->link, $subject)."', '".mysqli_real_escape_string($tc_db->link, $message)."', '".mysqli_real_escape_string($tc_db->link, $filename)."', '".mysqli_real_escape_string($tc_db->link, $filename_original)."', '".mysqli_real_escape_string($tc_db->link, $filetype)."', '".mysqli_real_escape_string($tc_db->link, $filemd5)."', '".mysqli_real_escape_string($tc_db->link, $image_w)."', '".mysqli_real_escape_string($tc_db->link, $image_h)."', '".mysqli_real_escape_string($tc_db->link, $filesize)."', '".mysqli_real_escape_string($tc_db->link, ConvertBytes($filesize))."', '".mysqli_real_escape_string($tc_db->link, $thumb_w)."', '".mysqli_real_escape_string($tc_db->link, $thumb_h)."', '".mysqli_real_escape_string($tc_db->link, $password)."', '".mysqli_real_escape_string($tc_db->link, $postedat)."', '".mysqli_real_escape_string($tc_db->link, $lastbumped)."', '".mysqli_real_escape_string($tc_db->link, md5_encrypt($ip, KU_RANDOMSEED))."', '".md5($ip)."', '".mysqli_real_escape_string($tc_db->link, $posterauthority)."', '".mysqli_real_escape_string($tc_db->link, $tag)."', '".mysqli_real_escape_string($tc_db->link, $stickied)."', '".mysqli_real_escape_string($tc_db->link, $locked)."', '".mysqli_real_escape_string($tc_db->link, $spoiler)."' )";
 		$tc_db->Execute($query);
 		
 		return $tc_db->Insert_Id();

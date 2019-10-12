@@ -37,11 +37,15 @@ a:hover {
 	background:#0010E0;
 	color:#FFFFFF;
 	width:100%;
+	text-align: center;
+	padding: 2px;
 }
 .catalogmode {
 	background:#0040E0;
 	color:#FFFFFF;
 	width:100%;
+	text-align: center;
+	padding: 2px;
 }
 .postarea {
 	border-top: 1px solid #B7C5D9 !important;
