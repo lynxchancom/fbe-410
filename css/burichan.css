@@ -6,17 +6,14 @@ html, body {
 a {
 	background:inherit;
 	color:#34345C;
-	font-family:sans-serif;
 }
 a:visited {
 	background:inherit;
 	color:#34345C;
-	font-family:sans-serif;
 }
 a:hover {
 	color:#DD0000;
 	background:inherit;
-	font-family:sans-serif;
 }
 
 .adminbar {
@@ -116,7 +113,6 @@ a:hover {
 }
 .filesize {
 	font-family:sans-serif;
-	text-decoration:underline;
 }
 .filetitle {
 	background:inherit;
@@ -140,8 +136,7 @@ a:hover {
 .omittedposts {
 	background:inherit;
 	font-family:serif;
-	color:#070707;
-	font-weight:800;
+	color:#707070;
 }
 .reply {
 	background:#D6DAF0;
@@ -180,6 +175,14 @@ a:hover {
 
 .reflinkpreview {
 	background-color: #D6DAF0 !important;
+}
+
+input[type="text"], input[type="password"], textarea {
+    border: 1px solid #AAA;
+}
+
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
+	border: 1px solid #9988EE;
 }
 
 .topmenu {
