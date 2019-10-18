@@ -224,6 +224,10 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	border-bottom:1px solid #B7C5D9 !important;
 }
 
+.pgstbl table {
+    border: 1px solid #D6DAF0 !important;
+}
+
 .post-badge {
 	fill: white;
 	background: #133b5e;
@@ -239,4 +243,8 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 .post-btn:hover,
 .btn-small:hover {
 	fill: #d60c0c;
+}
+
+.read div[id^="thread"] span.reflink:after{
+	color: #707070;
 }
