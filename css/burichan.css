@@ -6,17 +6,14 @@ html, body {
 a {
 	background:inherit;
 	color:#34345C;
-	font-family:sans-serif;
 }
 a:visited {
 	background:inherit;
 	color:#34345C;
-	font-family:sans-serif;
 }
 a:hover {
 	color:#DD0000;
 	background:inherit;
-	font-family:sans-serif;
 }
 
 .adminbar {
@@ -37,11 +34,15 @@ a:hover {
 	background:#0010E0;
 	color:#FFFFFF;
 	width:100%;
+	text-align: center;
+	padding: 2px;
 }
 .catalogmode {
 	background:#0040E0;
 	color:#FFFFFF;
 	width:100%;
+	text-align: center;
+	padding: 2px;
 }
 .postarea {
 	border-top: 1px solid #B7C5D9 !important;
@@ -112,7 +113,6 @@ a:hover {
 }
 .filesize {
 	font-family:sans-serif;
-	text-decoration:underline;
 }
 .filetitle {
 	background:inherit;
@@ -136,8 +136,7 @@ a:hover {
 .omittedposts {
 	background:inherit;
 	font-family:serif;
-	color:#070707;
-	font-weight:800;
+	color:#707070;
 }
 .reply {
 	background:#D6DAF0;
@@ -176,6 +175,14 @@ a:hover {
 
 .reflinkpreview {
 	background-color: #D6DAF0 !important;
+}
+
+input[type="text"], input[type="password"], textarea {
+    border: 1px solid #AAA;
+}
+
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
+	border: 1px solid #9988EE;
 }
 
 .topmenu {
@@ -217,6 +224,10 @@ a:hover {
 	border-bottom:1px solid #B7C5D9 !important;
 }
 
+.pgstbl table {
+    border: 1px solid #D6DAF0 !important;
+}
+
 .post-badge {
 	fill: white;
 	background: #133b5e;
@@ -232,4 +243,8 @@ a:hover {
 .post-btn:hover,
 .btn-small:hover {
 	fill: #d60c0c;
+}
+
+.read div[id^="thread"] span.reflink:after{
+	color: #707070;
 }
