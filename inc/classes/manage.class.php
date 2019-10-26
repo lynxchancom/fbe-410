@@ -395,12 +395,16 @@ class Manage {
 					}
 					$deletion_changed_boards = array();
 					$deletion_new_boards = array();
-					while (list($postkey, $postvalue) = each($_POST)) {
+					reset($_POST);
+					//while (list($postkey, $postvalue) = each($_POST)) {
+					foreach($_POST as $postkey => $postvalue) {
 						if (substr($postkey, 0, 11) == 'rebuildfrom') {
 							$deletion_changed_boards[] = substr($postkey, 11);
 						}
 					}
-					while (list(, $deletion_thisboard_name) = each($deletion_boards)) {
+					reset($deletion_boards);
+					//while (list(, $deletion_thisboard_name) = each($deletion_boards)) {
+					foreach($deletion_boards as $delboardkey => $deletion_thisboard_name) {
 						if (in_array($deletion_thisboard_name, $deletion_changed_boards)) {
 							$deletion_new_boards[] = $deletion_thisboard_name;
 						}
@@ -980,7 +984,9 @@ class Manage {
 			if ($boardid != '') {
 				if ($_POST['order'] >= 0 && $_POST['maxpages'] >= 0 && $_POST['markpage'] >= 0 && $_POST['maxage'] >= 0 && $_POST['messagelength'] >= 0 && ($_POST['defaultstyle'] == '' || in_array($_POST['defaultstyle'], explode(':', KU_STYLES)) || in_array($_POST['defaultstyle'], explode(':', KU_TXTSTYLES)))) {
 					$filetypes = array();
-					while (list($postkey, $postvalue) = each($_POST)) {
+					reset($_POST);
+					foreach($_POST as $postkey => $postvalue) {
+					//while (list($postkey, $postvalue) = each($_POST)) {
 						if (substr($postkey, 0, 9) == 'filetype_') {
 							$filetypes[] = substr($postkey, 9);
 						}
