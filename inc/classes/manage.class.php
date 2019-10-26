@@ -3563,7 +3563,7 @@ function reason(why) {
 			$url = $_GET['url'];
 			$url = mysqli_real_escape_string($tc_db->link, $url);
 			$tpl_page .= "ADD $url";
-			$tc_db->Execute("INSERT INTO `" . KU_DBPREFIX . "spamfilter` ( `id` , `url` ) VALUES ('', '$url')");
+			$tc_db->Execute("INSERT INTO `" . KU_DBPREFIX . "spamfilter` ( `url` ) VALUES ('$url')");
 			
 			$wut = $url;
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "spamfilter` ORDER BY `id` ASC");

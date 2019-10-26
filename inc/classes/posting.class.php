@@ -420,7 +420,7 @@ fwrite($fh, "good\n");
 		foreach ($badlinks as $badlink) {
 			if (strpos($_POST['message'], $badlink) !== false) {
 				/* They included a blacklisted link in their post.  Ban them for an hour */
-				$bans_class->BanUser($_SERVER['REMOTE_ADDR'], 'SERVER', 1, 3600, '', _gettext('Posting a blacklisted link.') . ' (' . $badlink . ')');
+				$bans_class->BanUser($_SERVER['REMOTE_ADDR'], 'SERVER', 1, 3600, '', _gettext('Posting a blacklisted link.') . ' (' . $badlink . ')',0,0,1,'');
 				exitWithErrorPage('Blacklisted link (' . $badlink . ') detected.');
 			}
 		}
