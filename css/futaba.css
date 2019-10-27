@@ -158,6 +158,14 @@ a:hover {
 	background-color: #F0E0D6 !important;
 }
 
+input[type="text"], input[type="password"], textarea {
+	border: 1px solid #AAA;
+}
+
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
+	border: 1px solid #EEAA88;
+}
+
 .topmenu {
 	border-bottom: 1px solid #F0E0D6;
 	opacity: 0.95;
@@ -199,6 +207,10 @@ a:hover {
 	border-bottom:1px solid #D9BFB7 !important;
 }
 
+.pgstbl table {
+	border: 1px solid #d9bfb7 !important;
+}
+
 .post-badge {
 	fill: white;
 	background: #133b5e;
@@ -214,4 +226,8 @@ a:hover {
 .post-btn:hover,
 .btn-small:hover {
 	fill: #d60c0c;
+}
+
+.read div[id^="thread"] span.reflink:after{
+	color: #707070;
 }

@@ -257,3 +257,7 @@ hr {
 .btn-small:hover {
 	fill: #AFB9C5;
 }
+
+.read div[id^="thread"] span.reflink:after{
+	color: #707070;
+}
