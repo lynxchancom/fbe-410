@@ -770,7 +770,7 @@ class Board {
 		$this->CachePageHeaderData();
 		
 		$numreplies = $tc_db->GetOne("SELECT COUNT(*) FROM `" . KU_DBPREFIX . "posts_" . $this->board_dir . "` WHERE (`id` = " . mysqli_real_escape_string($tc_db->link, $thread_op_id) . " OR `parentid` = " . mysqli_real_escape_string($tc_db->link, $thread_op_id) . ") AND `IS_DELETED` = 0");
-		if (count($numreplies) > 0) {
+		if (is_array($numreplies) && count($numreplies) > 0) {
 			$executiontime_start_regeneratethread = microtime_float();
 			$numreplies--;
 			

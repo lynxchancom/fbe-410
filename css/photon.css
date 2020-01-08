@@ -1,7 +1,6 @@
 html, body {
 	background-color: #EEEEEE;
 	color: #333333;
-	font-family: "Trebuchet MS",Trebuchet,serif;
 }
 a {
 	color: #FF6600;
@@ -19,7 +18,6 @@ a:hover {
 	clear:both;
 	text-align:center;
 	font-size:2em;
-	font-weight: bold;
 	color:#FF6600;
 	/*width:100%;*/
 }
@@ -29,10 +27,8 @@ a:hover {
 	padding:2px;
 	color:#2266AA;
 	clear: both;
-	font-weight: bold;
 	margin-bottom: .5em;
 	border: solid 1px #CCCCCC;
-	border-radius: 5px;
 }
 .catalogmode {
 	background: #0040E0;
@@ -40,10 +36,8 @@ a:hover {
 	padding: 2px;
 	color: #DDDDDD;
 	clear: both;
-	font-weight: bold;
 	margin-bottom: .5em;
 	border: solid 1px #CCCCCC;
-	border-radius: 5px;
 }
 .postarea {
 	border-top:1px solid #BBBBBB !important;
@@ -51,17 +45,17 @@ a:hover {
 }
 .rules {
 	font-size:0.7em;
+	width: 468px;
+	font-size: 10px;
+	font-family: sans-serif;
 }
 .postblock {
-	background:transparent;
+    background:#ddd;
 	color:#002244;
 	font-weight:bold;
 }
 .footer {
-	text-align:center;
-	font-size:12px;
-	font-family:serif;
-	margin: 2em 0 0 0;
+	font-family: sans-serif;
 }
 .dellist {
 	font-weight: bold;
@@ -95,13 +89,11 @@ a:hover {
 	color:#789922;
 }
 .reflink {
-	font-size: .8em;
-	font-weight: bold;
 }
 .filesize {
 	text-decoration:none;
 	color: #666666;
-	font-size: .8em;
+	font-family: sans-serif;
 }
 .filetitle {
 	background:inherit;
@@ -126,7 +118,6 @@ a:hover {
 .reply {
 	background:#DDDDDD;
 	border: solid 1px #CCCCCC;
-	border-radius: 5px;
 }
 
 blockquote p {
@@ -267,19 +258,35 @@ body {
 
 .post-badge {
 	fill: white;
-	background: #aba8a6;
+	background: #FF6600;
 }
 
 .nav-btn {
-	fill: #ff6600;
+	fill: #FF6600;
 }
 
 .post-btn,
 .btn-small {
-	fill: #aba8a6;
+	fill: #FF6600;
 }
 
+.nav-btn:hover;
 .post-btn:hover,
 .btn-small:hover {
-	fill: #ff6600;
+	fill: #0066FF;
+}
+
+input[type="text"], input[type="password"], textarea {
+	border: 1px solid #AAA;
+}
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
+	border: 1px solid #EEAA88;
+}
+
+.pgstbl table {
+	border: 1px solid #CCCCCC !important;
+}
+
+.read div[id^="thread"] span.reflink:after{
+	color: #707070;
 }
