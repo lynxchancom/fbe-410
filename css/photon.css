@@ -261,16 +261,13 @@ body {
 	background: #FF6600;
 }
 
-.nav-btn {
-	fill: #FF6600;
-}
-
+.nav-btn,
 .post-btn,
 .btn-small {
 	fill: #FF6600;
 }
 
-.nav-btn:hover;
+.nav-btn:hover,
 .post-btn:hover,
 .btn-small:hover {
 	fill: #0066FF;
