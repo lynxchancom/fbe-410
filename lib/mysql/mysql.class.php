@@ -88,10 +88,11 @@ class MySQL {
 	public function GetOne($sql) {
 		$one = mysqli_query($this->link, $sql);
 		if (!$one) {
-			die('Invalid query [GetOne] ' . mysqli_error($this->link));
+			return $null;
+			die('Invalid query [GetOne] ' . mysqli_error($this->link)); // wtf? library shouldn't die.
 		}
 		$result = mysqli_fetch_row($one);
-		return $result[0];
+		return $result[0]; // well hi there. we may here return either scalar or array. hello, -darkness my old friend- undefined behaviour.
     }
 	/* Insert ID */
 	public function Insert_ID() {
