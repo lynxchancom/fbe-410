@@ -905,3 +905,32 @@ cursor: s-resize;
 .spoiler-image.imglink:hover::after {
   opacity: 0;
 }
+
+.quick-reply-form {
+  display: none;
+}
+
+.quick-reply-form.reply {
+  display: table;
+}
+
+.quick-reply-form .quick-reply-form-name,
+.quick-reply-form #posttypeindicator,
+.quick-reply-form #resizer,
+.quick-reply-form table tr:last-child,
+.quick-reply-form input[type=submit] + small {
+  display: none;
+}
+
+.quick-reply-form .replymode a:first-child {
+  float: left;
+}
+
+.quick-reply-form .replymode a:last-child {
+  float: right;
+}
+
+
+.quick-reply-form.form-detached {
+
+}

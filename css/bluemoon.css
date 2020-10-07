@@ -261,3 +261,7 @@ hr {
 .read div[id^="thread"] span.reflink:after{
 	color: #707070;
 }
+
+.quick-reply-form .replymode {
+    background-color: #8C9FB4;
+}
