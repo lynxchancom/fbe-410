@@ -300,3 +300,12 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 .quick-reply-form .replymode {
     background-color: #88DD88;
 }
+
+.quick-reply-form.form-detached {
+    border: 1px #117743 dashed;
+}
+
+.quick-reply-form.form-detached .post-badge {
+    fill: #EEFFEE;
+    background: transparent;
+}

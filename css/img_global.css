@@ -922,6 +922,10 @@ cursor: s-resize;
   display: none;
 }
 
+.quick-reply-form .replymode {
+  cursor: pointer;
+}
+
 .quick-reply-form .replymode a:first-child {
   float: left;
 }
@@ -930,7 +934,8 @@ cursor: s-resize;
   float: right;
 }
 
-
 .quick-reply-form.form-detached {
-
+  margin: 0;
+  z-index: 101;
 }
+

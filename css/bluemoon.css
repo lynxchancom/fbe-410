@@ -265,3 +265,12 @@ hr {
 .quick-reply-form .replymode {
     background-color: #8C9FB4;
 }
+
+.quick-reply-form.form-detached {
+	border: 1px #B6C2CF dashed;
+}
+
+.quick-reply-form.form-detached .post-badge {
+    fill: #EEEEEE;
+    background: transparent;
+}
