@@ -2163,7 +2163,7 @@ class Board {
 					if ($this->board_enablecaptcha == 1) {
 						$output .= '<tr>' . "\n" .
 						'	<td class="'.$label_class.'">' . "\n" .
-						'		<a href="#" onclick="document.getElementById(\'captchaimage\').src = \'' . KU_CGIPATH . '/captcha.php?\' + Math.random();return false;"><img id="captchaimage" src="' . KU_CGIPATH . '/captcha.php" border="0" width="90" height="25" alt="Captcha image"></a>' . "\n" .
+						'		<a class = "caplink" href="#"><img id="captchaimage" src="' . KU_CGIPATH . '/captcha.php" border="0" width="90" height="25" alt="Captcha image"></a>' . "\n" .
 						'	</td>' . "\n" .
 						'	<td>' . "\n" .
 						'		<input type="text" name="captcha" 
