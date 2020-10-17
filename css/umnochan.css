@@ -341,3 +341,39 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
     fill: #FFECB2;
     background: transparent;
 }
+
+/* Portrait mobile CSS */
+@media only screen and (max-width: 480px) {
+	.logo {
+		font-family: Times New Roman,serif;
+		color:#800000;
+	}
+
+    .reply {
+        border-style: solid;
+		border-color: #F9E0A8;
+    }
+
+	textarea {
+        border-style: solid;
+		border-color: #AAA;
+	}
+
+	input[type=text], input[type=password] {
+        border-style: solid;
+		border-color: #AAA;
+	}
+
+	input[type=submit] {
+		border-color: #D0AB65;
+		background: #F9E0A8;
+		border-width: 1px;
+        border-style: solid;
+	}
+
+	input[type=submit]:hover {
+		border-color: #D0AB65;
+		background: #FFECB2;
+	}
+}
+

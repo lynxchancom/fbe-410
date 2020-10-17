@@ -337,10 +337,8 @@ input[type=text], input[type=password], textarea {
 
 	.logo {
 		clear:right;
-		font-family: Times New Roman,serif;
 		text-align:center;
 		font-size:20pt;
-		color:#800000;
 		width:100%;
 		display:inline;
 	}
@@ -470,7 +468,7 @@ input[type=text], input[type=password], textarea {
 	.reply {
 		background: #FFECB2;
 		color: #090E00;
-		border: 1px solid #F9E0A8;
+		border-width: 1px;
 		width:100%!important;
 		clear:both;
 		padding:0px!important;
@@ -537,7 +535,7 @@ input[type=text], input[type=password], textarea {
 		margin: 0px;
 		margin-right: 2px;
 		padding: 2px 4px 3px 4px;
-		border: 1px solid #AAA;
+		border-width: 1px;
 		outline: none;
 		font-size: 10pt;
 	}
@@ -549,25 +547,21 @@ input[type=text], input[type=password], textarea {
 		margin: 0px;
 		margin-right: 2px;
 		padding: 2px 4px 3px 4px;
-		border: 1px solid #AAA;
+		border-width: 1px;
 		outline: none;
 		font-size: 10pt;
 		width:40%!important;
 	}
 
 	input[type=submit] {		
-		border: 1px solid #D0AB65;
 		outline: none;
-		background: #F9E0A8;
 		margin: 0px;
 		margin-right: 2px;
 		padding: 2px 4px 3px 4px;
 	}
 
-	input[type=submit]:hover {		
-		border: 1px solid #D0AB65;
+	input[type=submit]:hover {
 		outline: none;
-		background: #FFECB2;
 		margin: 0px;
 		margin-right: 2px;
 		padding: 2px 4px 3px 4px;
