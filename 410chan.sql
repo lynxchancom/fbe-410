@@ -13,7 +13,7 @@
 --
 -- Table structure for table `announcements`
 --
-use kusaba;
+
 DROP TABLE IF EXISTS `announcements`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -378,8 +378,8 @@ CREATE TABLE `staff` (
   `boards` text,
   `addedon` int(20) NOT NULL,
   `lastactive` int(20) NOT NULL DEFAULT '0',
-  `suspended` int(1) NOT NULL,
-  `access` int(1) NOT NULL,
+  `suspended` int(1) NOT NULL default 0,
+  `access` int(1) NOT NULL default 0,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
