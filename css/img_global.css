@@ -297,6 +297,7 @@ input[type=text], input[type=password], textarea {
 	display:none !important;
 }
 
+/* Portrait mobile CSS */
 @media only screen and (max-width: 480px) {
 	html {
 		text-size-adjust:100%;
@@ -336,10 +337,8 @@ input[type=text], input[type=password], textarea {
 
 	.logo {
 		clear:right;
-		font-family: Times New Roman,serif;
 		text-align:center;
 		font-size:20pt;
-		color:#800000;
 		width:100%;
 		display:inline;
 	}
@@ -469,7 +468,7 @@ input[type=text], input[type=password], textarea {
 	.reply {
 		background: #FFECB2;
 		color: #090E00;
-		border: 1px solid #F9E0A8;
+		border-width: 1px;
 		width:100%!important;
 		clear:both;
 		padding:0px!important;
@@ -536,7 +535,7 @@ input[type=text], input[type=password], textarea {
 		margin: 0px;
 		margin-right: 2px;
 		padding: 2px 4px 3px 4px;
-		border: 1px solid #AAA;
+		border-width: 1px;
 		outline: none;
 		font-size: 10pt;
 	}
@@ -548,25 +547,21 @@ input[type=text], input[type=password], textarea {
 		margin: 0px;
 		margin-right: 2px;
 		padding: 2px 4px 3px 4px;
-		border: 1px solid #AAA;
+		border-width: 1px;
 		outline: none;
 		font-size: 10pt;
 		width:40%!important;
 	}
 
 	input[type=submit] {		
-		border: 1px solid #D0AB65;
 		outline: none;
-		background: #F9E0A8;
 		margin: 0px;
 		margin-right: 2px;
 		padding: 2px 4px 3px 4px;
 	}
 
-	input[type=submit]:hover {		
-		border: 1px solid #D0AB65;
+	input[type=submit]:hover {
 		outline: none;
-		background: #FFECB2;
 		margin: 0px;
 		margin-right: 2px;
 		padding: 2px 4px 3px 4px;
@@ -739,6 +734,40 @@ input[type=text], input[type=password], textarea {
 	.catalogthread {
 		width: 180px;
 	}
+
+    .thrdcntnr .extrabtns,
+    .reply .extrabtns {
+		display: inline;
+	}
+
+	.thrdcntnr .post-btn,
+	.thrdcntnr .post-badge {
+        display: none;
+    }
+
+    .thrdcntnr .post-btn-reply,
+    .reply .post-btn,
+    .reply .post-badge {
+        display: inline;
+    }
+
+    .quick-reply-form .quick-reply-form-imagefile input[type=file] {
+        display: block;
+    }
+
+    .quick-reply-form .quick-reply-form-postpassword {
+        display: none;
+    }
+
+}
+
+/* Landscape mobile CSS */
+@media only screen and (max-height: 480px) {
+
+    .quick-reply-form .quick-reply-form-postpassword {
+        display: none;
+    }
+
 }
 
 /* jQuery-based remake of scripts (2018) is supported by the following: */
@@ -905,3 +934,37 @@ cursor: s-resize;
 .spoiler-image.imglink:hover::after {
   opacity: 0;
 }
+
+.quick-reply-form {
+  display: none;
+}
+
+.quick-reply-form.reply {
+  display: table;
+}
+
+.quick-reply-form .quick-reply-form-name,
+.quick-reply-form #posttypeindicator,
+.quick-reply-form #resizer,
+.quick-reply-form table tr:last-child,
+.quick-reply-form input[type=submit] + small {
+  display: none;
+}
+
+.quick-reply-form .replymode {
+  cursor: pointer;
+}
+
+.quick-reply-form .replymode a:first-child {
+  float: left;
+}
+
+.quick-reply-form .replymode a:last-child {
+  float: right;
+}
+
+.quick-reply-form.form-detached {
+  margin: 0;
+  z-index: 101;
+}
+
