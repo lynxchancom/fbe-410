@@ -266,6 +266,11 @@ hr {
     background-color: #8C9FB4;
 }
 
+.quick-reply-form .post-badge:hover {
+    fill: #EEEEEE;
+    background: transparent;
+}
+
 .quick-reply-form.form-detached {
 	border: 1px #B6C2CF dashed;
 }
@@ -273,4 +278,9 @@ hr {
 .quick-reply-form.form-detached .post-badge {
     fill: #EEEEEE;
     background: transparent;
+}
+
+.quick-reply-form.form-detached .post-badge:hover {
+    fill: #49525D;
+    background: #EEEEEE;
 }
