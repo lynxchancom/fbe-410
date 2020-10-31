@@ -253,9 +253,18 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
     fill: white;
 }
 
+.quick-reply-form .post-btn:hover {
+    fill: #9988EE;
+}
+
 .quick-reply-form .post-badge {
-    fill: #133b5e;
+    fill: #0010E0;
     background: white;
+}
+
+.quick-reply-form .post-badge:hover {
+    fill: #9988EE;
+    background: transparent;
 }
 
 .quick-reply-form.form-detached {
@@ -265,5 +274,10 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 .quick-reply-form.form-detached .post-badge {
     fill: #9988EE;
     background: transparent;
+}
+
+.quick-reply-form.form-detached .post-badge:hover {
+    fill: #0010E0;
+    background: white;
 }
 

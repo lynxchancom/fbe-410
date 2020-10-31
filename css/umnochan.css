@@ -333,6 +333,24 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	color: #707070;
 }
 
+.quick-reply-form .post-btn {
+    fill: white;
+}
+
+.quick-reply-form .post-btn:hover {
+    fill: #FFECB2;
+}
+
+.quick-reply-form .post-badge {
+    fill: #D0AB65;
+    background: white;
+}
+
+.quick-reply-form .post-badge:hover {
+    fill: white;
+    background: transparent;
+}
+
 .quick-reply-form.form-detached {
     border: 1px #D0AB65 dashed;
 }
@@ -340,6 +358,11 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 .quick-reply-form.form-detached .post-badge {
     fill: #FFECB2;
     background: transparent;
+}
+
+.quick-reply-form.form-detached .post-badge:hover {
+    fill: #D0AB65;
+    background: white;
 }
 
 /* Portrait mobile CSS */

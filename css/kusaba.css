@@ -301,6 +301,11 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
     background-color: #88DD88;
 }
 
+.quick-reply-form .post-badge:hover {
+    fill: #EEFFEE;
+    background: transparent;
+}
+
 .quick-reply-form.form-detached {
     border: 1px #117743 dashed;
 }
@@ -308,4 +313,9 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 .quick-reply-form.form-detached .post-badge {
     fill: #EEFFEE;
     background: transparent;
+}
+
+.quick-reply-form.form-detached .post-badge:hover {
+    fill: white;
+    background: #345C34;
 }
