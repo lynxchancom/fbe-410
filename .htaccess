@@ -9,6 +9,7 @@ AddType video/ogg ogv
 AddType audio/ogg ogg oga
 AddType audio/opus opus
 AddType video/webm webm
+AddType image/webp webp
 FileETag None
 Options +FollowSymlinks +Includes
 
