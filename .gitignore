@@ -8,4 +8,6 @@ smarty/templates_c
 \w+/src/*
 \w+/res/*
 \w+/thumb/*
+.htsession
+adaptive_config.php
 

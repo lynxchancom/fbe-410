@@ -248,3 +248,36 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 .read div[id^="thread"] span.reflink:after{
 	color: #707070;
 }
+
+.quick-reply-form .post-btn {
+    fill: white;
+}
+
+.quick-reply-form .post-btn:hover {
+    fill: #9988EE;
+}
+
+.quick-reply-form .post-badge {
+    fill: #0010E0;
+    background: white;
+}
+
+.quick-reply-form .post-badge:hover {
+    fill: #9988EE;
+    background: transparent;
+}
+
+.quick-reply-form.form-detached {
+    border: 1px #B7C5D9 dashed;
+}
+
+.quick-reply-form.form-detached .post-badge {
+    fill: #9988EE;
+    background: transparent;
+}
+
+.quick-reply-form.form-detached .post-badge:hover {
+    fill: #0010E0;
+    background: white;
+}
+

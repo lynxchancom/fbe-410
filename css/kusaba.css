@@ -296,3 +296,26 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 .read div[id^="thread"] span.reflink:after{
 	color: #707070;
 }
+
+.quick-reply-form .replymode {
+    background-color: #88DD88;
+}
+
+.quick-reply-form .post-badge:hover {
+    fill: #EEFFEE;
+    background: transparent;
+}
+
+.quick-reply-form.form-detached {
+    border: 1px #117743 dashed;
+}
+
+.quick-reply-form.form-detached .post-badge {
+    fill: #EEFFEE;
+    background: transparent;
+}
+
+.quick-reply-form.form-detached .post-badge:hover {
+    fill: white;
+    background: #345C34;
+}
