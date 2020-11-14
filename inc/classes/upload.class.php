@@ -115,6 +115,9 @@ class Upload {
 						$svg = new Svg($_FILES['imagefile']['tmp_name']);
 						$this->imgWidth = $svg->width;
 						$this->imgHeight = $svg->height;
+ 					} elseif ($this->file_type == 'webp') {
+ 						$this->imgWidth = exec('identify -precision 14 -format "%w" ' . $_FILES['imagefile']['tmp_name'] . '[0]');
+ 						$this->imgHeight = exec('identify -precision 14 -format "%h" ' . $_FILES['imagefile']['tmp_name'] . '[0]');
  					} elseif ($board_class->allowed_file_types[$this->file_type][0] == 'video') {
  						# Calculations should be postponed untill after load balancing, ideally... Probably
  						$expectedFormat = $this->file_type;

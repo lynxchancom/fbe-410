@@ -86,19 +86,26 @@ function createThumbnail($name, $filename, $new_w, $new_h) {
 	} elseif (KU_THUMBMETHOD == 'imagemagick') {
 		// ImageMagick v6.x does not have `magick` command, only `convert`:
 		$convert = 'convert ' . $filetype . ':' . escapeshellarg($name);
-		if ($filetype == 'gif') { // special GIF processing:
+		if ($filetype == 'gif' || $filetype == 'webp') { // animation processing:
 			if (KU_ANIMATEDTHUMBS) {
 				$convert .= ' -coalesce';
 			} else {
-				$convert .= '[0]'; // grab only the 0th frame of the GIF
+				$convert .= '[0]'; // grab only the 0th frame of the animation
 			}
-		} else $convert .= ' +profile "*"'; // removes ICM/EXIF/IPTC/other profiles,
+		}
+		$convert .= ' +profile "*"'; // removes ICM/EXIF/IPTC/other profiles,
 		//see https://legacy.imagemagick.org/script/command-line-options.php#profile
 		$convert .= ' -resize ' . $new_w . 'x' . $new_h . '\>'; // escape from shell
 		//The `-quality` option is actually quite format-specific in ImageMagick,
 		//see https://legacy.imagemagick.org/script/command-line-options.php#quality
 		if ($filetype == 'png') {
 			$convert .= ' -quality 95'; // 9 = zlib level 9; 5 = adaptive filter
+		} elseif ($filetype == 'webp') {
+			if (KU_ANIMATEDTHUMBS) { // need more quality to lessen the speckling:
+				$convert .= ' -quality 93';
+			} else $convert .= ' -quality 85'; // already smaller files than JPEG q=80
+			// segment-smoothness-oriented luma-weighed chroma subsampling:
+			$convert .= ' -define webp:method=6 -define webp:preprocessing=5';
 		} elseif ($filetype != 'gif') {
 			$convert .= ' -quality 80'; // does not make any sense to apply it to GIFs
 		} else $convert .= ' -dither FloydSteinberg'; //change GIF dithering method,
