@@ -10,4 +10,4 @@ smarty/templates_c
 \w+/thumb/*
 .htsession
 adaptive_config.php
-
+.appeals
