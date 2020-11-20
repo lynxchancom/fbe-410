@@ -636,6 +636,18 @@ msgstr ""
 msgid "Move complete."
 msgstr ""
 
+msgid "From thread"
+msgstr ""
+
+msgid "To thread"
+msgstr ""
+
+msgid "Merge threads"
+msgstr ""
+
+msgid "Merge complete."
+msgstr ""
+
 msgid "The change will not be apparent until the html files are rebuilt."
 msgstr ""
 
