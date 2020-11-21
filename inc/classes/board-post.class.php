@@ -43,8 +43,8 @@ function svgIcon($iconName, $iconSize) {
 function random_appeal($year, $board) 
 { // appeals
 	return array(
-		sprintf("/.appeals/%d/app2014-hule.htm", $year),
-		sprintf("/.appeals/%d/app2014-hule.png", $year)
+		sprintf("/.appeals/%d/app%d-hule.htm", $year, $year),
+		sprintf("/.appeals/%d/app%d-hule.png", $year, $year)
 	);
 	srand((double)microtime() * 1000000);
 //	$appealsfrom = array('hule', 'mod', 'tech');
@@ -1753,7 +1753,7 @@ class Board {
 // banner
 			$dir = 'misc/src';
 			$output .= "<div class=\"logo\">";
-//			$banner = random_appeal(2014, $this->board_dir);
+//			$banner = random_appeal(2020, $this->board_dir);
 			$banner = random_banner($dir);
 			if(is_array($banner)) {
 				$output .= sprintf("<a href=\"%s\"><img src=\"%s\" alt=\"Banner\"></a>", $banner[0], $banner[1]);
