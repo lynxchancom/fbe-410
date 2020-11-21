@@ -4318,9 +4318,22 @@ echo "stage 6<br>";
 
 			echo "Stage 3: Merging... <br/>";
 			$tc_db->Execute("START TRANSACTION");
+
+			//Update link hrefs
+			echo "UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'href=\\\\\"/dev/res/" . $from_id . ".html#', 'href=\\\\\"/dev/res/" . $to_id . ".html#') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'";
+			echo "<br/>";
+			$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'href=\\\\\"/dev/res/" . $from_id . ".html#', 'href=\\\\\"/dev/res/" . $to_id . ".html#') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'");
+
+			//Update link preview params
+			echo "UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'class=\\\\\"ref|" . $board . "|" . $from_id . "|', 'class=\\\\\"ref|" . $board . "|" . $to_id . "|') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'";
+			echo "<br/>";
+			$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'class=\\\\\"ref|" . $board . "|" . $from_id . "|', 'class=\\\\\"ref|" . $board . "|" . $to_id . "|') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'");
+
+			//Update parents
 			echo "UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `parentid` = '" . $to_id . "' WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'";
 			echo "<br/>";
 			$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `parentid` = '" . $to_id . "' WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'");
+
 			$tc_db->Execute("COMMIT");
 
 			echo "Stage 3.0+1.0: Rebuild of post-merge board...<br/><br/>";
