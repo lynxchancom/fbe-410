@@ -1296,7 +1296,11 @@ class Board {
 					}
 					$info_file .= 'href="' . $post_file_url . '">';
 				}
-				$info_file .= htmlspecialchars($post['filename'], ENT_QUOTES) . '.' . $post['filetype'] . '</a>-(';
+				if ($post['filename_original'] != '') {
+					$info_file .= htmlspecialchars($post['filename_original'], ENT_QUOTES) . '.' . $post['filetype'] . '</a> - (';
+				} else {
+					$info_file .= htmlspecialchars($post['filename'], ENT_QUOTES) . '.' . $post['filetype'] . '</a> - (';
+				}
 				if ($post['filesize_formatted'] == '') {
 					$info_file .= ConvertBytes($post['filesize']);
 				} else {
@@ -1304,9 +1308,6 @@ class Board {
 				}
 				if ($post['image_w'] > 0 && $post['image_h'] > 0) {
 					$info_file .= ', ' . $post['image_w'] . '×' . $post['image_h'];
-				}
-				if ($post['filename_original'] != '' && $post['filename_original'] != $post['filename']) {
-					$info_file .= ', ' . htmlspecialchars($post['filename_original']) . '.' . $post['filetype'];
 				}
 				$info_file .= ')</span>' . "\n";
 				if (KU_THUMBMSG) {
