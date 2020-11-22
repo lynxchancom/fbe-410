@@ -4281,5 +4281,86 @@ echo "stage 6<br>";
 			}
 		return true;		
 	}
+
+	// Merge threads
+	function mergethreads() {
+		global $tc_db, $smarty, $tpl_page;
+		$this->AdministratorsOnly();
+		$tpl_page .= '<h2>' . ucwords(_gettext('Merge threads')) . "</h2><br/>";
+
+		//Logs and logic go here
+		if (isset($_POST['from_id']) && isset($_POST['to_id']) && isset($_POST['board'])) {
+			echo "Stage 1: Validating form params...<br/>";
+
+			if(!is_numeric($_POST['from_id'])) {
+				exitWithErrorPage('Invalid FROM thread ID');
+			}
+			if(!is_numeric($_POST['to_id'])) {
+				exitWithErrorPage('Invalid TO thread ID');
+			}
+			if(empty($_POST['board'])) {
+				exitWithErrorPage('Please select a board');
+			}
+
+			echo "Stage 2: Checking threads...<br/>";
+			$board = mysqli_real_escape_string($tc_db->link, $_POST['board']);
+			$from_id = mysqli_real_escape_string($tc_db->link, $_POST['from_id']);
+			$to_id = mysqli_real_escape_string($tc_db->link, $_POST['to_id']);
+
+			$from_results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `filename`, `filetype` FROM " . KU_DBPREFIX . "posts_" . $board . " WHERE `id` = '" . $from_id . "' AND `parentid` = 0 AND `IS_DELETED` = 0 LIMIT 1");
+			$to_results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `filename`, `filetype` FROM " . KU_DBPREFIX . "posts_" . $board . " WHERE `id` = '" . $to_id . "' AND `parentid` = 0 AND `IS_DELETED` = 0 LIMIT 1");
+			if(count($from_results) <= 0) {
+				exitWithErrorPage('Invalid FROM thread ID');
+			}
+			if(count($to_results) <= 0) {
+				exitWithErrorPage('Invalid TO thread ID');
+			}
+
+			echo "Stage 3: Merging... <br/>";
+			$tc_db->Execute("START TRANSACTION");
+
+			//Update link hrefs
+			echo "UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'href=\\\\\"/dev/res/" . $from_id . ".html#', 'href=\\\\\"/dev/res/" . $to_id . ".html#') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'";
+			echo "<br/>";
+			$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'href=\\\\\"/dev/res/" . $from_id . ".html#', 'href=\\\\\"/dev/res/" . $to_id . ".html#') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'");
+
+			//Update link preview params
+			echo "UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'class=\\\\\"ref|" . $board . "|" . $from_id . "|', 'class=\\\\\"ref|" . $board . "|" . $to_id . "|') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'";
+			echo "<br/>";
+			$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'class=\\\\\"ref|" . $board . "|" . $from_id . "|', 'class=\\\\\"ref|" . $board . "|" . $to_id . "|') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'");
+
+			//Update parents
+			echo "UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `parentid` = '" . $to_id . "' WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'";
+			echo "<br/>";
+			$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `parentid` = '" . $to_id . "' WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'");
+
+			$tc_db->Execute("COMMIT");
+
+			echo "Stage 3.0+1.0: Rebuild of post-merge board...<br/><br/>";
+			$board_class = new Board($board);
+			$board_class->RegenerateAll();
+
+			$tpl_page .= _gettext('Merge complete.') . '<br/><hr/><br/>';
+		}
+
+		//Form output here
+		$tpl_page .= '<form action="?action=mergethreads" method="post">
+
+		<label for="from_id">' . _gettext('From thread') . ':</label>
+		<input type="text" name="from_id"/>
+		<br/>
+
+		<label for="to_id">' . _gettext('To thread') . ':</label>
+		<input type="text" name="to_id"/>
+		<br/>
+
+		<label for="board">' . _gettext('Board') . ':</label>' .
+		$this->MakeBoardListDropdown('board', $this->BoardList($_SESSION['manageusername'])) .
+		'<br/>
+
+		<input type="submit" value="' . _gettext('Merge threads') . '"/>
+
+		</form>';
+	}
 }
 ?>

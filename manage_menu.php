@@ -79,6 +79,7 @@ if (!$manage_class->ValidateSession(true)) {
 		<li><a href="manage_page.php?action=boardopts">' . _gettext('Board options') . '</a></li>
 		<li><a href="manage_page.php?action=wordfilter">' . _gettext('Wordfilter') . '</a></li>
 		<li><a href="manage_page.php?action=movethread">' . _gettext('Move thread') . '</a></li>
+		<li><a href="manage_page.php?action=mergethreads">' . _gettext('Merge threads') . '</a></li>
 		<li><a href="manage_page.php?action=search">' . _gettext('Search posts') . '</a></li>
 		<li><a href="manage_page.php?action=viewdeletedthread">' . _gettext('View deleted thread') . '</a></li>
 		<li><a href="manage_page.php?action=editfiletypes">' . _gettext('Edit filetypes') . '</a></li>
