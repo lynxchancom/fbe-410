@@ -71,10 +71,7 @@ function printStylesheetsSite($prefered_stylesheet = KU_DEFAULTMENUSTYLE, $menu 
 		}
 	}
 	
-	$output_stylesheets .= '<script>' . "\n" .
-	'	var style_cookie_site = "kustyle_site";' . "\n" .
-	'</script>' . "\n" .
-	'<script src="' . getCWebPath() . 'lib/javascript/kusaba.js"></script>' . "\n";
+	$output_stylesheets .= '<script src="' . getCWebPath() . 'lib/javascript/kusaba.js"></script>' . "\n";
 	
 	return $output_stylesheets;
 }

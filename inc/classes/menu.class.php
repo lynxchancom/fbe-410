@@ -39,7 +39,7 @@ class Menu {
 			$styles = explode(':', KU_MENUSTYLES);
 			$styleswitcher = _gettext('Styles') . ': ';
 			foreach ($styles as $style) {
-				$styleswitcher .= '[<a href="#" onclick="set_stylesheet(\\\'' . ucfirst($style) . '\\\', false, true);reloadmain();" style="display: inline;" target="_self">' . strtoupper(substr($style, 0, 1)) . '<\/a>] ';
+				$styleswitcher .= '[<a href="#" onclick="set_stylesheet(\\\'' . ucfirst($style) . '\\\');reloadmain();" style="display: inline;" target="_self">' . strtoupper(substr($style, 0, 1)) . '<\/a>] ';
 			}
 			$styleswitcher = substr($styleswitcher, 0, -1);
 		} else {

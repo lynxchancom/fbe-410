@@ -5,9 +5,8 @@
 <title>{$name}</title>
 <script src="{$ku_webpath}lib/javascript/jquery-3.3.1.min.js"></script>
 <script>
-    style_cookie="";
+    style_cookie="kustyle";
     style_cookie_txt="";
-    style_cookie_site="kustyle_site";
 </script>
 {$css}<link rel="shortcut icon" href="{$favicon}">
 </head>

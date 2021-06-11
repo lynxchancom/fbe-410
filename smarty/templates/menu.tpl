@@ -5,9 +5,8 @@
 <title>{$ku_name} Navigation</title>
 <script src="{$ku_webpath}lib/javascript/jquery-3.3.1.min.js"></script>
 <script>
-    style_cookie="";
+    style_cookie="kustyle";
     style_cookie_txt="";
-    style_cookie_site="kustyle_site";
 </script>
 {$styles}<link rel="shortcut icon" href="{$ku_webpath}/favicon.ico">
 {literal}<script>
@@ -32,11 +31,6 @@ function removeframes() {
 	document.getElementById("removeframes").innerHTML = 'Frames removed.';
 	
 	return false;
-}
-function reloadmain() {
-	if (parent.main) {
-		parent.main.location.reload();
-	}
 }
 function hidedirs() {
 	set_cookie('tcshowdirs', '', 30);
