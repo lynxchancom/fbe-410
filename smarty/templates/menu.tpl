@@ -3,6 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>{$ku_name} Navigation</title>
+<script src="{$ku_webpath}lib/javascript/jquery-3.3.1.min.js"></script>
+<script>
+    style_cookie="";
+    style_cookie_txt="";
+    style_cookie_site="kustyle_site";
+</script>
 {$styles}<link rel="shortcut icon" href="{$ku_webpath}/favicon.ico">
 {literal}<script>
 function toggle(button, area) {
