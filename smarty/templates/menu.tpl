@@ -43,7 +43,7 @@ function showdirs() {
 </script>{/literal}
 <base target="main">
 </head>
-<body>
+<body class="site-wrapper sitemenu-wrapper">
 {$logo}
 <h1>{$ku_name}</h1>
 <ul>

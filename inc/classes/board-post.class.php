@@ -1674,6 +1674,7 @@ class Board {
 			$tpl['head'] .= '_txt';
 		}
 		$tpl['head'] .= '";' . "\n" .
+		'	var style_cookie_txt = "";' . "\n" .
 		'</script>' . "\n";
 		if ($replythread == 0) {
 			$output .= '<body class="board board_' . $this->board_dir . '">' . "\n";
@@ -1746,9 +1747,9 @@ class Board {
 			'</script>' . "\n" .
 			'</div>' . "\n";
 		}
-		if(in_array($this->board_dir, CONGLOMERATE)){
+		//if(in_array($this->board_dir, CONGLOMERATE)){
 			$output .= $this->smarty->fetch('iichanpanel.tpl');
-		}
+		//}
 		if ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) 
 		{
 // banner
