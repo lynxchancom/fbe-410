@@ -318,12 +318,57 @@ html .site-wrapper, body.site-wrapper {
     font-family: "Trebuchet MS",Trebuchet,serif;
 }
 
+body.site-wrapper {
+	font-family: serif;
+	font-size: 75%;
+	margin: 0;
+	width: 90%;
+}
+
 .site-wrapper a {
     color: #FF6600;
 }
 
 .site-wrapper h3 {
     float: center;
+}
+
+.site-wrapper h2 {
+	background: #DDDDDD;
+	border-bottom: 1px solid #CCCCCC;
+	margin: 0px;
+	margin-top: 1em;
+	font-size: 100%;
+}
+
+.site-wrapper h2 a {
+	text-decoration: none;
+}
+
+.site-wrapper h1, .site-wrapper h3, .site-wrapper .menu {
+	font-family: Verdana,Tahoma,sans-serif;
+}
+
+.site-wrapper h1 {
+	margin: 0;
+	text-align: center;
+	margin-top: 1em;
+}
+
+.site-wrapper h3 {
+	margin: 0;
+	text-align: center;
+	font-weight: normal;
+	font-size: medium;
+}
+
+.site-wrapper .menu {
+	margin-top: 1em;
+	text-align: center;
+}
+
+.site-wrapper .content {
+	margin-left: 3em;
 }
 
 .site-wrapper a:hover {
@@ -408,13 +453,14 @@ html .site-wrapper, body.site-wrapper {
 .site-wrapper .content {
     margin-bottom: 9px;
     -moz-border-radius: 5px 5px 5px 5px;
-    font-size: .9em;
 }
 
 .site-wrapper .newssub {
-    background: #DDDDDD;
+	position: absolute;
+}
+
+.site-wrapper .newssub {
     padding: 0px 5px 0px 5px;
-    border-bottom: 1px solid #CCCCCC;
     font-size: 14px;
 }
 
@@ -435,6 +481,10 @@ html .site-wrapper, body.site-wrapper {
     margin-top: 8px;
 }
 
+.sitemenu-wrapper a {
+	text-decoration: none;
+}
+
 .sitemenu-wrapper sa {
     color: #FF6600;
 }
@@ -445,17 +495,28 @@ html .site-wrapper, body.site-wrapper {
 
 .sitemenu-wrapper h2, .sitemenu-wrapper h1 {
     margin-bottom: 0px;
-    border: 1px solid #CCCCCC;
+	background: #DDDDDD;
     -moz-border-radius: 5px 5px 5px 5px;
-    font-size: .9em;
-    font-size: 16px;
-    padding-left: 5px;
 }
 
 .sitemenu-wrapper h2 {
-    background: #DDDDDD;
     border-bottom: 1px solid #CCCCCC;
     font-size: 0.9em;
+}
+
+.sitemenu-wrapper h1, .sitemenu-wrapper h2 {
+	text-align: left;
+}
+
+.sitemenu-wrapper h1 {
+	margin-top: 0px;
+	font-size: 150%;
+	color: #000;
+}
+
+.sitemenu-wrapper h2 {
+	font-size: 100%;
+	margin-top: 1em;
 }
 
 .sitemenu-wrapper .plus {
