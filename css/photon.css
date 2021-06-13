@@ -226,7 +226,6 @@ table td {
 
 body {
 	margin-top: 33px;
-	padding:5px;
 }
 
 .catalogsubject {
@@ -314,15 +313,7 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 html .site-wrapper, body.site-wrapper {
     background-color: #EEEEEE;
     color: #333333;
-    font-size: 90%;
     font-family: "Trebuchet MS",Trebuchet,serif;
-}
-
-body.site-wrapper {
-	font-family: serif;
-	font-size: 75%;
-	margin: 0;
-	width: 90%;
 }
 
 .site-wrapper a {
@@ -510,7 +501,6 @@ body.site-wrapper {
 
 .sitemenu-wrapper h1 {
 	margin-top: 0px;
-	font-size: 150%;
 	color: #000;
 }
 
@@ -535,9 +525,8 @@ body.site-wrapper {
 
 .sitemenu-wrapper ul {
     list-style: none;
-    padding-left: 3px;
+    padding-left: 0;
     margin: 0px;
-    margin-left: 3px;
 }
 
 .sitemenu-wrapper li {

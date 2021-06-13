@@ -1,3 +1,7 @@
+html, body {
+	font-size:12pt;
+}
+
 body {
 	margin-top: 33px;
 	padding:5px;
@@ -311,6 +315,10 @@ input[type=text], input[type=password], textarea {
 		color:#090E00;
 		font-size:8pt;
 		max-width:100%!important;
+	}
+
+	body.sitemenu-wrapper {
+		font-size:12pt;
 	}
 
 	a {
@@ -966,5 +974,28 @@ cursor: s-resize;
 .quick-reply-form.form-detached {
   margin: 0;
   z-index: 101;
+}
+
+body.sitemenu-wrapper {
+	padding: 0;
+	font-size: initial;
+}
+
+body.sitemenu-wrapper.site-wrapper {
+	margin: 8px;
+}
+
+body.site-wrapper {
+	margin: 0;
+	font-size: 12px;
+	width: 90%;
+}
+
+.site-wrapper a{
+	font-size: 12px;
+}
+
+.sitemenu-wrapper h1 {
+	font-size: 150%;
 }
 

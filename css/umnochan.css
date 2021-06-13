@@ -403,11 +403,8 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 
 body.site-wrapper {
     font-family: serif;
-    font-size: 75%;
     background: #ffe;
     color: #090E00;
-    margin: 0;
-    width: 90%;
 }
 
 .site-wrapper h2 {
@@ -431,7 +428,6 @@ body.site-wrapper {
     text-align: center;
     margin-top: 1em;
     color: #800000;
-    font-size: 2em;
 }
 
 .site-wrapper h3 {
@@ -452,8 +448,12 @@ body.site-wrapper {
     font-size: medium;
 }
 
-.site-wrapper .telega {
+.site-wrapper div.telega {
     font-size: medium;
+}
+
+.site-wrapper div.telega a {
+	font-size: medium;
 }
 
 .site-wrapper .newssub {
@@ -480,10 +480,6 @@ body.site-wrapper {
     border-color: #555;
 }
 
-body.sitemenu-wrapper {
-    margin: 8px;
-}
-
 .sitemenu-wrapper a {
     text-decoration: none;
     color: #550;
@@ -496,7 +492,6 @@ body.sitemenu-wrapper {
 
 .sitemenu-wrapper h1 {
     margin-top: 0px;
-    font-size: 150%;
     color: #000;
 }
 

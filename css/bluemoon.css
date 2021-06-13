@@ -287,11 +287,8 @@ hr {
 
 body.site-wrapper {
     font-family: "Trebuchet MS", serif;
-    font-size: 75%;
     background: #6B7B8D;
     color: #fff;
-    margin: 0;
-    width: 90%;
 }
 
 .site-wrapper h2 {
@@ -348,10 +345,6 @@ body.site-wrapper {
     text-decoration: none;
 }
 
-body.sitemenu-wrapper {
-    margin: 8px;
-}
-
 .sitemenu-wrapper a {
     text-decoration: none;
     color: #fff;
@@ -365,7 +358,6 @@ body.sitemenu-wrapper {
 
 .sitemenu-wrapper h1 {
     margin-top: 0px;
-    font-size: 150%;
     color: #000;
 }
 

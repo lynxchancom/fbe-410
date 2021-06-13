@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>{$title}</title>
+<link rel="stylesheet" href="{$ku_boardspath}/css/img_global.css">
 <link rel="stylesheet" href="{$ku_boardspath}/css/futaba.css" title="Futaba">
 <link rel="shortcut icon" href="{$ku_webpath}/favicon.ico">
 </head>

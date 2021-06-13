@@ -1,5 +1,4 @@
 html, body {
-         font-size:12pt;
          background:#EEFFEE;
          color:#000000;
 }
@@ -322,11 +321,8 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 
 body.site-wrapper {
     font-family: sans-serif;
-    font-size: 75%;
     background: #EEFFEE;
     color: #000000;
-    margin: 0;
-    width: 90%;
 }
 
 .site-wrapper h2 {
@@ -381,10 +377,6 @@ body.site-wrapper {
     text-decoration: none;
 }
 
-body.sitemenu-wrapper {
-    margin: 8px;
-}
-
 .sitemenu-wrapper a {
     text-decoration: none;
     color: #550;
@@ -397,7 +389,6 @@ body.sitemenu-wrapper {
 
 .sitemenu-wrapper h1 {
     margin-top: 0px;
-    font-size: 150%;
     color: #000;
 }
 
