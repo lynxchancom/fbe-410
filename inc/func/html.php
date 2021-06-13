@@ -55,26 +55,16 @@ function printStylesheetsSite($prefered_stylesheet = KU_DEFAULTMENUSTYLE, $menu 
 	if (!in_array($prefered_stylesheet, $styles)) {
 		$prefered_stylesheet = KU_DEFAULTMENUSTYLE;
 	}
-	
+
 	foreach ($styles as $stylesheet) {
 		$output_stylesheets .= '<link rel="';
 		if ($stylesheet != $prefered_stylesheet) {
 			$output_stylesheets .= 'alternate ';
 		}
-		$output_stylesheets .= 'stylesheet" href="' . getCLBoardPath() . 'css/site_' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
-		if ($menu) {
-			$output_stylesheets .= '<link rel="';
-			if ($stylesheet != $prefered_stylesheet) {
-				$output_stylesheets .= 'alternate ';
-			}
-			$output_stylesheets .= 'stylesheet" href="' . getCLBoardPath() . 'css/sitemenu_' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
-		}
+		$output_stylesheets .= 'stylesheet" href="' . getCLBoardPath() . 'css/' . $stylesheet . '.css" title="' . ucfirst($stylesheet) . '">' . "\n";
 	}
 	
-	$output_stylesheets .= '<script>' . "\n" .
-	'	var style_cookie_site = "kustyle_site";' . "\n" .
-	'</script>' . "\n" .
-	'<script src="' . getCWebPath() . 'lib/javascript/kusaba.js"></script>' . "\n";
+	$output_stylesheets .= '<script src="' . getCWebPath() . 'lib/javascript/kusaba.js"></script>' . "\n";
 	
 	return $output_stylesheets;
 }

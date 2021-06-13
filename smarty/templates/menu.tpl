@@ -3,6 +3,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>{$ku_name} Navigation</title>
+<script src="{$ku_webpath}lib/javascript/jquery-3.3.1.min.js"></script>
+<script>
+    style_cookie="kustyle";
+    style_cookie_txt="";
+</script>
 {$styles}<link rel="shortcut icon" href="{$ku_webpath}/favicon.ico">
 {literal}<script>
 function toggle(button, area) {
@@ -27,11 +32,6 @@ function removeframes() {
 	
 	return false;
 }
-function reloadmain() {
-	if (parent.main) {
-		parent.main.location.reload();
-	}
-}
 function hidedirs() {
 	set_cookie('tcshowdirs', '', 30);
 	window.location = '{/literal}{$ku_webpath}/{$menu_file_nodirs}';{literal}
@@ -43,7 +43,7 @@ function showdirs() {
 </script>{/literal}
 <base target="main">
 </head>
-<body>
+<body class="site-wrapper sitemenu-wrapper">
 {$logo}
 <h1>{$ku_name}</h1>
 <ul>

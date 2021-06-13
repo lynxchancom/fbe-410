@@ -284,3 +284,129 @@ hr {
     fill: #49525D;
     background: #EEEEEE;
 }
+
+body.site-wrapper {
+    font-family: "Trebuchet MS", serif;
+    font-size: 75%;
+    background: #6B7B8D;
+    color: #fff;
+    margin: 0;
+    width: 90%;
+}
+
+.site-wrapper h2 {
+    margin: 0px;
+    margin-top: 1em;
+    background: #fca;
+    font-size: 100%;
+}
+
+.site-wrapper h2 a {
+    text-decoration: none;
+    color: #AFB9C5;
+}
+
+.site-wrapper h1, .site-wrapper h3, .site-wrapper .menu {
+    font-family: "Trebuchet MS", serif;
+}
+
+.site-wrapper h1 {
+    margin: 0;
+    color: #090E00;
+    text-align: center;
+    margin-top: 1em;
+}
+
+.site-wrapper h3 {
+    margin: 0;
+    color: #090E00;
+    text-align: center;
+    font-weight: normal;
+    font-size: medium;
+}
+
+.site-wrapper .menu {
+    margin-top: 1em;
+    text-align: center;
+}
+
+.site-wrapper .content {
+    margin-left: 3em;
+}
+
+.site-wrapper .newssub {
+    position: absolute;
+}
+
+.site-wrapper .permalink {
+    text-align: right;
+    display: block;
+}
+
+.site-wrapper .permalink a {
+    color: red;
+    text-decoration: none;
+}
+
+body.sitemenu-wrapper {
+    margin: 8px;
+}
+
+.sitemenu-wrapper a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.sitemenu-wrapper h1, .sitemenu-wrapper h2 {
+    background: #49525D;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.sitemenu-wrapper h1 {
+    margin-top: 0px;
+    font-size: 150%;
+    color: #000;
+}
+
+.sitemenu-wrapper h2 {
+    font-size: 100%;
+    margin-top: 1em;
+}
+
+.sitemenu-wrapper .plus {
+    border-radius: 6px;
+    float: right;
+    font-size: 8px;
+    font-weight: normal;
+    padding: 1px 4px 2px 4px;
+    margin: 0px 0px;
+    background: #49525D;
+    color: #fff;
+    cursor: hand;
+    cursor: pointer;
+}
+
+.sitemenu-wrapper .plus:hover {
+    background: #da8;
+    border: 1px solid #c97;
+}
+
+.sitemenu-wrapper ul {
+    list-style: none;
+    padding-left: 2px;
+    margin: 0px;
+}
+
+.sitemenu-wrapper li {
+    margin: 0px;
+}
+
+.sitemenu-wrapper li:hover {
+    background: #9DA6B0;
+}
+
+.sitemenu-wrapper li a {
+    display: block;
+    width: 100%;
+}

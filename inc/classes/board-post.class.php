@@ -1674,6 +1674,7 @@ class Board {
 			$tpl['head'] .= '_txt';
 		}
 		$tpl['head'] .= '";' . "\n" .
+		'	var style_cookie_txt = "";' . "\n" .
 		'</script>' . "\n";
 		if ($replythread == 0) {
 			$output .= '<body class="board board_' . $this->board_dir . '">' . "\n";
@@ -1681,7 +1682,7 @@ class Board {
 			$output .= '<body class="read board_' . $this->board_dir . '">' . "\n";
 		}
 		if ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) {
-			$output .= '<div class="topmenu"><div class="adminbar"><select name="switcher" onchange="set_stylesheet(this.value);">' . "\n";
+			$output .= '<div class="topmenu"><div class="adminbar"><select name="switcher" onchange="set_stylesheet(this.value);reloadmenu();">' . "\n";
 			if (KU_STYLESWITCHER) {
 				$styles = explode(':', KU_STYLES);
 				

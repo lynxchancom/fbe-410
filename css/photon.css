@@ -310,3 +310,241 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
     fill: #DDDDDD;
     background: #0066FF;
 }
+
+html .site-wrapper, body.site-wrapper {
+    background-color: #EEEEEE;
+    color: #333333;
+    font-size: 90%;
+    font-family: "Trebuchet MS",Trebuchet,serif;
+}
+
+body.site-wrapper {
+	font-family: serif;
+	font-size: 75%;
+	margin: 0;
+	width: 90%;
+}
+
+.site-wrapper a {
+    color: #FF6600;
+}
+
+.site-wrapper h3 {
+    float: center;
+}
+
+.site-wrapper h2 {
+	background: #DDDDDD;
+	border-bottom: 1px solid #CCCCCC;
+	margin: 0px;
+	margin-top: 1em;
+	font-size: 100%;
+}
+
+.site-wrapper h2 a {
+	text-decoration: none;
+}
+
+.site-wrapper h1, .site-wrapper h3, .site-wrapper .menu {
+	font-family: Verdana,Tahoma,sans-serif;
+}
+
+.site-wrapper h1 {
+	margin: 0;
+	text-align: center;
+	margin-top: 1em;
+}
+
+.site-wrapper h3 {
+	margin: 0;
+	text-align: center;
+	font-weight: normal;
+	font-size: medium;
+}
+
+.site-wrapper .menu {
+	margin-top: 1em;
+	text-align: center;
+}
+
+.site-wrapper .content {
+	margin-left: 3em;
+}
+
+.site-wrapper a:hover {
+    color: #0066FF;
+}
+
+.site-wrapper .logo {
+    clear: both;
+    text-align: left;
+    font-size: 2em;
+    font-weight: bold;
+    color: #FF6600;
+}
+
+.site-wrapper .rules {
+    font-size: 0.7em;
+}
+
+.site-wrapper .footer {
+    text-align: center;
+    font-size: 12px;
+    font-family: serif;
+    margin: 2em 0 0 0;
+}
+
+.site-wrapper .row1 {
+    background: #DDDDDD;
+    color: #002244;
+}
+
+.site-wrapper .row2 {
+    background: #CCCCCC;
+    color: #002244;
+}
+
+.site-wrapper .reflink {
+    font-size: .8em;
+    font-weight: bold;
+}
+
+.site-wrapper blockquote {
+    margin: .5em .5em .5em 1em;
+}
+
+.site-wrapper blockquote p {
+    margin: 0;
+    padding: 0;
+}
+
+.site-wrapper hr {
+    border-style: solid none none none;
+    border-width: 1px;
+    border-color: #BBBBBB;
+}
+
+.site-wrapper table {
+    border-style: none;
+}
+
+.site-wrapper table td {
+    border-style: none;
+}
+
+.site-wrapper .category {
+    margin-bottom: 9px;
+    border: 1px solid #CCCCCC;
+    -moz-border-radius: 5px 5px 5px 5px;
+    font-size: .9em;
+}
+
+.site-wrapper .header {
+    background: #DDDDDD;
+    padding: 0px 5px 0px 5px;
+    border-bottom: 1px solid #CCCCCC;
+    font-size: 0.9em;
+}
+
+.site-wrapper .list {
+    padding: 0px 5px 5px 5px;
+}
+
+.site-wrapper .content {
+    margin-bottom: 9px;
+    -moz-border-radius: 5px 5px 5px 5px;
+}
+
+.site-wrapper .newssub {
+	position: absolute;
+}
+
+.site-wrapper .newssub {
+    padding: 0px 5px 0px 5px;
+    font-size: 14px;
+}
+
+.site-wrapper .permalink {
+    padding: 2px;
+    text-align: right;
+}
+
+.site-wrapper .permalink a {
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.site-wrapper .sitelogo {
+    background: url(/images/0chan-autumn.png);
+    width: 420px;
+    height: 150px;
+    margin-top: 8px;
+}
+
+.sitemenu-wrapper a {
+	text-decoration: none;
+}
+
+.sitemenu-wrapper sa {
+    color: #FF6600;
+}
+
+.sitemenu-wrapper a:hover {
+    color: #0066FF;
+}
+
+.sitemenu-wrapper h2, .sitemenu-wrapper h1 {
+    margin-bottom: 0px;
+	background: #DDDDDD;
+    -moz-border-radius: 5px 5px 5px 5px;
+}
+
+.sitemenu-wrapper h2 {
+    border-bottom: 1px solid #CCCCCC;
+    font-size: 0.9em;
+}
+
+.sitemenu-wrapper h1, .sitemenu-wrapper h2 {
+	text-align: left;
+}
+
+.sitemenu-wrapper h1 {
+	margin-top: 0px;
+	font-size: 150%;
+	color: #000;
+}
+
+.sitemenu-wrapper h2 {
+	font-size: 100%;
+	margin-top: 1em;
+}
+
+.sitemenu-wrapper .plus {
+    float: right;
+    font-size: 8px;
+    font-weight: normal;
+    padding: 1px 4px 2px 4px;
+    margin: 0px 0px;
+    background: #CCCCCC;
+    background-repeat: repeat-x;
+    color: #000;
+    border: 1px solid #BBBBBB;
+    cursor: hand;
+    cursor: pointer;
+}
+
+.sitemenu-wrapper ul {
+    list-style: none;
+    padding-left: 3px;
+    margin: 0px;
+    margin-left: 3px;
+}
+
+.sitemenu-wrapper li {
+    margin: 0px;
+    background: #EEEEEE;
+}
+
+.sitemenu-wrapper li:hover {
+    background: #F3F3F3;
+}
