@@ -412,6 +412,10 @@ body.site-wrapper {
 	font-size: medium;
 }
 
+.site-wrapper .content a {
+	font-size: medium;
+}
+
 .site-wrapper div.telega {
 	font-size: medium;
 }
