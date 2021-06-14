@@ -43,10 +43,6 @@ a:hover {
 	font-family: sans-serif;
 }
 
-.rules li {
-	margin-left: 1em;
-}
-
 .postblock {
 	background: #88DD88;
 	color: #000000;
@@ -306,10 +302,6 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	fill: #117743;
 }
 
-.read div[id^="thread"] span.reflink:after {
-	color: #707070;
-}
-
 .quick-reply-form .replymode {
 	background-color: #88DD88;
 }
@@ -363,11 +355,6 @@ body.site-wrapper {
 	font-size: medium;
 }
 
-.site-wrapper .menu {
-	margin-top: 1em;
-	text-align: center;
-}
-
 .site-wrapper .content {
 	margin-left: 3em;
 }
@@ -391,11 +378,6 @@ body.site-wrapper {
 .sitemenu-wrapper h1, .sitemenu-wrapper h2 {
 	background: #DAF0D6;
 	text-align: left;
-}
-
-.sitemenu-wrapper h1 {
-	margin-top: 0px;
-	color: #000;
 }
 
 .sitemenu-wrapper h2 {
@@ -424,9 +406,4 @@ body.site-wrapper {
 
 .sitemenu-wrapper li:hover {
 	background: #DAF0D6;
-}
-
-.sitemenu-wrapper li a {
-	display: block;
-	width: 100%;
 }

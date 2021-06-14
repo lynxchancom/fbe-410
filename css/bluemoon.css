@@ -52,10 +52,6 @@ a:hover {
 	font-size: 10px;
 }
 
-.rules li {
-	margin-left: 1em;
-}
-
 .postblock {
 	background: #8C9FB4;
 	color: #49525D;
@@ -246,10 +242,6 @@ hr {
 	fill: #AFB9C5;
 }
 
-.read div[id^="thread"] span.reflink:after {
-	color: #707070;
-}
-
 .quick-reply-form .replymode {
 	background-color: #8C9FB4;
 }
@@ -298,11 +290,6 @@ body.site-wrapper {
 	color: #090E00;
 }
 
-.site-wrapper .menu {
-	margin-top: 1em;
-	text-align: center;
-}
-
 .site-wrapper .content {
 	margin-left: 3em;
 }
@@ -327,11 +314,6 @@ body.site-wrapper {
 	background: #49525D;
 	border-radius: 6px;
 	text-align: center;
-}
-
-.sitemenu-wrapper h1 {
-	margin-top: 0px;
-	color: #000;
 }
 
 .sitemenu-wrapper h2 {
@@ -360,9 +342,4 @@ body.site-wrapper {
 
 .sitemenu-wrapper li:hover {
 	background: #9DA6B0;
-}
-
-.sitemenu-wrapper li a {
-	display: block;
-	width: 100%;
 }
