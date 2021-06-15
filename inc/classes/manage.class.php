@@ -3592,6 +3592,7 @@ function reason(why) {
 		if (isset($_POST['id']) && isset($_POST['board_from']) && isset($_POST['board_to'])) {
 			$board_from = mysqli_real_escape_string($tc_db->link, $_POST['board_from']);
 			$board_to = mysqli_real_escape_string($tc_db->link, $_POST['board_to']);
+			$moved_posts = [];
 echo "stage 1<br>";
 			if(!is_numeric($_POST['id'])) {
 				exitWithErrorPage('Invalid thread ID');
@@ -3630,10 +3631,10 @@ echo "INSERT INTO " . KU_DBPREFIX . "posts_" . $board_to . " SELECT * FROM " . K
 echo "stage 3.1<br>";
 			$tc_db->Execute("INSERT INTO " . KU_DBPREFIX . "posts_" . $board_to . " SELECT * FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = " . $temp_id);
 			$new_id = $tc_db->Insert_Id();	
-			processPost($new_id, $new_id, $id, $board_from, $board_to);
+			processPost($new_id, $new_id, $id, $board_from, $board_to, []);
 echo "stage 3.2<br>";
 			$tc_db->Execute("DELETE FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = " . $temp_id);
-			
+			$moved_posts[$id] = $new_id;
 echo "stage 4<br>";
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `filename`, `filetype` FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `parentid` = '" . $id . "' AND `IS_DELETED` = 0 ORDER BY `id` ASC");
 			if(count($results) > 0) {
@@ -3653,12 +3654,13 @@ echo "stage 4<br>";
 						}
 					}
 echo "stage 5<br>";
-					$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_from . " SET `id` = " . $temp_id. " WHERE `id` = " . $line['id']);			
+					$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_from . " SET `id` = " . $temp_id. " WHERE `id` = " . $line['id']);
 					$tc_db->Execute("INSERT INTO " . KU_DBPREFIX . "posts_" . $board_to . " SELECT * FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = " . $temp_id);
-					$insert_id = $tc_db->Insert_Id();			
-					processPost($insert_id, $new_id, $id, $board_from, $board_to);
+					$insert_id = $tc_db->Insert_Id();
+					processPost($insert_id, $new_id, $id, $board_from, $board_to, $moved_posts);
 					$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_to . " SET `parentid` = " . $new_id . " WHERE `id` = " . $insert_id);
 					$tc_db->Execute("DELETE FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = " . $temp_id);
+					$moved_posts[$line['id']] = $insert_id;
 				}
 			}
 echo "stage 6<br>";

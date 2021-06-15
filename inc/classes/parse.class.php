@@ -164,7 +164,7 @@ class Parse {
 			}
 
 //			$return = "[[btype != 1 ($query : {$res_type}$result)]]" . '<a href="'.KU_BOARDSFOLDER.$thread_board_return.'/res/'.$realid.'.html#'.$matches[1].'" class="ref|' . $thread_board_return . '|' .$realid . '|' . $matches[1] . '">'.$matches[0].'</a>';
-			$return = '<a href="'.KU_BOARDSFOLDER.$thread_board_return.'/res/'.$realid.'.html#'.$matches[1].'" class="ref|' . $thread_board_return . '|' .$realid . '|' . $matches[1] . '">'.$matches[0].'</a>';
+			$return = formatQuote($thread_board_return, $realid, $matches[1], false);
 		} else {
 			$return = $matches[0];
 
@@ -207,7 +207,7 @@ class Parse {
 				}
 
 				if ($result != 1) {
-					return '<a href="'.KU_BOARDSFOLDER.$matches[1].'/res/'.$realid.'.html#'.$matches[2].'" class="ref|' . $matches[1] . '|' . $realid . '|' . $matches[2] . '">'.$matches[0].'</a>';
+					return formatQuote($matches[1], $realid, $matches[2], true);
 				} else {
 					return '<a href="'.KU_BOARDSFOLDER.$matches[1].'/res/'.$realid.'.html" class="ref|' . $matches[1] . '|' . $realid . '|' . $realid . '">'.$matches[0].'</a>';
 				}
