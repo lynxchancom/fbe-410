@@ -218,6 +218,7 @@ if (!$cache_loaded) {
 	/* Extra features */
 		$cf['KU_RSS']             = true; /* Whether or not to enable the generation of rss for each board and modlog */
 		$cf['KU_EXPAND']          = true; /* Whether or not to add the expand button to threads viewed on board pages */
+		$cf['KU_INDICATEMOVEDTHREADS'] = false;	/* Wheter or not to show if thread was moved from another board */
 		$cf['KU_QUICKREPLY']      = true; /* Whether or not to add quick reply links on posts */
 		$cf['KU_WATCHTHREADS']    = true; /* Whether or not to add thread watching capabilities */
 		$cf['KU_POSTSPY']   	  = false; /* Whether or not to add thread watching capabilities */

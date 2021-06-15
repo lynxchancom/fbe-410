@@ -1396,6 +1396,14 @@ class Board {
 			/*if ($page && $post_is_thread && $thread_relative_id !== '' && $post['stickied'] == 0 && $post['locked'] == 0) {
 				$info_post .= ' Estimated lifespan: ' . calculateThreadLifespan($post['id'], $page, $thread_relative_id, $this->board_dir, $this->board_maxpages, $this->board_maxage) . "\n";
 			}*/
+			if ($post_is_thread && defined('KU_INDICATEMOVEDTHREADS') && KU_INDICATEMOVEDTHREADS
+				&& isset($post['initial_board']) && $post['initial_board'] != $post_board) {
+				try {
+					$info_post .= ' <span>' . _gettext('Moved from') . ' /' . $post['initial_board'] . '/</span>';
+				} catch (Exception $e) {
+
+				}
+			}
 			$info_post .= '<span class="extrabtns">' . "\n";
 			if ($post['locked']==1) {
 				$info_post .= '	 <span class="post-badge post-badge-locked" title="' . _gettext('Locked') . '">' . svgIcon('locked', '16') . '</span>' . "\n";
