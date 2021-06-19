@@ -1,3 +1,7 @@
+html, body {
+	font-size:12pt;
+}
+
 body {
 	margin-top: 33px;
 	padding:5px;
@@ -311,6 +315,10 @@ input[type=text], input[type=password], textarea {
 		color:#090E00;
 		font-size:8pt;
 		max-width:100%!important;
+	}
+
+	body.sitemenu-wrapper {
+		font-size:12pt;
 	}
 
 	a {
@@ -968,3 +976,174 @@ cursor: s-resize;
   z-index: 101;
 }
 
+body.sitemenu-wrapper {
+	padding: 0;
+	font-size: initial;
+}
+
+body.sitemenu-wrapper.site-wrapper {
+	margin: 8px;
+}
+
+body.site-wrapper {
+	margin: 0;
+	font-size: 12px;
+	width: 90%;
+}
+
+.site-wrapper a{
+	font-size: 12px;
+}
+
+.sitemenu-wrapper h1 {
+	font-size: 150%;
+}
+
+
+.adminbar {
+    background: inherit;
+}
+
+.logo {
+    clear: both;
+    text-align: center;
+    width: 100%;
+}
+
+.rules {
+    width: 468px;
+    font-size: 10px;
+}
+
+.rules li {
+    margin-left: 1em;
+}
+
+.dellist {
+    text-align: center;
+}
+
+.delbuttons {
+    text-align: center;
+    padding-bottom: 4px;
+}
+
+.managehead {
+    padding: 0px;
+}
+
+.postlists {
+    background: #FFFFFF;
+    width: 100%;
+    padding: 0px;
+}
+
+.filetitle {
+    background: inherit;
+}
+
+.topmenu {
+    opacity: 0.95;
+}
+
+.catalogsubject {
+    font-weight: 800;
+}
+
+.catalogposts {
+    font-weight: 800;
+    font-size: small;
+}
+
+.read div[id^="thread"] span.reflink:after {
+    color: #707070;
+}
+
+.quick-reply-form .post-badge:hover {
+    background: transparent;
+}
+
+.quick-reply-form.form-detached .post-badge {
+    background: transparent;
+}
+
+.site-wrapper h2 {
+    margin: 0px;
+    font-size: 100%;
+}
+
+.site-wrapper h2 a {
+    text-decoration: none;
+}
+
+.site-wrapper h1 {
+    margin: 0;
+    text-align: center;
+    margin-top: 1em;
+}
+
+.site-wrapper h3 {
+    margin: 0;
+    text-align: center;
+    font-weight: normal;
+    font-size: medium;
+}
+
+.site-wrapper .menu {
+    margin-top: 1em;
+    text-align: center;
+}
+
+.site-wrapper .content {
+    margin-left: 3em;
+}
+
+.site-wrapper .newssub {
+    position: absolute;
+}
+
+.site-wrapper .permalink {
+    text-align: right;
+}
+
+.site-wrapper .permalink a {
+    text-decoration: none;
+}
+
+.sitemenu-wrapper a {
+    text-decoration: none;
+}
+
+.sitemenu-wrapper h1 {
+    margin-top: 0px;
+    color: #000;
+}
+
+.sitemenu-wrapper h2 {
+    font-size: 100%;
+    margin-top: 1em;
+}
+
+.sitemenu-wrapper .plus {
+    float: right;
+    font-size: 8px;
+    font-weight: normal;
+    padding: 1px 4px 2px 4px;
+    margin: 0px 0px;
+    cursor: hand;
+    cursor: pointer;
+}
+
+.sitemenu-wrapper ul {
+    list-style: none;
+    margin: 0px;
+}
+
+.sitemenu-wrapper li {
+    margin: 0px;
+}
+
+.sitemenu-wrapper li a {
+    display: block;
+    width: 100%;
+}

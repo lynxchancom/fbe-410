@@ -49,7 +49,7 @@ function printStylesheetsTXT($prefered_stylesheet = KU_DEFAULTTXTSTYLE) {
 
 function printStylesheetsSite($prefered_stylesheet = KU_DEFAULTMENUSTYLE, $menu = false) {
 	global $tc_db;
-	$output_stylesheets = '';
+	$output_stylesheets = '<link rel="stylesheet" href="' . getCLBoardPath() . 'css/img_global.css">' . "\n";
 	$styles = explode(':', KU_MENUSTYLES);
 	
 	if (!in_array($prefered_stylesheet, $styles)) {

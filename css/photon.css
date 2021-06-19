@@ -2,34 +2,38 @@ html, body {
 	background-color: #EEEEEE;
 	color: #333333;
 }
+
 a {
 	color: #FF6600;
 }
+
 a:hover {
 	color: #0066FF;
 }
+
 .adminbar {
-	background:inherit;
+	background: inherit;
 }
+
 .adminbar a {
 	font-weight: bold;
 }
+
 .logo {
-	clear:both;
-	text-align:center;
-	font-size:2em;
-	color:#FF6600;
-	/*width:100%;*/
+	font-size: 2em;
+	color: #FF6600;
 }
+
 .replymode, .passvalid {
-	background:#DDDDDD;
-	text-align:center;
-	padding:2px;
-	color:#2266AA;
+	background: #DDDDDD;
+	text-align: center;
+	padding: 2px;
+	color: #2266AA;
 	clear: both;
 	margin-bottom: .5em;
 	border: solid 1px #CCCCCC;
 }
+
 .catalogmode {
 	background: #0040E0;
 	text-align: center;
@@ -39,84 +43,92 @@ a:hover {
 	margin-bottom: .5em;
 	border: solid 1px #CCCCCC;
 }
+
 .postarea {
-	border-top:1px solid #BBBBBB !important;
-	border-bottom:1px solid #BBBBBB !important;
+	border-top: 1px solid #BBBBBB !important;
+	border-bottom: 1px solid #BBBBBB !important;
 }
+
 .rules {
-	font-size:0.7em;
-	width: 468px;
-	font-size: 10px;
 	font-family: sans-serif;
 }
+
 .postblock {
-    background:#ddd;
-	color:#002244;
-	font-weight:bold;
+	background: #ddd;
+	color: #002244;
+	font-weight: bold;
 }
+
 .footer {
 	font-family: sans-serif;
 }
+
 .dellist {
 	font-weight: bold;
-	text-align:center;
 }
+
 .delbuttons {
-	text-align:center;
-	padding-bottom:4px;
+	text-align: center;
+	padding-bottom: 4px;
 }
+
 .managehead {
-	background:#DDDDDD;
-	color:#002244;
-	padding:0px;
+	background: #DDDDDD;
+	color: #002244;
 }
+
 .postlists {
-	background:#FFFFFF;
-	width:100%;
-	padding:0px;
-	color:#800000;
+	color: #800000;
 }
+
 .row1 {
-	background:#DDDDDD;
-	color:#002244;
+	background: #DDDDDD;
+	color: #002244;
 }
+
 .row2 {
-	background:#CCCCCC;
-	color:#002244;
+	background: #CCCCCC;
+	color: #002244;
 }
+
 .unkfunc {
-	background:inherit;
-	color:#789922;
+	background: inherit;
+	color: #789922;
 }
-.reflink {
-}
+
+.reflink {}
 .filesize {
-	text-decoration:none;
+	text-decoration: none;
 	color: #666666;
 	font-family: sans-serif;
 }
+
 .filetitle {
-	background:inherit;
-	font-size:1.2em;
-	color:#002244;
-	font-weight:bold;
+	font-size: 1.2em;
+	color: #002244;
+	font-weight: bold;
 }
+
 .postername {
-	color:#004A99;
-	font-weight:bold;
+	color: #004A99;
+	font-weight: bold;
 }
+
 .postertrip {
-	color:#FF3300;
+	color: #FF3300;
 }
+
 .oldpost {
-	color:#CC1105;
-	font-weight:bold;
+	color: #CC1105;
+	font-weight: bold;
 }
+
 .omittedposts {
-	color:#666666;
+	color: #666666;
 }
+
 .reply {
-	background:#DDDDDD;
+	background: #DDDDDD;
 	border: solid 1px #CCCCCC;
 }
 
@@ -124,36 +136,44 @@ blockquote p {
 	margin: 0;
 	padding: 0;
 }
+
 .doubledash {
 	display: none;
- 	vertical-align:top;
-	clear:both;
-	float:left;
+	vertical-align: top;
+	clear: both;
+	float: left;
 }
+
 .replytitle {
 	font-size: 1.2em;
-	color:#002244;
-	font-weight:bold;
+	color: #002244;
+	font-weight: bold;
 }
+
 .commentpostername {
-	color:#004A99;
-	font-weight:800;
+	color: #004A99;
+	font-weight: 800;
 }
+
 .thumbnailmsg {
 	font-size: .8em;
-	color:#666666;
+	color: #666666;
 }
+
 hr {
 	border-style: solid none none none;
 	border-width: 1px;
 	border-color: #BBBBBB;
 }
+
 table {
 	border-style: none;
 }
+
 table td {
 	border-style: none;
 }
+
 .nothumb {
 	background-color: #FFFFFF;
 	border-style: dotted;
@@ -161,18 +181,19 @@ table td {
 }
 
 .abbrev {
-	color:#666666;
+	color: #666666;
 }
+
 .highlight {
-	background:#EEDACB;
-	color:#333333;
+	background: #EEDACB;
+	color: #333333;
 	border: 2px dashed #EE6600;
 }
 
 #watchedthreads {
 	background-color: #DDDDDD !important;
-  	border: 1px solid #CCCCCC !important;
-  	border-radius: 5px;
+	border: 1px solid #CCCCCC !important;
+	border-radius: 5px;
 }
 
 .hidethread {
@@ -213,25 +234,24 @@ table td {
 
 .topmenu {
 	border-bottom: 1px solid #CCCCCC;
-	opacity: 0.95;
-	background:#EEEEEE;
+	background: #EEEEEE;
 }
-.adminbar img{
-	vertical-align:middle;
-	border:0;
+
+.adminbar img {
+	vertical-align: middle;
+	border: 0;
 }
+
 .navbar {
-	padding:5px;
+	padding: 5px;
 }
 
 body {
 	margin-top: 33px;
-	padding:5px;
 }
 
 .catalogsubject {
-	color:#002244;
-	font-weight:800;
+	color: #002244;
 }
 
 .catalogmsg {
@@ -239,13 +259,11 @@ body {
 }
 
 .catalogposts {
-	font-weight:800;
-	font-size: small;
 	color: #666666;
 }
 
 .thrdcntnr {
-	border-bottom:1px solid #BBBBBB !important;
+	border-bottom: 1px solid #BBBBBB !important;
 }
 
 .cataloglist {
@@ -253,7 +271,7 @@ body {
 }
 
 .unhidethread {
-	border-bottom:1px solid #BBBBBB !important;
+	border-bottom: 1px solid #BBBBBB !important;
 }
 
 .post-badge {
@@ -276,6 +294,7 @@ body {
 input[type="text"], input[type="password"], textarea {
 	border: 1px solid #AAA;
 }
+
 input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	border: 1px solid #EEAA88;
 }
@@ -284,61 +303,45 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	border: 1px solid #CCCCCC !important;
 }
 
-.read div[id^="thread"] span.reflink:after{
-	color: #707070;
-}
-
 .quick-reply-form.reply {
-    background-color: #EEEEEE;
+	background-color: #EEEEEE;
 }
 
 .quick-reply-form .post-badge:hover {
-    fill: #0066FF;
-    background: transparent;
+	fill: #0066FF;
 }
 
 .quick-reply-form.form-detached {
-    border: 1px #BBBBBB dashed;
+	border: 1px #BBBBBB dashed;
 }
 
 .quick-reply-form.form-detached .post-badge {
-    fill: #FF6600;
-    background: transparent;
+	fill: #FF6600;
 }
 
 .quick-reply-form.form-detached .post-badge:hover {
-    fill: #DDDDDD;
-    background: #0066FF;
+	fill: #DDDDDD;
+	background: #0066FF;
 }
 
 html .site-wrapper, body.site-wrapper {
-    background-color: #EEEEEE;
-    color: #333333;
-    font-size: 90%;
-    font-family: "Trebuchet MS",Trebuchet,serif;
-}
-
-body.site-wrapper {
-	font-family: serif;
-	font-size: 75%;
-	margin: 0;
-	width: 90%;
+	background-color: #EEEEEE;
+	color: #333333;
+	font-family: "Trebuchet MS",Trebuchet,serif;
 }
 
 .site-wrapper a {
-    color: #FF6600;
+	color: #FF6600;
 }
 
 .site-wrapper h3 {
-    float: center;
+	float: center;
 }
 
 .site-wrapper h2 {
 	background: #DDDDDD;
 	border-bottom: 1px solid #CCCCCC;
-	margin: 0px;
 	margin-top: 1em;
-	font-size: 100%;
 }
 
 .site-wrapper h2 a {
@@ -355,130 +358,108 @@ body.site-wrapper {
 	margin-top: 1em;
 }
 
-.site-wrapper h3 {
-	margin: 0;
-	text-align: center;
-	font-weight: normal;
-	font-size: medium;
-}
-
-.site-wrapper .menu {
-	margin-top: 1em;
-	text-align: center;
-}
-
 .site-wrapper .content {
-	margin-left: 3em;
+	margin-bottom: 9px;
+	-moz-border-radius: 5px 5px 5px 5px;
 }
 
 .site-wrapper a:hover {
-    color: #0066FF;
+	color: #0066FF;
 }
 
 .site-wrapper .logo {
-    clear: both;
-    text-align: left;
-    font-size: 2em;
-    font-weight: bold;
-    color: #FF6600;
+	clear: both;
+	text-align: left;
+	font-size: 2em;
+	font-weight: bold;
+	color: #FF6600;
 }
 
 .site-wrapper .rules {
-    font-size: 0.7em;
+	font-size: 0.7em;
 }
 
 .site-wrapper .footer {
-    text-align: center;
-    font-size: 12px;
-    font-family: serif;
-    margin: 2em 0 0 0;
+	text-align: center;
+	font-size: 12px;
+	font-family: serif;
+	margin: 2em 0 0 0;
 }
 
 .site-wrapper .row1 {
-    background: #DDDDDD;
-    color: #002244;
+	background: #DDDDDD;
+	color: #002244;
 }
 
 .site-wrapper .row2 {
-    background: #CCCCCC;
-    color: #002244;
+	background: #CCCCCC;
+	color: #002244;
 }
 
 .site-wrapper .reflink {
-    font-size: .8em;
-    font-weight: bold;
+	font-size: .8em;
+	font-weight: bold;
 }
 
 .site-wrapper blockquote {
-    margin: .5em .5em .5em 1em;
+	margin: .5em .5em .5em 1em;
 }
 
 .site-wrapper blockquote p {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 .site-wrapper hr {
-    border-style: solid none none none;
-    border-width: 1px;
-    border-color: #BBBBBB;
+	border-style: solid none none none;
+	border-width: 1px;
+	border-color: #BBBBBB;
 }
 
 .site-wrapper table {
-    border-style: none;
+	border-style: none;
 }
 
 .site-wrapper table td {
-    border-style: none;
+	border-style: none;
 }
 
 .site-wrapper .category {
-    margin-bottom: 9px;
-    border: 1px solid #CCCCCC;
-    -moz-border-radius: 5px 5px 5px 5px;
-    font-size: .9em;
+	margin-bottom: 9px;
+	border: 1px solid #CCCCCC;
+	-moz-border-radius: 5px 5px 5px 5px;
+	font-size: .9em;
 }
 
 .site-wrapper .header {
-    background: #DDDDDD;
-    padding: 0px 5px 0px 5px;
-    border-bottom: 1px solid #CCCCCC;
-    font-size: 0.9em;
+	background: #DDDDDD;
+	padding: 0px 5px 0px 5px;
+	border-bottom: 1px solid #CCCCCC;
+	font-size: 0.9em;
 }
 
 .site-wrapper .list {
-    padding: 0px 5px 5px 5px;
-}
-
-.site-wrapper .content {
-    margin-bottom: 9px;
-    -moz-border-radius: 5px 5px 5px 5px;
+	padding: 0px 5px 5px 5px;
 }
 
 .site-wrapper .newssub {
-	position: absolute;
-}
-
-.site-wrapper .newssub {
-    padding: 0px 5px 0px 5px;
-    font-size: 14px;
+	padding: 0px 5px 0px 5px;
+	font-size: 14px;
 }
 
 .site-wrapper .permalink {
-    padding: 2px;
-    text-align: right;
+	padding: 2px;
 }
 
 .site-wrapper .permalink a {
-    text-decoration: none;
-    font-size: 14px;
+	font-size: 14px;
 }
 
 .site-wrapper .sitelogo {
-    background: url(/images/0chan-autumn.png);
-    width: 420px;
-    height: 150px;
-    margin-top: 8px;
+	background: url(/images/0chan-autumn.png);
+	width: 420px;
+	height: 150px;
+	margin-top: 8px;
 }
 
 .sitemenu-wrapper a {
@@ -486,65 +467,42 @@ body.site-wrapper {
 }
 
 .sitemenu-wrapper sa {
-    color: #FF6600;
+	color: #FF6600;
 }
 
 .sitemenu-wrapper a:hover {
-    color: #0066FF;
+	color: #0066FF;
 }
 
 .sitemenu-wrapper h2, .sitemenu-wrapper h1 {
-    margin-bottom: 0px;
+	margin-bottom: 0px;
 	background: #DDDDDD;
-    -moz-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
 }
 
 .sitemenu-wrapper h2 {
-    border-bottom: 1px solid #CCCCCC;
-    font-size: 0.9em;
+	border-bottom: 1px solid #CCCCCC;
 }
 
 .sitemenu-wrapper h1, .sitemenu-wrapper h2 {
 	text-align: left;
 }
 
-.sitemenu-wrapper h1 {
-	margin-top: 0px;
-	font-size: 150%;
-	color: #000;
-}
-
-.sitemenu-wrapper h2 {
-	font-size: 100%;
-	margin-top: 1em;
-}
-
 .sitemenu-wrapper .plus {
-    float: right;
-    font-size: 8px;
-    font-weight: normal;
-    padding: 1px 4px 2px 4px;
-    margin: 0px 0px;
-    background: #CCCCCC;
-    background-repeat: repeat-x;
-    color: #000;
-    border: 1px solid #BBBBBB;
-    cursor: hand;
-    cursor: pointer;
+	background: #CCCCCC;
+	background-repeat: repeat-x;
+	color: #000;
+	border: 1px solid #BBBBBB;
 }
 
 .sitemenu-wrapper ul {
-    list-style: none;
-    padding-left: 3px;
-    margin: 0px;
-    margin-left: 3px;
+	padding-left: 0;
 }
 
 .sitemenu-wrapper li {
-    margin: 0px;
-    background: #EEEEEE;
+	background: #EEEEEE;
 }
 
 .sitemenu-wrapper li:hover {
-    background: #F3F3F3;
+	background: #F3F3F3;
 }
