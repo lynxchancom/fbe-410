@@ -1,162 +1,144 @@
 html {
-	text-size-adjust:100%;
-	-moz-text-size-adjust:100%;
-	-webkit-text-size-adjust:100%;
-	-ms-text-size-adjust:100%;
+	text-size-adjust: 100%;
+	-moz-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
 }
 
 html, body {
-	background:#FFFFEE;
-	color:#090E00;
+	background: #FFFFEE;
+	color: #090E00;
 	font-family: serif;
 }
 
 a {
-	color:#DD0000;
+	color: #DD0000;
 }
 
 a:hover {
-	color:#0000EE;
+	color: #0000EE;
 }
 
-.reflink a:hover{
+.reflink a:hover {
 	font-weight: bold;
 }
 
 .adminbar {
-	background:inherit;
+	background: inherit;
 }
 
 .logo {
-	clear:both;
-	text-align:center;
-	font-size:2em;
-	color:#800000;
-	width:100%;	
+	font-size: 2em;
+	color: #800000;
 }
 
 .replymode {
-	background:#D0AB65;
-	text-align:center;
-	padding:2px;
-	color:#FFFFFF;
-	width:100%;
+	background: #D0AB65;
+	text-align: center;
+	padding: 2px;
+	color: #FFFFFF;
+	width: 100%;
 }
 
 .catalogmode {
-	background:#D0AB65;
-	text-align:center;
-	padding:2px;
-	color:#FFFFFF;
-	width:100%;
+	background: #D0AB65;
+	text-align: center;
+	padding: 2px;
+	color: #FFFFFF;
+	width: 100%;
 }
 
 .postarea {
-	border-top:1px solid #D0AB65 !important;
-	border-bottom:1px solid #D0AB65 !important;
+	border-top: 1px solid #D0AB65 !important;
+	border-bottom: 1px solid #D0AB65 !important;
 }
 
 .rules {
-	/*font-size:0.7em;*/
-	width: 468px;
-	font-size: 10px;
 	font-family: sans-serif;
 }
 
-.rules li {
-	margin-left: 1em;
-	/*text-indent: 0em;*/
-}
-
 .postblock {
-	background:#F1C984;
-	color:#403C0F;
-	font-weight:800;
+	background: #F1C984;
+	color: #403C0F;
+	font-weight: 800;
 }
 
 .footer {
-	font-family:sans-serif;
+	font-family: sans-serif;
 }
 
 .passvalid {
-	background:#EEAA88;
-	text-align:center;
-	width:100%;
-	color:#ffffff;
+	background: #EEAA88;
+	text-align: center;
+	width: 100%;
+	color: #ffffff;
 }
 
 .dellist {
 	font-weight: bold;
-	text-align:center;
 }
 
 .delbuttons {
-	text-align:center;
-	padding-bottom:4px;
-
+	text-align: center;
+	padding-bottom: 4px;
 }
 
 .managehead {
-	background:#AAAA66;
-	color:#400000;
-	padding:0px;
+	background: #AAAA66;
+	color: #400000;
 }
 
 .postlists {
-	background:#FFFFFF;
-	width:100%;
-	padding:0px;
-	color:#800000;
+	color: #800000;
 }
 
 .row1 {
-	background:#EEEECC;
-	color:#090E00;
+	background: #EEEECC;
+	color: #090E00;
 }
 
 .row2 {
-	background:#DDDDAA;
-	color:#090E00;
+	background: #DDDDAA;
+	color: #090E00;
 }
 
 .unkfunc {
-	background:inherit;
-	color:#789922;
+	background: inherit;
+	color: #789922;
 }
 
 .filesize {
-	font-family:sans-serif;
+	font-family: sans-serif;
 }
 
 .filetitle {
-	background:inherit;
-	color:#CC1105;
-	font-weight:800;
-	font-size:1.2em;
+	color: #CC1105;
+	font-weight: 800;
+	font-size: 1.2em;
 }
 
 .postername {
-	color:#310000;
-	font-family:sans-serif;
+	color: #310000;
+	font-family: sans-serif;
 }
 
 .postertrip {
-	color:#228854;
+	color: #228854;
 }
 
 .oldpost {
-	color:#CC1105;
-	font-weight:800;
+	color: #CC1105;
+	font-weight: 800;
 }
 
 .omittedposts {
-	color:#707070;
+	color: #707070;
 }
 
 .reply {
 	background: none repeat scroll 0% 0% #FFECB2;
-    color: #090E00;
-    border: 1px solid #F9E0A8;
+	color: #090E00;
+	border: 1px solid #F9E0A8;
 }
 
 .replyhl {
@@ -165,32 +147,33 @@ a:hover {
 }
 
 .replytitle {
-	font-size: 1.5em;	color:#CC1105;
-	font-weight:800;
+	font-size: 1.5em;
+	color: #CC1105;
+	font-weight: 800;
 }
 
 .thumbnailmsg {
 	font-size: small;
-	color:#800000;
+	color: #800000;
 }
 
 .abbrev {
-	color:#707070;
+	color: #707070;
 }
 
 .highlight {
-	background: #FFECB2;	color:#800000;
+	background: #FFECB2;
+	color: #800000;
 	border: 2px dashed #EEAA88;
 }
-
 
 #watchedthreads {
 	background: #FFECB2 !important;
 }
 
-
 .reflinkpreview {
 	background: #FFECB2 !important;
+	background-color: #FFECB2 !important;
 }
 
 .userdelete table tr td {
@@ -199,14 +182,14 @@ a:hover {
 
 button {
 	border: 1px solid #F9E0A8;
- 	background-color: #FFECB2;	
+	background-color: #FFECB2;
 }
 
 input[type=text], input[type=password], textarea {
 	border: 1px solid #AAA;
 }
 
-input[type=submit] {		
+input[type=submit] {
 	border: 1px solid #D0AB65;
 	outline: none;
 	background: #F9E0A8;
@@ -215,17 +198,13 @@ input[type=submit] {
 	padding: 2px 4px 3px 4px;
 }
 
-input[type=submit]:hover {		
+input[type=submit]:hover {
 	border: 1px solid #D0AB65;
 	outline: none;
 	background: #FFECB2;
 	margin: 0px;
 	margin-right: 2px;
 	padding: 2px 4px 3px 4px;
-}
-
-.reflinkpreview {
-	background-color: #FFECB2 !important;
 }
 
 hr {
@@ -236,14 +215,11 @@ hr {
 
 .topmenu {
 	border-bottom: 1px solid #F9E0A8;
-	opacity: 0.95;
-	background:#FFFFEE;
+	background: #FFFFEE;
 }
 
-
 .catalogsubject {
-	color:#CC1105;
-	font-weight:800;
+	color: #CC1105;
 }
 
 .catalogmsg {
@@ -251,8 +227,6 @@ hr {
 }
 
 .catalogposts {
-	font-weight:800;
-	font-size: small;
 	color: #707070;
 }
 
@@ -269,7 +243,7 @@ hr {
 }
 
 .thrdcntnr {
-	border-bottom:1px solid #D0AB65 !important;
+	border-bottom: 1px solid #D0AB65 !important;
 }
 
 input[type=text]:focus, input[type=password]:focus, textarea:focus {
@@ -277,7 +251,7 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 }
 
 .unhidethread {
-	border-bottom:1px solid #D0AB65 !important;
+	border-bottom: 1px solid #D0AB65 !important;
 }
 
 .hidethread:hover {
@@ -329,61 +303,54 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	fill: #133b5e;
 }
 
-.read div[id^="thread"] span.reflink:after{
-	color: #707070;
-}
-
 .quick-reply-form .post-btn {
-    fill: white;
+	fill: white;
 }
 
 .quick-reply-form .post-btn:hover {
-    fill: #FFECB2;
+	fill: #FFECB2;
 }
 
 .quick-reply-form .post-badge {
-    fill: #D0AB65;
-    background: white;
+	fill: #D0AB65;
+	background: white;
 }
 
 .quick-reply-form .post-badge:hover {
-    fill: white;
-    background: transparent;
+	fill: white;
 }
 
 .quick-reply-form.form-detached {
-    border: 1px #D0AB65 dashed;
+	border: 1px #D0AB65 dashed;
 }
 
 .quick-reply-form.form-detached .post-badge {
-    fill: #FFECB2;
-    background: transparent;
+	fill: #FFECB2;
 }
 
 .quick-reply-form.form-detached .post-badge:hover {
-    fill: #D0AB65;
-    background: white;
+	fill: #D0AB65;
+	background: white;
 }
 
-/* Portrait mobile CSS */
 @media only screen and (max-width: 480px) {
 	.logo {
 		font-family: Times New Roman,serif;
-		color:#800000;
+		color: #800000;
 	}
 
-    .reply {
-        border-style: solid;
+	.reply {
+		border-style: solid;
 		border-color: #F9E0A8;
-    }
+	}
 
 	textarea {
-        border-style: solid;
+		border-style: solid;
 		border-color: #AAA;
 	}
 
 	input[type=text], input[type=password] {
-        border-style: solid;
+		border-style: solid;
 		border-color: #AAA;
 	}
 
@@ -391,7 +358,7 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 		border-color: #D0AB65;
 		background: #F9E0A8;
 		border-width: 1px;
-        border-style: solid;
+		border-style: solid;
 	}
 
 	input[type=submit]:hover {
@@ -400,3 +367,110 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	}
 }
 
+body.site-wrapper {
+	font-family: serif;
+	background: #ffe;
+	color: #090E00;
+}
+
+.site-wrapper h2 {
+	margin-top: 1em;
+	background: #D0AB65;
+}
+
+.site-wrapper h2 a {
+	color: #550;
+}
+
+.site-wrapper h1, .site-wrapper h3, .site-wrapper .menu {
+	font-family: serif;
+}
+
+.site-wrapper h1 {
+	color: #800000;
+}
+
+.site-wrapper h3 {
+	color: #090E00;
+}
+
+.site-wrapper .content {
+	font-size: medium;
+}
+
+.site-wrapper .content a {
+	font-size: medium;
+}
+
+.site-wrapper div.telega {
+	font-size: medium;
+}
+
+.site-wrapper div.telega a {
+	font-size: medium;
+}
+
+.site-wrapper .newssub {
+	position: absolute;
+}
+
+.site-wrapper .permalink {
+	display: block;
+}
+
+.site-wrapper .permalink a {
+	color: red;
+}
+
+.site-wrapper a {
+	color: #DD0000;
+}
+
+.site-wrapper hr {
+	border-style: solid none none none;
+	border-width: 1px;
+	border-color: #555;
+}
+
+.sitemenu-wrapper a {
+	color: #550;
+}
+
+.sitemenu-wrapper h1, .sitemenu-wrapper h2 {
+	background: #F1C984;
+	text-align: left;
+}
+
+.sitemenu-wrapper h2 {
+	font-size: 100%;
+	margin-top: 1em;
+}
+
+.sitemenu-wrapper .plus {
+	background: #eb9;
+	color: #000;
+	border: 1px solid #da8;
+}
+
+.sitemenu-wrapper .plus:hover {
+	background: #da8;
+	border: 1px solid #c97;
+}
+
+.sitemenu-wrapper ul {
+	padding-left: 0px;
+}
+
+.sitemenu-wrapper li {
+	margin: 0px;
+}
+
+.sitemenu-wrapper li:hover {
+	background: #fec;
+}
+
+.sitemenu-wrapper .icon {
+	border: none;
+	float: left;
+	margin: 2px 20px;
+}
