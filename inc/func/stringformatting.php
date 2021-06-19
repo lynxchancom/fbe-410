@@ -329,69 +329,21 @@ function unistr_to_ords($str, $encoding = 'UTF-8'){
 	return($ords);
 }
 
-function processPost($id, $new_thread_id, $old_thread_id, $opt_b_f = "", $opt_b_t = "", $moved_posts=[]) {
+function processPost($id, $newthreadid, $oldthreadid, $opt_b_f = "", $opt_b_t = "") {
 	global $tc_db, $board_from, $board_to;
 	if(!$board_from) { $local_b_from = $opt_b_f; }
 	else { $local_b_from = $board_from; }
 	if(!$board_to) { $local_b_to = $opt_b_t; }
 	else { $local_b_to = $board_to; }
-
+	
 	$message = $tc_db->GetOne("SELECT `message` FROM " . KU_DBPREFIX . "posts_" . $local_b_to . " WHERE `id` = " . $id . " LIMIT 1");
-
-	$message_new = $message;
-
-	$hrefRegexPattern = '/\\<a href=\\\\\\"' .
-		str_replace('/', '\/', KU_BOARDSFOLDER) .
-		'(.+?)\/res\/(\d+?)\.html#(\d+)\\\\\\".*?<\/a>/';
-
-	$message_new = preg_replace_callback($hrefRegexPattern,
-		function ($matches) use ($moved_posts, $old_thread_id, $local_b_from, $local_b_to, $new_thread_id) {
-			$link_board = $matches[1];
-			$link_thread_id = $matches[2];
-			$link_post_id = $matches[3];
-
-			if ($link_board == $local_b_from && isset($moved_posts[$link_post_id])) {
-				//this post was moved with the thread and now have new id
-				$new_post_id = $moved_posts[$link_post_id];
-
-				$result = formatQuote($local_b_to, $new_thread_id, $new_post_id, false);
-
-				return str_replace("\"", "\\\"", $result);
-			} else if ($link_board == $local_b_from && $link_thread_id != $old_thread_id) {
-				//this link is now interboard
-				$result = formatQuote($link_board, $link_thread_id, $link_post_id, true);
-
-				return str_replace("\"", "\\\"", $result);
-			} else if ($link_board == $local_b_to) {
-				//this link is now not interboard
-				$result = formatQuote($link_board, $link_thread_id, $link_post_id, false);
-
-				return str_replace("\"", "\\\"", $result);
-			} else {
-				return $matches[0];
-			}
-		},
-		$message_new);
-
-	if ($message_new != '') {
-		$message_new = str_replace('/read.php/' . $local_b_from . '/' . $old_thread_id, '/read.php/' . $local_b_to . '/' . $new_thread_id, $message_new);
-
+	
+	if ($message != '') {
+		$message_new = str_replace('/read.php/' . $local_b_from . '/' . $oldthreadid, '/read.php/' . $local_b_to . '/' . $newthreadid, $message);
+		
 		if ($message_new != $message) {
-			$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $local_b_to . " SET `message` = '" . mysqli_real_escape_string($tc_db->link, $message_new) . "' WHERE `id` = " . $id);
+			$tc_db->GetOne("UPDATE " . KU_DBPREFIX . "posts_" . $local_b_to . " SET `message` = '" . mysqli_real_escape_string($tc_db->link, $message) . "' WHERE `id` = " . $id);
 		}
 	}
 }
-
-function formatQuote($board, $thread_id, $post_id, $interboard) {
-	$link_text = $interboard
-		? "&gt;&gt;/$board/$post_id"
-		: "&gt;&gt;$post_id";
-
-	$href = KU_BOARDSFOLDER . "$board/res/$thread_id.html#$post_id";
-
-	$class = "ref|$board|$thread_id|$post_id";
-
-	return "<a href=\"$href\" class=\"$class\">$link_text</a>";
-}
-
 ?>
