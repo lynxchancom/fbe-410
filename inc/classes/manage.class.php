@@ -1886,54 +1886,6 @@ class Manage {
 			</form>';
 		}
 	}
-	/* Run migrations */
-	function update() {
-		global $tc_db, $smarty, $tpl_page;
-		$this->AdministratorsOnly();
-
-		$tables_to_update_sql = "SELECT t.`TABLE_NAME`  
-FROM `" . KU_DBPREFIX . "boards` b
-JOIN information_schema.TABLES t ON t.TABLE_SCHEMA = '" . KU_DBDATABASE . "' 
-	AND t.TABLE_NAME = CONCAT('" . KU_DBPREFIX . "posts_', b.name)
-LEFT JOIN information_schema.COLUMNS c ON c.TABLE_SCHEMA = '" . KU_DBDATABASE . "' 
-	AND c.TABLE_NAME = CONCAT('" . KU_DBPREFIX . "posts_', b.name)
-	AND c.COLUMN_NAME = 'initial_board'
-WHERE c.COLUMN_NAME IS NULL
-ORDER BY t.`TABLE_NAME` ASC";
-
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$tables = $tc_db->GetAll($tables_to_update_sql);
-			$tables = array_map(function($item) { return $item["TABLE_NAME"]; }, $tables);
-
-			foreach ($tables as $table) {
-				$tc_db->Execute("ALTER TABLE `$table`
-ADD COLUMN `initial_board` VARCHAR(75) NULL DEFAULT NULL AFTER `reviewed`");
-
-				echo "Table $table was updated.<br>";
-			}
-
-			echo "Finished.<br>";
-		}
-
-		$tables = $tc_db->GetAll($tables_to_update_sql);
-		$tables = array_map(function($item) { return $item["TABLE_NAME"]; }, $tables);
-
-		$tpl_page .= '<h2>' . ucwords(_gettext('Update Database')) . '</h2><br>';
-
-		if (count($tables)) {
-			$tpl_page .= 'Tables to update: ' . implode(', ', $tables) . '<br><br>';
-		} else {
-			$tpl_page .= 'All tables are already updated<br><br>';
-		}
-
-		$tpl_page .= '<form action="manage_page.php?action=update" method="post">
-		
-		<label for="directory">Add initial_board field to all posts tables</label>
-		
-		<input type="submit" value="'._gettext('Update').'">
-		
-		</form>';
-	}
 	/* Addition, modification, deletion, and viewing of bans */
 	function bans() {
 		global $tc_db, $smarty, $tpl_page, $bans_class;
@@ -2891,7 +2843,6 @@ function reason(why) {
 							  `locked` tinyint(1) NOT NULL default '0',
 							  `posterauthority` tinyint(1) NOT NULL default '0',
 							  `reviewed` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
-							  `initial_board` VARCHAR(75) NULL DEFAULT NULL,
 							  `deletedat` int(20) NOT NULL default '0',
 							  `IS_DELETED` tinyint(1) NOT NULL default '0',
 							  UNIQUE KEY `id` (`id`),
@@ -3641,7 +3592,6 @@ function reason(why) {
 		if (isset($_POST['id']) && isset($_POST['board_from']) && isset($_POST['board_to'])) {
 			$board_from = mysqli_real_escape_string($tc_db->link, $_POST['board_from']);
 			$board_to = mysqli_real_escape_string($tc_db->link, $_POST['board_to']);
-			$moved_posts = [];
 echo "stage 1<br>";
 			if(!is_numeric($_POST['id'])) {
 				exitWithErrorPage('Invalid thread ID');
@@ -3652,7 +3602,7 @@ echo "stage 1<br>";
 				exitWithErrorPage('Please select a board');
 			}
 echo "stage 2<br>";
-			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `filename`, `filetype`, `initial_board` FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = '" . $id . "' AND `parentid` = 0 AND `IS_DELETED` = 0 LIMIT 1");
+			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `filename`, `filetype` FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = '" . $id . "' AND `parentid` = 0 AND `IS_DELETED` = 0 LIMIT 1");
 			if(count($results) <= 0) {
 				exitWithErrorPage('Invalid thread ID');
 			}
@@ -3667,7 +3617,7 @@ echo "stage 2<br>";
 					$image_to_c = KU_ROOTDIR . $board_to . '/thumb/' . $line['filename'] . 'c.' . $line['filetype'];
 					if (file_exists($image_to) || file_exists($image_to_s) || file_exists($image_to_c)) {
 						die("[1] File already exists, try running cleanup to remove unused files");
-					}
+					} 
 					if(!rename($image_from, $image_to) || !rename($image_from_s, $image_to_s) || !rename($image_from_c, $image_to_c)) {
 						die("Error moving files");
 					}
@@ -3679,16 +3629,13 @@ echo "INSERT INTO " . KU_DBPREFIX . "posts_" . $board_to . " SELECT * FROM " . K
 			$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_from . " SET `id` = " . $temp_id . " WHERE `id` = '" . $id . "'");
 echo "stage 3.1<br>";
 			$tc_db->Execute("INSERT INTO " . KU_DBPREFIX . "posts_" . $board_to . " SELECT * FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = " . $temp_id);
-			$new_id = $tc_db->Insert_Id();
-			if (!$results[0]['initial_board']) {
-				$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_to . " SET `initial_board` = '" . $board_from . "' WHERE `id` = '" . $new_id . "'");
-			}
-			processPost($new_id, $new_id, $id, $board_from, $board_to, []);
+			$new_id = $tc_db->Insert_Id();	
+			processPost($new_id, $new_id, $id, $board_from, $board_to);
 echo "stage 3.2<br>";
 			$tc_db->Execute("DELETE FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = " . $temp_id);
-			$moved_posts[$id] = $new_id;
+			
 echo "stage 4<br>";
-			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `filename`, `filetype`, `initial_board` FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `parentid` = '" . $id . "' AND `IS_DELETED` = 0 ORDER BY `id` ASC");
+			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `filename`, `filetype` FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `parentid` = '" . $id . "' AND `IS_DELETED` = 0 ORDER BY `id` ASC");
 			if(count($results) > 0) {
 				foreach ($results as $line) {
 					if(is_numeric($line['filename'])) {
@@ -3706,16 +3653,12 @@ echo "stage 4<br>";
 						}
 					}
 echo "stage 5<br>";
-					$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_from . " SET `id` = " . $temp_id. " WHERE `id` = " . $line['id']);
+					$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_from . " SET `id` = " . $temp_id. " WHERE `id` = " . $line['id']);			
 					$tc_db->Execute("INSERT INTO " . KU_DBPREFIX . "posts_" . $board_to . " SELECT * FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = " . $temp_id);
-					$insert_id = $tc_db->Insert_Id();
-					processPost($insert_id, $new_id, $id, $board_from, $board_to, $moved_posts);
+					$insert_id = $tc_db->Insert_Id();			
+					processPost($insert_id, $new_id, $id, $board_from, $board_to);
 					$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_to . " SET `parentid` = " . $new_id . " WHERE `id` = " . $insert_id);
-					if (!$line['initial_board']) {
-						$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_to . " SET `initial_board` = '" . $board_from . "' WHERE `id` = '" . $insert_id . "'");
-					}
 					$tc_db->Execute("DELETE FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = " . $temp_id);
-					$moved_posts[$line['id']] = $insert_id;
 				}
 			}
 echo "stage 6<br>";
