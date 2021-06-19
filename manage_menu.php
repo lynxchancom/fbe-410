@@ -67,7 +67,8 @@ if (!$manage_class->ValidateSession(true)) {
 		<li><a href="manage_page.php?action=proxyban">' . _gettext('Ban proxy list') . '</a></li>
 		<li><a href="manage_page.php?action=spam">' . _gettext('Spamfilter') . '</a></li>
 		<li><a href="manage_page.php?action=sql">' . _gettext('SQL query') . '</a></li>
-		<li><a href="manage_page.php?action=cleanup">' . _gettext('Cleanup') . '</a></li>' . "\n";
+		<li><a href="manage_page.php?action=cleanup">' . _gettext('Cleanup') . '</a></li>
+		<li><a href="manage_page.php?action=update">' . _gettext('Update') . '</a></li>' . "\n";
 		if (KU_APC) {
 			$tpl_links .= '<li><a href="manage_page.php?action=apc">APC</a></li>' . "\n";
 		}
@@ -115,7 +116,7 @@ if (!$manage_class->ValidateSession(true)) {
 		<li><a href="manage_page.php?action=recentimages">' . _gettext('Recently uploaded images') . '</a></li>
 		</ul></div>';
 	}
-	
+
 	$tpl_links .= '<br>' . _gettext('Welcome') . ', <b>' . $_SESSION['manageusername'] . '</b>';
 	if ($_SESSION['manageusername'] == 'root' && $_SESSION['managepassword'] == md5('root')) {
 		$tpl_links .= '<font color="red"><b>' . _gettext('<br/>NOTICE: You are using the default administrator account. Change the password immediately.') . '</b></font><br>';
