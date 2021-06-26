@@ -295,7 +295,14 @@ class Manage {
 			if ($_GET['do'] == 'editfiletype' && $_GET['filetypeid'] > 0) {
 				if (isset($_POST['filetype'])) {
 					if ($_POST['filetype'] != '' && $_POST['image'] != '') {
-						$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "filetypes` SET `filetype` = '" . mysqli_real_escape_string($tc_db->link, $_POST['filetype']) . "' , `mime` = '" . mysqli_real_escape_string($tc_db->link, $_POST['mime']) . "' , `image` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image']) . "' , `image_w` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image_w']) . "' , `image_h` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image_h']) . "' , mediatype = '" . mysqli_real_escape_string($tc_db->link, $_POST['mediatype']) ."' WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_GET['filetypeid']) . "'");
+						$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "filetypes` 
+						    SET `filetype` = '" . mysqli_real_escape_string($tc_db->link, $_POST['filetype']) . "' , 
+                                `mime` = '" . mysqli_real_escape_string($tc_db->link, $_POST['mime']) . "' , 
+                                `image` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image']) . "' , 
+                                `image_w` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image_w']) . "' ,
+                                `image_h` = '" . mysqli_real_escape_string($tc_db->link, $_POST['image_h']) . "' , 
+                                mediatype = '" . mysqli_real_escape_string($tc_db->link, $_POST['mediatype']) ."' 
+						    WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_GET['filetypeid']) . "'");
 						if (KU_APC) {
 							apc_delete('filetype|' . $_POST['filetype']);
 						}
@@ -328,6 +335,7 @@ class Manage {
 							<div class="desc">See above.</div><br>
 
  							<label for="mediatype">Mediatype:</label>
+ 							<select name="mediatype">
  								<option value="image"';
  							if ($line['mediatype'] == 'image'){
  								$tpl_page .= ' selected';
