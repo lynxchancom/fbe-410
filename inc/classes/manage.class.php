@@ -3645,95 +3645,109 @@ function reason(why) {
 	function movethread() {
 		global $tc_db, $smarty, $tpl_page;
 		$this->AdministratorsOnly();		
-//		var_dump($_POST);
+
 		$tpl_page .= '<h2>' . ucwords(_gettext('Move thread')) . "</h2><br><b>Warning: Do not move threads across image board types, i.e. an imageboard thread to a text board thread.</b><br><br>";
 		if (isset($_POST['id']) && isset($_POST['board_from']) && isset($_POST['board_to'])) {
+			if(empty($_POST['board_from'])  || empty($_POST['board_to'])) {
+				exitWithErrorPage('Please select a board');
+			}
+
 			$board_from = mysqli_real_escape_string($tc_db->link, $_POST['board_from']);
-			$board_to = mysqli_real_escape_string($tc_db->link, $_POST['board_to']);
-			$moved_posts = [];
+			$board_from_object = new Board($board_from);
+			$board_to =  mysqli_real_escape_string($tc_db->link, $_POST['board_to']);
+			$board_to_object = new Board($board_to);
+
 echo "stage 1<br>";
 			if(!is_numeric($_POST['id'])) {
 				exitWithErrorPage('Invalid thread ID');
 			}
-			$id = mysqli_real_escape_string($tc_db->link, $_POST['id']);
-			$temp_id = 0;
-			if(empty($_POST['board_from'])  || empty($_POST['board_to'])) {
-				exitWithErrorPage('Please select a board');
-			}
-echo "stage 2<br>";
-			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `filename`, `filetype`, `initial_board` FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = '" . $id . "' AND `parentid` = 0 AND `IS_DELETED` = 0 LIMIT 1");
-			if(count($results) <= 0) {
+
+			$old_thread_id = mysqli_real_escape_string($tc_db->link, $_POST['id']);
+			$op_post_results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `filename`, `filetype`, `initial_board` FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = '" . $old_thread_id . "' AND `parentid` = 0 AND `IS_DELETED` = 0 LIMIT 1");
+			if(count($op_post_results) <= 0) {
 				exitWithErrorPage('Invalid thread ID');
 			}
-			$tc_db->Execute("START TRANSACTION");
-			foreach ($results as $line) {
-				if(is_numeric($line['filename'])) {
-					$image_from = KU_ROOTDIR . $board_from . '/src/' . $line['filename'] . '.' . $line['filetype'];
-					$image_to = KU_ROOTDIR . $board_to . '/src/' . $line['filename'] . '.' . $line['filetype'];
-					$image_from_s = KU_ROOTDIR . $board_from . '/thumb/' . $line['filename'] . 's.' . $line['filetype'];
-					$image_to_s = KU_ROOTDIR . $board_to . '/thumb/' . $line['filename'] . 's.' . $line['filetype'];
-					$image_from_c = KU_ROOTDIR. $board_from . '/thumb/' . $line['filename'] . 'c.' . $line['filetype'];
-					$image_to_c = KU_ROOTDIR . $board_to . '/thumb/' . $line['filename'] . 'c.' . $line['filetype'];
-					if (file_exists($image_to) || file_exists($image_to_s) || file_exists($image_to_c)) {
-						die("[1] File already exists, try running cleanup to remove unused files");
-					}
-					if(!rename($image_from, $image_to) || !rename($image_from_s, $image_to_s) || !rename($image_from_c, $image_to_c)) {
-						die("Error moving files");
-					}
+			$op_post = $op_post_results[0];
+			$posts_to_move = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `filename`, `filetype`, `initial_board` FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `parentid` = '" . $old_thread_id . "' AND `IS_DELETED` = 0 ORDER BY `id` ASC");
+			array_unshift($posts_to_move, $op_post);
+
+			$posts_with_invalid_file_type = array_values(array_filter($posts_to_move, function($item) use ($board_to_object) {
+				return is_numeric($item['filename'])
+					&& !in_array($item['filetype'], $board_to_object->allowed_file_types['video'])
+					&& !in_array($item['filetype'], $board_to_object->allowed_file_types['image'])
+					&& !in_array($item['filetype'], $board_to_object->allowed_file_types['misc']);
+			}));
+
+			if (count($posts_with_invalid_file_type)) {
+				$error_message = 'Some files are not allowed on board /' . $board_to_object->board_dir . '/!<br>';
+				foreach ($posts_with_invalid_file_type as $post) {
+					$error_message .= "File of type " . $post['filetype'] . " in post " . $post['id'] . " is not allowed on board /" . $board_to_object->board_dir . "/!<br>";
 				}
+				exitWithErrorPage($error_message);
 			}
-echo "stage 3<br>";
-echo "UPDATE " . KU_DBPREFIX . "posts_" . $board_from . " SET `id` = " . $temp_id . " WHERE `id` = '" . $id . "'";
-echo "INSERT INTO " . KU_DBPREFIX . "posts_" . $board_to . " SELECT * FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = " . $temp_id;
-			$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_from . " SET `id` = " . $temp_id . " WHERE `id` = '" . $id . "'");
-echo "stage 3.1<br>";
-			$tc_db->Execute("INSERT INTO " . KU_DBPREFIX . "posts_" . $board_to . " SELECT * FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = " . $temp_id);
-			$new_id = $tc_db->Insert_Id();
-			if (!$results[0]['initial_board']) {
-				$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_to . " SET `initial_board` = '" . $board_from . "' WHERE `id` = '" . $new_id . "'");
-			}
-			processPost($new_id, $new_id, $id, $board_from, $board_to, []);
-echo "stage 3.2<br>";
-			$tc_db->Execute("DELETE FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = " . $temp_id);
-			$moved_posts[$id] = $new_id;
-echo "stage 4<br>";
-			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `id`, `filename`, `filetype`, `initial_board` FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `parentid` = '" . $id . "' AND `IS_DELETED` = 0 ORDER BY `id` ASC");
-			if(count($results) > 0) {
-				foreach ($results as $line) {
-					if(is_numeric($line['filename'])) {
+
+			$moved_posts = [];
+
+			$temp_id = 0;
+
+			$new_thread_id = null;
+
+echo "stage 2<br>";
+			$tc_db->Execute("START TRANSACTION");
+
+			foreach ($posts_to_move as $line) {
+				if(is_numeric($line['filename'])) {
+					$is_misc_file = in_array($line['filetype'], $board_to_object->allowed_file_types['misc']);
+					$is_video_file = in_array($line['filetype'], $board_to_object->allowed_file_types['video']);
+
+					if ($is_misc_file) {
 						$image_from = KU_ROOTDIR . $board_from . '/src/' . $line['filename'] . '.' . $line['filetype'];
 						$image_to = KU_ROOTDIR . $board_to . '/src/' . $line['filename'] . '.' . $line['filetype'];
-						$image_from_s = KU_ROOTDIR . $board_from . '/thumb/' . $line['filename'] . 's.' . $line['filetype'];
-						$image_to_s = KU_ROOTDIR . $board_to . '/thumb/' . $line['filename'] . 's.' . $line['filetype'];
-						$image_from_c = KU_ROOTDIR. $board_from . '/thumb/' . $line['filename'] . 'c.' . $line['filetype'];
-						$image_to_c = KU_ROOTDIR . $board_to . '/thumb/' . $line['filename'] . 'c.' . $line['filetype'];
-						if (file_exists($image_to) || file_exists($image_to_s) || file_exists($image_to_c)) {
-							die("[2] File already exists, try running cleanup to remove unused files");
+
+						if (file_exists($image_to)) {
+							die("[1] File already exists, try running cleanup to remove unused files");
 						}
-						if(!rename($image_from, $image_to) || !rename($image_from_s, $image_to_s) || !rename($image_from_c, $image_to_c)) {
+						if(!rename($image_from, $image_to)) {
+							die("Error moving files");
+						}
+					} else {
+						$thumb_file_type = $is_video_file ? 'jpg' : $line['filetype'];
+
+						$image_from = KU_ROOTDIR . $board_from . '/src/' . $line['filename'] . '.' . $line['filetype'];
+						$image_to = KU_ROOTDIR . $board_to . '/src/' . $line['filename'] . '.' . $line['filetype'];
+						$image_from_s = KU_ROOTDIR . $board_from . '/thumb/' . $line['filename'] . 's.' . $thumb_file_type;
+						$image_to_s = KU_ROOTDIR . $board_to . '/thumb/' . $line['filename'] . 's.' . $thumb_file_type;
+						$image_from_c = KU_ROOTDIR . $board_from . '/thumb/' . $line['filename'] . 'c.' . $thumb_file_type;
+						$image_to_c = KU_ROOTDIR . $board_to . '/thumb/' . $line['filename'] . 'c.' . $thumb_file_type;
+						if (file_exists($image_to) || file_exists($image_to_s) || file_exists($image_to_c)) {
+							die("File already exists, try running cleanup to remove unused files");
+						}
+						if (!rename($image_from, $image_to) || !rename($image_from_s, $image_to_s) || !rename($image_from_c, $image_to_c)) {
 							die("Error moving files");
 						}
 					}
-echo "stage 5<br>";
-					$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_from . " SET `id` = " . $temp_id. " WHERE `id` = " . $line['id']);
-					$tc_db->Execute("INSERT INTO " . KU_DBPREFIX . "posts_" . $board_to . " SELECT * FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = " . $temp_id);
-					$insert_id = $tc_db->Insert_Id();
-					processPost($insert_id, $new_id, $id, $board_from, $board_to, $moved_posts);
-					$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_to . " SET `parentid` = " . $new_id . " WHERE `id` = " . $insert_id);
-					if (!$line['initial_board']) {
-						$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_to . " SET `initial_board` = '" . $board_from . "' WHERE `id` = '" . $insert_id . "'");
-					}
-					$tc_db->Execute("DELETE FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = " . $temp_id);
-					$moved_posts[$line['id']] = $insert_id;
 				}
+				$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_from . " SET `id` = " . $temp_id. " WHERE `id` = " . $line['id']);
+				$tc_db->Execute("INSERT INTO " . KU_DBPREFIX . "posts_" . $board_to . " SELECT * FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = " . $temp_id);
+				$insert_id = $tc_db->Insert_Id();
+				if ($new_thread_id === null) {
+					//op-post
+					$new_thread_id = $insert_id;
+				} else {
+					$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_to . " SET `parentid` = " . $new_thread_id . " WHERE `id` = " . $insert_id);
+				}
+				processPost($insert_id, $new_thread_id, $old_thread_id, $board_from, $board_to, $moved_posts);
+				if (!$line['initial_board']) {
+					$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board_to . " SET `initial_board` = '" . $board_from . "' WHERE `id` = '" . $insert_id . "'");
+				}
+				$tc_db->Execute("DELETE FROM " . KU_DBPREFIX . "posts_" . $board_from . " WHERE `id` = " . $temp_id);
+				$moved_posts[$line['id']] = $insert_id;
 			}
-echo "stage 6<br>";
+
+echo "stage 3<br>";
 			$tc_db->Execute("COMMIT");
-			$board_class = new Board($board_to);
-			$board_class->RegenerateAll();
-			unset($board_class);
-			$board_class = new Board($board_from);
-			$board_class->RegenerateAll();
+			$board_from_object->RegenerateAll();
+			$board_to_object->RegenerateAll();
 			if(!$this->delspecunusedimages($board_from)) {
 				exitWithErrorPage(_gettext('Could not delete unused images'));
 			}
