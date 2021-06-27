@@ -404,7 +404,9 @@ class Board {
 			}
 			/* Populate allowed filetypes 
 			 * As a hack, also map filetypes back to their media type */
- 			$query = "SELECT f.`filetype`, f.`mediatype`, f.`image`, f.`image_w`, f.`image_h` FROM `".KU_DBPREFIX."board_filetypes` AS b JOIN `".KU_DBPREFIX."filetypes` AS f ON f.`id` = b.`typeid` WHERE b.`boardid` = '".$this->board_id."'";
+ 			$query = "SELECT f.`filetype`, f.`mediatype`, f.`image`, f.`image_w`, f.`image_h` 
+				FROM `".KU_DBPREFIX."board_filetypes` AS b 
+				JOIN `".KU_DBPREFIX."filetypes` AS f ON f.`id` = b.`typeid` WHERE b.`boardid` = '".$this->board_id."'";
  			$results = $tc_db->GetAll($query);
  			$c = 0;
  			foreach($results AS $line) {
@@ -1396,6 +1398,14 @@ class Board {
 			/*if ($page && $post_is_thread && $thread_relative_id !== '' && $post['stickied'] == 0 && $post['locked'] == 0) {
 				$info_post .= ' Estimated lifespan: ' . calculateThreadLifespan($post['id'], $page, $thread_relative_id, $this->board_dir, $this->board_maxpages, $this->board_maxage) . "\n";
 			}*/
+			if ($post_is_thread && defined('KU_INDICATEMOVEDTHREADS') && KU_INDICATEMOVEDTHREADS
+				&& isset($post['initial_board']) && $post['initial_board'] != $post_board) {
+				try {
+					$info_post .= ' <span>' . _gettext('Moved from') . ' /' . $post['initial_board'] . '/</span>';
+				} catch (Exception $e) {
+
+				}
+			}
 			$info_post .= '<span class="extrabtns">' . "\n";
 			if ($post['locked']==1) {
 				$info_post .= '	 <span class="post-badge post-badge-locked" title="' . _gettext('Locked') . '">' . svgIcon('locked', '16') . '</span>' . "\n";
