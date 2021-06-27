@@ -87,13 +87,17 @@ if ($_GET['p']=='faq') {
 } else if ($_GET['p']=='radio') {
 	$content = file_get_contents(KU_ROOTDIR . 'inc/pages/radio.html');
 } else {
-	$content = '<hr/><img src="410.png" width="300px" height="300px" alt="Logo" style="float: left; padding-left:1.6em;"/><div class="telega" style="padding-left:1.6em; margin-top: 3em;">
+	if (DEFINED('KU_NEWSCONTENT') && KU_NEWSCONTENT) {
+		$content = KU_NEWSCONTENT;
+	} else {
+		$content = '<hr/><img src="410.png" width="300px" height="300px" alt="Logo" style="float: left; padding-left:1.6em;"/><div class="telega" style="padding-left:1.6em; margin-top: 3em;">
 	Добро пожаловать на 410chan! Наш сайт является имиджбордом — одним из специфических сетевых форумов, где нет принудительной регистрации, а к сообщениям
 	можно легко прикреплять графические файлы. Тематика сайта почти ничем не ограничена: те вопросы, для которых не выделено отдельного тематического раздела, можно обсудить на доске <a href="/b">/b/</a>.<br/><br/>
 	Поскольку сайт построен по принципу наполнения самими пользователями, то, как он будет выглядеть, всецело зависит от них. Наше сообщество стремится к достижению высокой культуры общения.
 	Мы надеемся на то, что пассажиры нашего Автобуса будут вежливыми и интересными собеседниками и предпочтут содержательное общение бессмысленным разборкам.<br/><br/>
 	И помните: <a href="http://noobtype.ru/wiki/Автобус_410" target="_blank">Автобус следует в ад</a>.
 	</div><hr style="clear: both;"/>'; /* Вельми кривая вёрстка, я знаю.*/
+	}
 	$entries = 0;
 	/* Get all of the news entries, ordered with the newest one placed on top */
 	$results = $tc_db->GetAll("SELECT * FROM `".KU_DBPREFIX."news` ORDER BY `postedat` DESC");

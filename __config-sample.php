@@ -200,6 +200,14 @@ if (!$cache_loaded) {
 'default' => 'ru',
 'lang_def' => 'default language postbox'
 );
+		$cf['KU_NEWSCONTENT'] = '<hr/><img src="410.png" width="300px" height="300px" alt="Logo" style="float: left; padding-left:1.6em;"/><div class="telega" style="padding-left:1.6em; margin-top: 3em;">
+	Добро пожаловать на 410chan! Наш сайт является имиджбордом — одним из специфических сетевых форумов, где нет принудительной регистрации, а к сообщениям
+	можно легко прикреплять графические файлы. Тематика сайта почти ничем не ограничена: те вопросы, для которых не выделено отдельного тематического раздела, можно обсудить на доске <a href="/b">/b/</a>.<br/><br/>
+	Поскольку сайт построен по принципу наполнения самими пользователями, то, как он будет выглядеть, всецело зависит от них. Наше сообщество стремится к достижению высокой культуры общения.
+	Мы надеемся на то, что пассажиры нашего Автобуса будут вежливыми и интересными собеседниками и предпочтут содержательное общение бессмысленным разборкам.<br/><br/>
+	И помните: <a href="http://noobtype.ru/wiki/Автобус_410" target="_blank">Автобус следует в ад</a>.
+	</div><hr style="clear: both;"/>';
+
 		/* Notice displayed under the post area */
 		$cf['KU_FIRSTPAGE'] = 'board.html'; /* Filename of the first page of a board.  Only change this if you are willing to maintain the .htaccess files for each board directory (they are created with a DirectoryIndex board.html, change them if you change this) */
 		$cf['KU_DIRTITLE']  = false; /* Whether or not to place the board directory in the board's title and at the top of the page.  true would render as "/b/ - Random", false would render as "Random" */
