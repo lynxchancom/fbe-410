@@ -578,8 +578,8 @@ class Board {
 					
 					if ($this->board_type != 1) {
 						$page .= deletePostBox($this->board_type, $this->board_enablereporting) .
-						setDelPassJavascript() .
-						pageList($boardpage, $boardstooutput, $this->board_dir);
+							setDelPassJavascript() .
+							pageList($boardpage, $boardstooutput + 1, $this->board_dir);
 					}
 					
 					$page .= $this->Footer(false, (microtime_float()-$executiontime_start_regeneratepages), $hide_extra);

@@ -30,6 +30,7 @@
 require 'config.php';
 require KU_ROOTDIR . 'inc/functions.php';
 require_once KU_ROOTDIR . 'lib/smarty.php';
+require_once KU_ROOTDIR . 'inc/func/pages.php';
 
 if (!isset($_GET['p'])) {
 	$_GET['p'] = '';
@@ -100,7 +101,19 @@ if ($_GET['p']=='faq') {
 	}
 	$entries = 0;
 	/* Get all of the news entries, ordered with the newest one placed on top */
-	$results = $tc_db->GetAll("SELECT * FROM `".KU_DBPREFIX."news` ORDER BY `postedat` DESC");
+	$news_per_page = defined('KU_NEWSPERPAGE') && KU_NEWSPERPAGE
+		? KU_NEWSPERPAGE
+		: 5;
+
+	$current_page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 0;
+
+	$offset = $current_page * $news_per_page;
+
+	$total_news_row = $tc_db->GetAll("SELECT COUNT(*) as total_news FROM `".KU_DBPREFIX."news`");
+	$total_news = $total_news_row[0]['total_news'];
+	$total_news_pages = ceil($total_news/$news_per_page);
+
+	$results = $tc_db->GetAll("SELECT * FROM `".KU_DBPREFIX."news` ORDER BY `postedat` DESC LIMIT $offset, $news_per_page ");
 	foreach($results AS $line) {
 		$entries++;
 		$content .= '<div class="content">' . "\n" .
@@ -116,7 +129,9 @@ if ($_GET['p']=='faq') {
 		$content .= ' - '.date("n/j/y @ g:iA T", $line['postedat']);
 		$content .= '</span><span class="permalink"><a href="#' . $line['id'] . '" name="' . $line['id'] . '" title="permalink">#</a></span></h2>
 		'.stripslashes($line['message']).'</div><br>';
-		$content .= 'Memory: ' . memory_get_usage();
+	}
+	if ($total_news > $news_per_page) {
+		$content .= newsPageList($current_page, $total_news_pages);
 	}
 }
 $smarty->assign('content', $content);

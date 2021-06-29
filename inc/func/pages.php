@@ -1,6 +1,51 @@
 <?php
 /**
  * Generate the list of pages, linking to each
+ *
+ * @param integer $page Current page
+ * @param integer $pages Number of pages
+ * @param callable $getPageUrl Takes page number, returns url
+ * @return string Generated page list
+ */
+function pageListCommon($page, $pages, $getPageUrl) {
+    $output = '<div class="pgstbl"><table><tbody><tr><td>';
+
+    if ($page == 0) {
+        $output .= _gettext('←');
+    } else {
+        $output .= '<form method="get" action="' . $getPageUrl($page-1) . '"><input value="' . _gettext('←') . '" type="submit"></form>';
+    }
+
+    $output .= '</td><td>';
+
+    for ($i=0;$i<=$pages-1;$i++) {
+        if ($page == $i) {
+            $output .= '&#91;'.$i.'&#93;';
+        } else {
+            $output .= '&#91;<a href="' . $getPageUrl($i) . '">' . $i . '</a>&#93;';
+        }
+
+        $output .= ' ';
+    }
+
+    /* Remove the unwanted space */
+    $output = substr($output, 0, -1);
+
+    $output .= '</td><td>';
+
+    if ($page == $pages-1) {
+        $output .= _gettext('→');
+    } else {
+        $output .= '<form method="get" action="' . $getPageUrl($page + 1) . '"><input value="' . _gettext('→') . '" type="submit"></form>';
+    }
+
+    $output .= '</td></tr></tbody></table></div>';
+
+    return $output;
+}
+
+/**
+ * Generate the list of board pages, linking to each
  * 
  * @param integer $boardpage Current board page 
  * @param integer $pages Number of pages
@@ -8,52 +53,34 @@
  * @return string Generated page list
  */   
 function pageList($boardpage, $pages, $board) {
-	$output = '<div class="pgstbl"><table><tbody><tr><td>';
-					
-	if ($boardpage == 0) {
-		$output .= _gettext('←');
-	} else {
-		$output .= '<form method="get" action="' . KU_BOARDSFOLDER . $board . '/';
-		
-		if ($boardpage-1!=0) {
-			$output .= ($boardpage - 1) . '.html';
-		}
-		
-		$output .= '"><input value="' . _gettext('←') . '" type="submit"></form>';
-	}
-	
-	$output .= '</td><td>';
-	
-	for ($i=0;$i<=$pages;$i++) {
-		if ($boardpage == $i) {
-			$output .= '&#91;'.$i.'&#93;';
-		} else {
-			$output .= '&#91;<a href="' . KU_BOARDSFOLDER . $board . '/';
-			
-			if ($i != 0) {
-				$output .= $i . '.html';
-			}
-			
-			$output .= '">' . $i . '</a>&#93;';
-		}
-		
-		$output .= ' ';
-	}
-	
-	/* Remove the unwanted space */
-	$output = substr($output, 0, -1);
-	
-	$output .= '</td><td>';
-	
-	if ($boardpage == $pages) {
-		$output .= _gettext('→');
-	} else {
-		$output .= '<form method="get" action="' . KU_BOARDSFOLDER . $board . '/' . ($boardpage + 1) . '.html"><input value="' . _gettext('→') . '" type="submit"></form>';
-	}
-	
-	$output .= '</td></tr></tbody></table></div>';
-	
-	return $output;
+    return pageListCommon($boardpage, $pages, function($page) use ($board) {
+        $url = KU_BOARDSFOLDER . $board . '/';
+
+        if ($page != 0) {
+            $url .= $page . '.html';
+        }
+
+        return $url;
+    });
+}
+
+/**
+* Generate the list of news pages, linking to each
+*
+ * @param integer $newspage Current news page
+* @param integer $pages Number of pages
+* @return string Generated page list
+ */
+function newsPageList($newspage, $pages) {
+    return pageListCommon($newspage, $pages, function($page) {
+        $url = 'news.php';
+
+        if ($page!=0) {
+            $url .= '?page=' . ($page);
+        }
+
+        return $url;
+    });
 }
 
 /**
