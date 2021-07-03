@@ -32,12 +32,8 @@
 error_reporting(E_ALL);
 
 require_once "lib/search.php";
-
-
-function svgIcon($iconName, $iconSize) {
-	$spriteUrl = KU_WEBPATH.'/css/icons/sprite.symbol.svg';
-	return '<svg class="icon icon-' . $iconSize . '"><use xlink:href="' . $spriteUrl . '#' . $iconName . '" width="' . $iconSize . '" height="' . $iconSize . '" viewBox="0 0 ' . $iconSize . ' ' . $iconSize . '"></use></svg>';
-}
+require_once KU_ROOTDIR . "inc/func/html.php";
+require_once KU_ROOTDIR . 'inc/classes/topmenu.class.php';
 
 
 function random_appeal($year, $board) 
@@ -1692,39 +1688,11 @@ class Board {
 			$output .= '<body class="read board_' . $this->board_dir . '">' . "\n";
 		}
 		if ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) {
-			$output .= '<div class="topmenu"><div class="adminbar"><select name="switcher" onchange="set_stylesheet(this.value);reloadmenu();">' . "\n";
-			if (KU_STYLESWITCHER) {
-				$styles = explode(':', KU_STYLES);
-				
-				foreach ($styles as $stylesheet) {
-					$output .= '<option value="' .ucfirst($stylesheet). '">' .ucfirst($stylesheet). "</option>\n";
-//					$output .= '<option value="'.ucfirst($stylesheet).'" onclick="set_stylesheet(\'' . ucfirst($stylesheet) . '\');return false;">' . ucfirst($stylesheet) . "</option>\n";
-				}
-				/*
-				if (count($styles) > 0) {
-					$output .= '-&nbsp;';
-				}
-				*/
-			}
-			$output .= '</select>&nbsp;';
-			if (KU_WATCHTHREADS) {
-				$output .= '<a href="#" class="nav-btn nav-btn-wt" onclick="showwatchedthreads();return false" title="' . _gettext('Watched Threads') . '">' . svgIcon('wt', '32') . '</a>&nbsp;';
-			}
-			if($this->board_enablearchiving == 1) {
-				$output .= '<a class="nav-btn nav-btn-archive" href="' .KU_WEBPATH. '/' . $this->board_dir . '/arch/res/" title="Архив">' . svgIcon('archive', '32') . '</a>&nbsp;';
-			}
-			if($this->board_enablecatalog == 1) {
-				$output .= ($this->board_type != 1 && $this->board_type != 3) ? '<a class="nav-btn nav-btn-catalog" href="' . KU_BOARDSFOLDER . $this->board_dir . '/catalog.html" title="' . _gettext('View catalog') . '">' . svgIcon('catalog', '32') . '</a>&nbsp;' : '';
-			}
-			$output .= '<a class="nav-btn nav-btn-search" href="'.KU_WEBPATH.'/search.php" title="Поиск">' . svgIcon('search', '32') . '</a>&nbsp;' .
-			'<a class="nav-btn nav-btn-home" href="'.KU_WEBPATH.'/" target="_top" title="' . _gettext('Home') . '">' . svgIcon('mainpage', '32') . '</a>&nbsp;' .
-			'<a class="nav-btn nav-btn-admin" href="' . KU_CGIPATH . '/manage.php" target="_top" title="' . _gettext('Manage') . '">' . svgIcon('admin', '32') . '</a></div>' . "\n" .
-			$this->DisplayBoardList(false);
-			$output .= '</div>';
+			$output .= TopMenu::TopMenuHtml($this);
 		} else {
-			$output .= $this->DisplayBoardList(true);
-			$output .= '</div>';
+			$output .= TopMenu::BoardListHtml(true);
 		}
+
 		$ad_top = 185;
 		$ad_right = 25;
 		if ($this->board_type==1)  {
@@ -2061,9 +2029,9 @@ class Board {
 		}
 		
 		if ($this->board_type == 0 || $this->board_type == 2 || $this->board_type == 3) {
-			$this->pageheader_boardlist = $this->DisplayBoardList(false);
+			$this->pageheader_boardlist = TopMenu::BoardListHtml(false);
 		} else {
-			$this->pageheader_boardlist = $this->DisplayBoardList(true);
+			$this->pageheader_boardlist = TopMenu::BoardListHtml(true);
 		}
 		
 		//$this->pageheader_reply = $this->PageHeader('1');
@@ -2337,48 +2305,6 @@ size="28" maxlength="64" accesskey="f">
 		}
 		return $output;
 	}
-	
-	/**
-	 * Display the user-defined list of boards found in boards.html
-	 * 
-	 * @param boolean $is_textboard If the board this is being displayed for is a text board
-	 * @return string The board list
-	 */	 	 	 	 	
-	function DisplayBoardList($is_textboard = false) {
-		$div_name = ($is_textboard) ? 'topbar' : 'navbar';
-		
-		if (KU_GENERATEBOARDLIST) {
-			global $tc_db;
-			
-			$output = '';
-			$results = $tc_db->GetAll("SELECT * FROM `" . KU_DBPREFIX . "sections` ORDER BY `order` ASC");
-			$board_sections = array();
-			foreach($results AS $line) {
-				$board_sections[] = $line['id'];
-			}
-			foreach ($board_sections as $board_section) {
-				$board_this_section = '';
-				$results = $tc_db->GetAll("SELECT * FROM `" . KU_DBPREFIX . "boards` WHERE `section` = '" .  $board_section . "' ORDER BY `order` ASC");
-				if (count($results) > 0) {
-					$output .= '[';
-					foreach($results AS $line) {
-						$board_this_section .= ' <a title="' . $line['desc'] . '" href="' . KU_BOARDSFOLDER . $line['name'] . '/">' . $line['name'] . '</a> /';
-					}
-					$board_this_section = substr($board_this_section, 0, strlen($board_this_section)-1);
-					$output .= $board_this_section;
-					$output .= '] ';
-				}
-			}
-			
-			return '<div class="'.$div_name.'">' . $output . '</div>';
-		} else {
-			if (is_file(KU_ROOTDIR . 'boards.html')) {
-				return '<div class="'.$div_name.'">' . file_get_contents(KU_ROOTDIR . 'boards.html') . '</div>';
-			} else {
-				return '';
-			}
-		}
-	}
 
 	/**
 	 * Have javascript add the [D & B] links on the page if the kumod cookie is set to yes
@@ -2445,7 +2371,7 @@ size="28" maxlength="64" accesskey="f">
 		global $tc_db, $kusabaorg;
 		$output = '';
 		if (!$hide_extra && !$noboardlist) {
-			$output .= '<br>' . $this->DisplayBoardList();
+			$output .= '<br>' . TopMenu::BoardListHtml();
 		}
 		/* I'd really appreciate it if you left the link to kusaba.org in the footer, if you decide to modify this.  That being said, you are not bound by license or any other terms to keep it there */
 		$footer = '- <a href="' . KU_PROJECT_URL . '" target="_top">' . KU_PROJECT_NAME . ' ' . KU_VERSION . '</a> ';

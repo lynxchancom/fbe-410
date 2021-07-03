@@ -31,6 +31,7 @@ require 'config.php';
 require KU_ROOTDIR . 'inc/functions.php';
 require_once KU_ROOTDIR . 'lib/smarty.php';
 require_once KU_ROOTDIR . 'inc/func/pages.php';
+require_once KU_ROOTDIR . 'inc/classes/topmenu.class.php';
 
 if (!isset($_GET['p'])) {
 	$_GET['p'] = '';
@@ -75,6 +76,8 @@ if (isset($kusabaorg)) {
 
 $smarty->assign('linkbar', $linkbar);
 // }}}
+
+$smarty->assign('topMenu', TopMenu::TopMenuHtml());
 
 // {{{ Main content
 if ($_GET['p']=='faq') {

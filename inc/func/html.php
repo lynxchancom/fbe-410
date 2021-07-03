@@ -160,4 +160,9 @@ function setDelPassJavascript() {
 	'	set_delpass("delform");' . "\n" .
 	'</script>' . "\n";
 }
+
+function svgIcon($iconName, $iconSize) {
+    $spriteUrl = KU_WEBPATH.'/css/icons/sprite.symbol.svg';
+    return '<svg class="icon icon-' . $iconSize . '"><use xlink:href="' . $spriteUrl . '#' . $iconName . '" width="' . $iconSize . '" height="' . $iconSize . '" viewBox="0 0 ' . $iconSize . ' ' . $iconSize . '"></use></svg>';
+}
 ?>

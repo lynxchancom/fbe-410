@@ -11,6 +11,7 @@
 {$css}<link rel="shortcut icon" href="{$favicon}">
 </head>
 <body class="site-wrapper">
+{$topMenu}
 <h1>{$name}</h1>
 {$slogan}<div class="menu">
 {$linkbar}
