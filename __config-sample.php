@@ -244,6 +244,7 @@ if (!$cache_loaded) {
 		$cf['KU_RANDOMSEED']        = 'loveriskyucialssionsiescubnali'; /* Type a bunch of random letters/numbers here, any large amount (35+ characters) will do */
 		$cf['KU_STATICMENU']        = false; /* Whether or not to generate the menu files as static files, instead of linking to menu.php.  Enabling this will reduce load, however some users have had trouble with getting the files to generate */
 		$cf['KU_GENERATEBOARDLIST'] = true; /* Set to true to automatically make the board list which is displayed ad the top and bottom of the board pages, or false to use the boards.html file */
+		$cf['KU_NEWSPERPAGE']		= 5;
 		
 	/* Language / timezone / encoding */
 		$cf['KU_LOCALE']  = 'ru'; /* The locale of kusaba you would like to use.  Locales available: en, de, et, es, fi, pl, nl, nb, ru, it, ja */
