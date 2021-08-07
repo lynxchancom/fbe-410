@@ -30,6 +30,8 @@
 require 'config.php';
 require KU_ROOTDIR . 'inc/functions.php';
 require_once KU_ROOTDIR . 'lib/smarty.php';
+require_once KU_ROOTDIR . 'inc/func/pages.php';
+require_once KU_ROOTDIR . 'inc/classes/topmenu.class.php';
 
 if (!isset($_GET['p'])) {
 	$_GET['p'] = '';
@@ -75,6 +77,8 @@ if (isset($kusabaorg)) {
 $smarty->assign('linkbar', $linkbar);
 // }}}
 
+$smarty->assign('topMenu', TopMenu::TopMenuHtml());
+
 // {{{ Main content
 if ($_GET['p']=='faq') {
 	$content = file_get_contents(KU_ROOTDIR . 'inc/pages/faq.html');
@@ -87,16 +91,32 @@ if ($_GET['p']=='faq') {
 } else if ($_GET['p']=='radio') {
 	$content = file_get_contents(KU_ROOTDIR . 'inc/pages/radio.html');
 } else {
-	$content = '<hr/><img src="410.png" width="300px" height="300px" alt="Logo" style="float: left; padding-left:1.6em;"/><div class="telega" style="padding-left:1.6em; margin-top: 3em;">
+	if (DEFINED('KU_NEWSCONTENT') && KU_NEWSCONTENT) {
+		$content = KU_NEWSCONTENT;
+	} else {
+		$content = '<hr/><img src="410.png" width="300px" height="300px" alt="Logo" style="float: left; padding-left:1.6em;"/><div class="telega" style="padding-left:1.6em; margin-top: 3em;">
 	Добро пожаловать на 410chan! Наш сайт является имиджбордом — одним из специфических сетевых форумов, где нет принудительной регистрации, а к сообщениям
 	можно легко прикреплять графические файлы. Тематика сайта почти ничем не ограничена: те вопросы, для которых не выделено отдельного тематического раздела, можно обсудить на доске <a href="/b">/b/</a>.<br/><br/>
 	Поскольку сайт построен по принципу наполнения самими пользователями, то, как он будет выглядеть, всецело зависит от них. Наше сообщество стремится к достижению высокой культуры общения.
 	Мы надеемся на то, что пассажиры нашего Автобуса будут вежливыми и интересными собеседниками и предпочтут содержательное общение бессмысленным разборкам.<br/><br/>
 	И помните: <a href="http://noobtype.ru/wiki/Автобус_410" target="_blank">Автобус следует в ад</a>.
 	</div><hr style="clear: both;"/>'; /* Вельми кривая вёрстка, я знаю.*/
+	}
 	$entries = 0;
 	/* Get all of the news entries, ordered with the newest one placed on top */
-	$results = $tc_db->GetAll("SELECT * FROM `".KU_DBPREFIX."news` ORDER BY `postedat` DESC");
+	$news_per_page = defined('KU_NEWSPERPAGE') && KU_NEWSPERPAGE
+		? KU_NEWSPERPAGE
+		: 5;
+
+	$current_page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 0;
+
+	$offset = $current_page * $news_per_page;
+
+	$total_news_row = $tc_db->GetAll("SELECT COUNT(*) as total_news FROM `".KU_DBPREFIX."news`");
+	$total_news = $total_news_row[0]['total_news'];
+	$total_news_pages = ceil($total_news/$news_per_page);
+
+	$results = $tc_db->GetAll("SELECT * FROM `".KU_DBPREFIX."news` ORDER BY `postedat` DESC LIMIT $offset, $news_per_page ");
 	foreach($results AS $line) {
 		$entries++;
 		$content .= '<div class="content">' . "\n" .
@@ -112,7 +132,9 @@ if ($_GET['p']=='faq') {
 		$content .= ' - '.date("n/j/y @ g:iA T", $line['postedat']);
 		$content .= '</span><span class="permalink"><a href="#' . $line['id'] . '" name="' . $line['id'] . '" title="permalink">#</a></span></h2>
 		'.stripslashes($line['message']).'</div><br>';
-		$content .= 'Memory: ' . memory_get_usage();
+	}
+	if ($total_news > $news_per_page) {
+		$content .= newsPageList($current_page, $total_news_pages);
 	}
 }
 $smarty->assign('content', $content);

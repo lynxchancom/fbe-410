@@ -18,6 +18,12 @@ body {
 	overflow:hidden;
 }
 
+.site-wrapper .topmenu a,
+.site-wrapper .topmenu div.navbar {
+	font-size: 12pt;
+	font-family: initial;
+}
+
 .adminbar {
 	text-align:right;
 	clear:both;

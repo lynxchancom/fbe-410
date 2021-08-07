@@ -57,7 +57,7 @@ class RSS {
 					}
 					else {
 
-						$items .= '<img src="'.KU_BOARDSPATH.'/'.$board_class->allowed_file_types[$line['filetype']][1].'" /></a><br />';
+						$items .= '<img src="'.KU_BOARDSPATH.'/'.$board_class->allowed_file_types[$row['filetype']][1].'" /></a><br />';
 					}
 				}
 				if (trim($row['message'])!='') {
