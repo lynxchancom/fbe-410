@@ -3000,7 +3000,7 @@ function reason(why) {
 					if (count($results) == 0) {
 						if (mkdir(KU_BOARDSDIR . $_POST['directory'], 0777) && mkdir(KU_BOARDSDIR . $_POST['directory'] . '/res', 0777) && mkdir(KU_BOARDSDIR . $_POST['directory'] . '/src', 0777) && mkdir(KU_BOARDSDIR . $_POST['directory'] . '/thumb', 0777)) {
 							file_put_contents(KU_BOARDSDIR . $_POST['directory'] . '/.htaccess', 'DirectoryIndex board.html');
-							$tc_db->Execute("INSERT INTO `" . KU_DBPREFIX . "boards` ( `name` , `desc` , `createdon` ) VALUES ( '" . mysqli_real_escape_string($tc_db->link, $_POST['directory']) . "' , '" . mysqli_real_escape_string($tc_db->link, $_POST['desc']) . "' , '" . time() . "' )");
+							$tc_db->Execute("INSERT INTO `" . KU_DBPREFIX . "boards` ( `name` , `desc` , `createdon` , `includeheader` ) VALUES ( '" . mysqli_real_escape_string($tc_db->link, $_POST['directory']) . "' , '" . mysqli_real_escape_string($tc_db->link, $_POST['desc']) . "' , '" . time() . "' , '' )");
 							$boardid = $tc_db->Insert_Id();
 							if ($_POST['firstpostid'] < 1) {
 								$_POST['firstpostid'] = 1;
