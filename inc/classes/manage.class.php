@@ -2609,6 +2609,10 @@ function reason(why) {
 			}
 			$missing_directories = [];
 			if (isset($_POST['archive'])) {
+				// These checks doesn't guarantee that archiving will go well. Directories still can have invalid
+				// permissions, that will prevent files from being copied. And because of '@' usage this will happen
+				// silently, without noticing somebody. Also thread archiving may happen not only due to admin actions
+				// but also during any posting from Board::TrimToPageLimit.
 				$directories_to_check = ['/arch', '/arch/res', '/arch/src', '/arch/thumb'];
 				$missing_directories = array_values(array_filter($directories_to_check, function($directory) {
 					return !file_exists( KU_BOARDSDIR . $_POST['boarddir'] . $directory);
