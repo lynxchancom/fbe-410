@@ -157,7 +157,7 @@ class Upload {
 					$filetype_forcethumb = $tc_db->GetOne("SELECT " . KU_DBPREFIX . "filetypes.force_thumb FROM " . KU_DBPREFIX . "boards, " . KU_DBPREFIX . "filetypes, " . KU_DBPREFIX . "board_filetypes WHERE " . KU_DBPREFIX . "boards.id = " . KU_DBPREFIX . "board_filetypes.boardid AND " . KU_DBPREFIX . "filetypes.id = " . KU_DBPREFIX . "board_filetypes.typeid AND " . KU_DBPREFIX . "boards.name = '" . $board_class->board_dir . "' and " . KU_DBPREFIX . "filetypes.filetype = '" . $this->file_type . "';");
 					if ($filetype_forcethumb != '') {
 						if ($filetype_forcethumb == 0) {
-							$this->file_name = time() . mt_rand(1, 99);
+							$this->file_name = time() . mt_rand(10, 99);
 							$thumb_filetype = $this->file_type;
 							if($board_class->allowed_file_types[$thumb_filetype][0] == 'video'){
 								$thumb_filetype = 'jpg';
@@ -229,7 +229,7 @@ class Upload {
 						} else {
 							/* Fetch the mime requirement for this special filetype */
 							$filetype_required_mime = $tc_db->GetOne("SELECT `mime` FROM `" . KU_DBPREFIX . "filetypes` WHERE `filetype` = '" . mysqli_real_escape_string($tc_db->link, $this->file_type) . "'");
-							$this->file_name = time() . mt_rand(1, 99);
+							$this->file_name = time() . mt_rand(10, 99);
 							/*
 							$this->file_name = str_replace(' ', '_', $this->file_name);
 							$this->file_name = str_replace('#', '(number)', $this->file_name);
@@ -352,7 +352,7 @@ class Upload {
 				}
 			}
 		} else {
-			$this->file_name = time() . mt_rand(1, 99);
+			$this->file_name = time() . mt_rand(10, 99);
 			$this->original_file_name = $this->file_name;
 			$this->file_md5 = md5_file($oekaki);
 			$this->file_type = 'png';
