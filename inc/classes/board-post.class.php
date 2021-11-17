@@ -2539,6 +2539,14 @@ class Post extends Board {
 		}
 	}
 
+	private function CopyFileWithErrorLog($from, $to, $post_id, $log_category) {
+		if (!@copy($from, $to)) {
+			management_addlogentry("Couldn't archive file " . $from . " in post " . $post_id, $log_category);
+			return false;
+		}
+		return true;
+	}
+
 	function Delete($allow_archive = false) {
 		global $tc_db;
 //		echo "$allow_archive, $this->post_isthread, $this->board_enablearchiving";
@@ -2551,11 +2559,14 @@ class Post extends Board {
  			$thumb_filetype = 'jpg';
  		}
 		if ($this->post_isthread == true) {
+			$copy_error = false;
 			if ($allow_archive && $this->board_enablearchiving == 1 && $this->board_loadbalanceurl == '') {
 				$this->ArchiveMode(true);
 				$this->RegenerateThread($this->post_id, true);
-				@copy(KU_BOARDSDIR . $this->board_dir . '/src/' . $this->post_filename . '.' . $this->post_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $this->post_filename . '.' . $this->post_filetype);
-				@copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $this->post_filename . 's.' . $thumb_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $this->post_filename . 's.' . $thumb_filetype);
+				$copy_error = !$this->CopyFileWithErrorLog(KU_BOARDSDIR . $this->board_dir . '/src/' . $this->post_filename . '.' . $this->post_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $this->post_filename . '.' . $this->post_filetype, $this->post_id, 7)
+					|| $copy_error;
+				$copy_error = !$this->CopyFileWithErrorLog(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $this->post_filename . 's.' . $thumb_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $this->post_filename . 's.' . $thumb_filetype, $this->post_id, 7)
+					|| $copy_error;
 			}
 			$results = $tc_db->GetAll("SELECT `id`, `filename`, `filetype` FROM `".KU_DBPREFIX."posts_".$this->board_dir."` WHERE `IS_DELETED` = 0 AND `parentid` = ".mysqli_real_escape_string($tc_db->link, $this->post_id));
 			foreach($results AS $line) {
@@ -2567,8 +2578,10 @@ class Post extends Board {
 					$thumb_filetype = "jpg";
 				}
 				if ($allow_archive && $this->board_enablearchiving == 1) {
-					@copy(KU_BOARDSDIR . $this->board_dir . '/src/' . $line['filename'] . '.' . $line['filetype'], KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $line['filename'] . '.' . $line['filetype']);
-					@copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype);
+					$copy_error = !$this->CopyFileWithErrorLog(KU_BOARDSDIR . $this->board_dir . '/src/' . $line['filename'] . '.' . $line['filetype'], KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $line['filename'] . '.' . $line['filetype'], $line['id'], 7)
+						|| $copy_error;
+					$copy_error = !$this->CopyFileWithErrorLog(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype, $line['id'], 7)
+						|| $copy_error;
 				}
 			}
 			if ($allow_archive && $this->board_enablearchiving == 1) {
@@ -2577,7 +2590,9 @@ class Post extends Board {
 			@unlink(KU_BOARDSDIR.$this->board_dir.'/res/'.$this->post_id.'.html');
 			@unlink(KU_BOARDSDIR.$this->board_dir.'/res/'.$this->post_id.'-100.html');
 			@unlink(KU_BOARDSDIR.$this->board_dir.'/res/'.$this->post_id.'+50.html');
-			$this->DeleteFile(false, true);
+			if (!$copy_error) {
+				$this->DeleteFile(false, true);
+			}
 			foreach($results AS $line) {
 				$tc_db->Execute("UPDATE `".KU_DBPREFIX."posts_".$this->board_dir."` SET `IS_DELETED` = 1 , `deletedat` = '" . time() . "' WHERE `id` = ".$line['id']." AND `parentid` = ".mysqli_real_escape_string($tc_db->link, $this->post_id)." LIMIT 1");
 				clearPostCache($line['id'], $this->board_dir);
