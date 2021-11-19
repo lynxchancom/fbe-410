@@ -895,6 +895,124 @@ class Manage {
 		}
 	}
 	
+	function mainsubpages() {
+		global $tc_db, $tpl_page;
+		$this->AdministratorsOnly();
+
+		$tpl_page .= '<h2>' . (isset($_GET['edit']) ? _gettext( 'Edit subpage') : _gettext('Add subpage')). '</h2>
+If no subpages are added, default hardcoded subpages are used (FAQ, Rules, English, Радио, radio.unix).
+<br><br>';
+
+		if (isset($_POST['delete'])) {
+			$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "main_subpages` WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_POST['delete']) . "'");
+			$tpl_page .= '<span>Subpage deleted</span><br/><br/>';
+			management_addlogentry(_gettext('Deleted main subpage'), 9);
+		} elseif (isset($_POST['edit'])) {
+			$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "main_subpages`
+				SET `name` = '" . mysqli_real_escape_string($tc_db->link, $_POST['name']) . "',
+					`file` = '" . mysqli_real_escape_string($tc_db->link, $_POST['file']) . "',
+					`hidden` = " . (isset($_POST['hidden']) ? 1 : 0) . "
+				WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_POST['edit']) . "'");
+			$tpl_page .= '<span>Subpage edited</span><br/><br/>';
+			management_addlogentry(_gettext('Edited main subpage'), 9);
+		} elseif (isset($_POST['up'])) {
+			$index = $tc_db->GetOne("SELECT HIGH_PRIORITY `index` FROM `" . KU_DBPREFIX . "main_subpages` WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_POST['up']) . "'");
+			if ($index > 1) {
+				$tc_db->Execute("START TRANSACTION");
+				$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "main_subpages` SET `index` = `index` + 1 WHERE `index` = " . ($index - 1));
+				$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "main_subpages` SET `index` = `index` - 1 WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_POST['up']) . "'");
+				$tc_db->Execute("COMMIT");
+				$tpl_page .= '<span>Subpage moved</span><br/><br/>';
+				management_addlogentry(_gettext('Moved main subpage'), 9);
+			}
+		} elseif (isset($_POST['down'])) {
+			$index = $tc_db->GetOne("SELECT HIGH_PRIORITY `index` FROM `" . KU_DBPREFIX . "main_subpages` WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_POST['down']) . "'");
+			$subpagesCount = $tc_db->GetOne("SELECT HIGH_PRIORITY COUNT(*) FROM main_subpages");
+			if ($index < $subpagesCount) {
+				$tc_db->Execute("START TRANSACTION");
+				$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "main_subpages` SET `index` = `index` - 1 WHERE `index` = " . ($index + 1));
+				$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "main_subpages` SET `index` = `index` + 1 WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_POST['down']) . "'");
+				$tc_db->Execute("COMMIT");
+				$tpl_page .= '<span>Subpage moved</span><br/><br/>';
+				management_addlogentry(_gettext('Moved main subpage'), 9);
+			}
+		} elseif (isset($_POST['name'])) {
+			$subpagesCount = $tc_db->GetOne("SELECT HIGH_PRIORITY COUNT(*) FROM main_subpages");
+			$tc_db->Execute("INSERT INTO `" . KU_DBPREFIX . "main_subpages`(`name`, `file`, `hidden`, `index`) VALUES ('"
+				. mysqli_real_escape_string($tc_db->link, $_POST['name']) . "', '"
+				. mysqli_real_escape_string($tc_db->link, $_POST['file']) . "', '"
+				. (isset($_POST['hidden']) ? 1 : 0) . "', '"
+				. ($subpagesCount + 1) . "')");
+			$tpl_page .= '<span>Subpage added</span><br/><br/>';
+			management_addlogentry(_gettext('Added main subpage'), 9);
+		}
+
+		$name = "";
+		$file = "";
+		$hidden = false;
+
+		if (isset($_GET['edit'])) {
+			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "main_subpages` WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_GET['edit']) . "'");
+			if (count($results)) {
+				$name = $results[0]['name'];
+				$file = $results[0]['file'];
+				$hidden = $results[0]['hidden'];
+			}
+		}
+
+		$tpl_page .= '<form method="post" action="manage_page.php">
+			<input type="hidden" name="action" value="mainsubpages">';
+		if (isset($_GET['edit'])) {
+			$tpl_page .= '<input type="hidden" name="edit" value="'. $_GET['edit'] . '">';
+		}
+		$tpl_page .= '<label for="name">' . _gettext('Name') . ':</label>
+			<input id="name" type="text" required="required" name="name" value="' . $name . '">
+			<div class="desc">' . _gettext('Can not be left blank.') . '</div><br>
+			
+			<label for="file">' . _gettext('File') . ':</label>
+			<input id="file" type="text" required="required" name="file" value="' . $file . '">
+			<div class="desc">' . _gettext('Can not be left blank.') . '</div><br>
+			<label for="hiden">' . _gettext('Hidden') . ':</label>
+			<input id="hidden" type="checkbox" name="hidden" ' . ($hidden == '1' ? 'checked' : '') . '>
+			<br>
+			<input type="submit" value="'. (isset($_GET['edit']) ? 'Edit' : 'Add') . '">
+			</form><br/>';
+
+		$tpl_page .= '<br><hr><h1>Edit/Delete Subpages</h1>';
+		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "main_subpages` ORDER BY `index`, `id`");
+
+		$tc_db->Execute("START TRANSACTION");
+		for ($i=0; $i<count($results); $i++) {		//fix all indexes
+			$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "main_subpages` SET `index` = " . ($i+1) . " WHERE `id` = '" . $results[$i]['id'] . "'");
+		}
+		$tc_db->Execute("COMMIT");
+
+		if (count($results) > 0) {
+			$tpl_page .= '<table border="1" width="100%"><tr><th>Name</th><th>File</th><th>Hidden</th><th>Edit/Delete</th><th>Move</th></tr>';
+			for ($i=0; $i<count($results); $i++) {
+				$line = $results[$i];
+				$tpl_page .= '<tr><td>' . $line['name'] . '</td><td>' . $line['file'] . '</td><td>' . ($line['hidden'] == '1' ? 'Yes' : 'No') . '</td>
+<td>
+<form method="get" action="manage_page.php"><input type="hidden" name="action" value="mainsubpages"><input type="hidden" name="edit" value="' . $line['id'] . '"><input value="Edit" type="submit"></form>
+<form method="post" action="manage_page.php"><input type="hidden" name="action" value="mainsubpages"><input type="hidden" name="delete" value="' . $line['id'] . '"><input value="Delete" type="submit"></form>
+</td>
+<td>';
+				if ($i>0) {
+					$tpl_page .= '<form method="post" action="manage_page.php"><input type="hidden" name="action" value="mainsubpages"><input type="hidden" name="up" value="' . $line['id'] . '"><input value="↑" type="submit"></form>';
+				}
+
+				if ($i<count($results)-1) {
+					$tpl_page .= '<form method="post" action="manage_page.php"><input type="hidden" name="action" value="mainsubpages"><input type="hidden" name="down" value="' . $line['id'] . '"><input value="↓" type="submit"></form>';
+				}
+
+				$tpl_page .= '</td></tr>';
+			}
+			$tpl_page .= '</table>';
+		} else {
+			$tpl_page .= 'No subpages yet.';
+		}
+	}
+	
 	function blotter() {
 		global $tc_db, $smarty, $tpl_page;
 		$this->AdministratorsOnly();

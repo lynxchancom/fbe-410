@@ -56,7 +56,8 @@ if (!$manage_class->ValidateSession(true)) {
 	if ($manage_class->CurrentUserIsAdministrator()) {
 		$tpl_links .= section_html(_gettext('Site Administration'), 'siteadministration') .
 		'<ul>
-		<li><a href="manage_page.php?action=news">' . _gettext('News') . '</a></li>';
+		<li><a href="manage_page.php?action=news">' . _gettext('News') . '</a></li>
+		<li><a href="manage_page.php?action=mainsubpages">' . _gettext('Main Subpages') . '</a></li>';
 		if (KU_BLOTTER) {
 			$tpl_links .= '<li><a href="manage_page.php?action=blotter">' . _gettext('Blotter') . '</a></li>';
 		}
