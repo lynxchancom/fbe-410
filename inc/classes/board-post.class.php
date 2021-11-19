@@ -837,7 +837,7 @@ class Board {
 	 * @return string The built thread	 	 	 	 	 	 
 	 */	 
 	function BuildThread($parentid, $page = false, $resurrect = false, $thread_relative_id = 0, $modifier = '') {
-		global $tc_db, $expandjavascript;
+		global $tc_db;
 		$buildthread_output = '';
 		
 		// {{{ Check if an array of ID's were supplied, and if not, make it an array anyways
@@ -901,7 +901,6 @@ class Board {
 		
 		foreach($results AS $line) {
 			$thread_id = $line['id'];
-			$expandjavascript = '';
 			
 			$numReplies = $tc_db->GetOne('SELECT COUNT(*) FROM `'.KU_DBPREFIX.'posts_'.$this->board_dir.'` p WHERE p.`parentid` = '.mysqli_real_escape_string($tc_db->link, $thread_id) . ' ' . $isdeleted_check);
 			if (($this->board_type == 0 ||$this->board_type == 2) || ($this->board_type == 3 && !$page)) {
@@ -1069,12 +1068,7 @@ class Board {
 						foreach($results_replies AS $line_reply) {
 							$buildthread_replies .= $this->BuildPost($page, $this->board_dir, $this->board_type, $line_reply);
 						}
-						if (!$page && $expandjavascript != '') {
-							$expandjavascript = '<a class="expandAllImg" href="#" data-remove="' . _gettext('Remove') . '">' . _gettext('Expand all images') . '</a>';
-						} else {
-							$expandjavascript = '';
-						}
-						$buildthread_output .= $expandjavascript . $buildthread_replies;
+						$buildthread_output .= $buildthread_replies;
 						unset($buildthread_replies);
 						
 						if ($page) {
@@ -1234,7 +1228,7 @@ class Board {
 	 * @return string The built post	 	 	 	 	 	 
 	 */	 
 	function BuildPost($page, $post_board, $post_board_type, $post, $thread_replies=0, $thread_relative_id='', $reply_relative_id=0, $threads_on_front_page=0) {
-		global $expandjavascript, $CURRENTLOCALE, $tc_db;
+		global $CURRENTLOCALE, $tc_db;
 		$buildpost_output = '';
 		$post_thread_start_id = ($post['parentid']==0) ? $post['id'] : $post['parentid'];
 		$post_is_thread = ($post['parentid']==0) ? true : false;
@@ -1280,13 +1274,10 @@ class Board {
 				$info_file .= '<div class="attachment"><span class="filesize">';
 				if ($post_is_standard) {
 					$info_file .= '<a href="' . $post_file_url . '"';
-				        if (KU_NEWWINDOW) {
-					    $info_file .= ' target="_blank" ';
-				        }
-				        $info_file .= '>';
-					if (!$post_is_thread) {
-						$expandjavascript = 'not empty';
+					if (KU_NEWWINDOW) {
+						$info_file .= ' target="_blank" ';
 					}
+					$info_file .= '>';
 				} else {
 					$info_file .= '<a ';
 					if (KU_NEWWINDOW) {
@@ -1422,6 +1413,17 @@ class Board {
 				if (KU_EXPAND && $thread_replies > KU_REPLIES && $thread_replies < 300) {
 					$info_post .= '	 <a class="post-btn post-btn-expandthread" href="#" onclick="expandthread(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Expand Thread">' . svgIcon('expandthread', '16') . '</a>' . "\n";
 				}
+			}
+
+			if (!$page && $post_is_thread) {
+				$info_post .= '	 <a class="post-btn expandAllImg" data-state="collapsed" href="#" 
+		title="' . _getText('Expand all images') . '"
+	 	data-expand-all-images-title="' . _getText('Expand all images') . '"
+	 	data-collapse-all-images-title="' . _getText('Collapse all images') . '"
+	 >' . svgIcon('expand', '16') . '</a>' . "\n";
+			}
+
+			if ($page && $post_is_thread) {
 				if (KU_QUICKREPLY) {
 					$info_post .= '	 <a class="post-btn post-btn-reply" href="#" onclick="return quickreply(\'' . $post_thread_start_id . '\');" title="' . _gettext('Quick Reply') . '">' . svgIcon('reply', '16') . '</a>' . "\n";
 				}
