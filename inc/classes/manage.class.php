@@ -991,7 +991,11 @@ If no subpages are added, default hardcoded subpages are used (FAQ, Rules, Engli
 			$tpl_page .= '<table border="1" width="100%"><tr><th>Name</th><th>File</th><th>Hidden</th><th>Edit/Delete</th><th>Move</th></tr>';
 			for ($i=0; $i<count($results); $i++) {
 				$line = $results[$i];
-				$tpl_page .= '<tr><td>' . $line['name'] . '</td><td>' . $line['file'] . '</td><td>' . ($line['hidden'] == '1' ? 'Yes' : 'No') . '</td>
+				$file_exists = file_exists( KU_BOARDSDIR . 'inc/pages/' . $line['file']);
+				$tpl_page .= '<tr>
+<td>' . $line['name'] . '</td>
+<td>' . $line['file'] . ($file_exists ? '' : ' <span style="color:red">File doesn\'t exist!</span>') . '</td>
+<td>' . ($line['hidden'] == '1' ? 'Yes' : 'No') . '</td>
 <td>
 <form method="get" action="manage_page.php"><input type="hidden" name="action" value="mainsubpages"><input type="hidden" name="edit" value="' . $line['id'] . '"><input value="Edit" type="submit"></form>
 <form method="post" action="manage_page.php"><input type="hidden" name="action" value="mainsubpages"><input type="hidden" name="delete" value="' . $line['id'] . '"><input value="Delete" type="submit"></form>
