@@ -99,21 +99,31 @@ function formatDate($timestamp, $type = 'post', $locale = 'en') {
 
 /**
  * Format the provided input into a reflink, which follows the Japanese locale if it is set.
- */ 
-function formatReflink($post_board, $page, $post_thread_start_id, $post_id, $locale = 'en') {
+ */
+function formatReflink($post_board, $page, $post_thread_start_id, $post_id, $locale = 'en', $archive_dir = '') {
 	$return = '	';
 	$post_id = intval($post_id);
-	
-	$reflink_noquote = '<a href="' . KU_BOARDSFOLDER . $post_board . '/res/' . $post_thread_start_id . '.html#' . $post_id . '">';
-	
-	$reflink_quote = '<a class="numlink" href="' . KU_BOARDSFOLDER . $post_board . '/res/' . $post_thread_start_id . '.html#i' . $post_id . '">';
-	
-	if ($locale == 'ja') {
-		$return .= $reflink_quote . formatJapaneseNumbers($post_id) . '</a>' . $reflink_noquote . '番</a>';
+
+	if (!$archive_dir) {
+		$reflink_noquote = '<a href="' . KU_BOARDSFOLDER . $post_board . '/res/' . $post_thread_start_id . '.html#' . $post_id . '">';
+
+		$reflink_quote = '<a class="numlink" href="' . KU_BOARDSFOLDER . $post_board . '/res/' . $post_thread_start_id . '.html#i' . $post_id . '">';
+
+		if ($locale == 'ja') {
+			$return .= $reflink_quote . formatJapaneseNumbers($post_id) . '</a>' . $reflink_noquote . '番</a>';
+		} else {
+			$return .= $reflink_noquote . 'No.&nbsp;' . '</a>' . $reflink_quote . $post_id . '</a>';
+		}
 	} else {
-		$return .= $reflink_noquote . 'No.&nbsp;' . '</a>' . $reflink_quote . $post_id . '</a>';
+		$reflink = '<a href="' . KU_BOARDSFOLDER . $post_board . $archive_dir . '/res/' . $post_thread_start_id . '.html#' . $post_id . '">';
+
+		if ($locale == 'ja') {
+			$return .= $reflink . formatJapaneseNumbers($post_id) . '番</a>';
+		} else {
+			$return .= $reflink . 'No.&nbsp;' . $post_id . '</a>';
+		}
 	}
-	
+
 	return $return . "\n";
 }
 

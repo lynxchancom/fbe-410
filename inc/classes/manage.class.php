@@ -2607,8 +2607,18 @@ function reason(why) {
 					$_POST['delpostid'] = $_GET['delpostid'];
 				}
 			}
+			$missing_directories = [];
+			if (isset($_POST['archive'])) {
+				$directories_to_check = ['/arch', '/arch/res', '/arch/src', '/arch/thumb'];
+				$missing_directories = array_values(array_filter($directories_to_check, function($directory) {
+					return !file_exists( KU_BOARDSDIR . $_POST['boarddir'] . $directory);
+				}));
+				$missing_directories = array_map(function($directory) {
+					return '/' . $_POST['boarddir'] . $directory;
+				}, $missing_directories);
+			}
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` WHERE `name` = '" . mysqli_real_escape_string($tc_db->link, $_POST['boarddir']) . "'");
-			if (count($results) > 0) {
+			if (count($missing_directories) == 0 && count($results) > 0) {
 				if (!$this->CurrentUserIsModeratorOfBoard($_POST['boarddir'], $_SESSION['manageusername'])) {
 					exitWithErrorPage(_gettext('You are not a moderator of this board.'));
 				}
@@ -2674,6 +2684,8 @@ function reason(why) {
 						}
 					}
 				}
+			} elseif (count($missing_directories) > 0) {
+				$tpl_page .= 'Before archiving please add directories: ' . implode(', ', $missing_directories) . '.';
 			} else {
 				$tpl_page .= _gettext('Invalid board directory.');
 			}
