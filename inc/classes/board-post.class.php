@@ -1469,8 +1469,9 @@ class Board {
 			if ($post['filetype'] == 'you' || $post['filetype'] == 'goo' || $post['filetype'] == 'red' || $post['filetype'] == '5min') {
 				$buildpost_output .= embeddedVideoBox($post);
 			}
-			
-			$buildpost_output .= formatLongMessage($post['message'], $this->board_dir, $post_thread_start_id, $page);
+
+			$post_message = $archive ? getArchivePostMessage($post['message'], $post_thread_start_id, $post_board, $this->archive_dir) : $post['message'];
+			$buildpost_output .= formatLongMessage($post_message, $this->board_dir, $post_thread_start_id, $page);
 			
 			$buildpost_output .= '</blockquote></div>' . "\n";
 /*			if(array_key_exists($post_board, unserialize(KU_FLAGBOARDS))) {
