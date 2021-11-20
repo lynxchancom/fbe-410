@@ -46,19 +46,50 @@ if (KU_SLOGAN != '') {
 }
 $smarty->assign('favicon', getCWebPath() . 'favicon.ico');
 
+$subpages = [[
+	'name' => 'FAQ', 'file' => 'faq.html', 'hidden' => 0
+], [
+	'name' => 'Rules', 'file' => 'rules.html', 'hidden' => 0
+], [
+	'name' => 'English', 'file' => 'rules.en.html', 'hidden' => 0
+], [
+	'name' => 'Радио', 'file' => 'radio.html', 'hidden' => 0
+], [
+	'name' => 'radio.unix', 'file' => 'radio.unix.html', 'hidden' => 1
+]];
+
+$main_subpages_table_exists = $tc_db->GetOne("SELECT COUNT(*)
+FROM information_schema.tables
+WHERE table_schema = '" . KU_DBDATABASE. "'
+	AND table_name = 'main_subpages'
+");
+if ($main_subpages_table_exists) {
+	$db_subpages = $tc_db->GetAll("SELECT * FROM `" . KU_DBPREFIX . "main_subpages` ORDER BY `index`, `id`");
+	if (count($db_subpages)) {
+		$subpages = $db_subpages;
+	}
+}
+
+
 // {{{ Link bar (news, faq, rules)
 $linkbar = ($_GET['p']=='') ? _gettext('News') : '<a href="news.php">' . _gettext('News') . '</a>';
 $linkbar .= ' | ';
 if (isset($kusabaorg)) {
 	$linkbar .= '<a href="download.html">Download</a> | ';
 }
-$linkbar .= ($_GET['p']=='faq') ? _gettext('FAQ') : '<a href="news.php?p=faq">' . _gettext('FAQ') . '</a>';
-$linkbar .= ' | ';
-$linkbar .= ($_GET['p']=='rules') ? _gettext('Rules') : '<a href="news.php?p=rules">' . _gettext('Rules') . '</a>';
-$linkbar .= ' | ';
-$linkbar .= ($_GET['p']=='rules.en') ? _gettext('English') : '<a href="news.php?p=rules.en">' . _gettext('English') . '</a>';
-$linkbar .= ' | ';
-$linkbar .= ($_GET['p']=='radio') ? _gettext('Радио') : '<a href="news.php?p=radio">' . _gettext('Радио') . '</a><br/>';
+
+$not_hidden_subpages = array_filter($subpages, function($subpage) {
+	return $subpage['hidden'] == 0;
+});
+
+$subpage_links = array_map(function($subpage) {
+	$p = preg_replace('/\\.html$/', '', $subpage['file']);
+	return ($_GET['p']==$p) ? _gettext($subpage['name']) : '<a href="news.php?p=' . $p . '">' . _gettext($subpage['name']) . '</a>';
+}, $not_hidden_subpages);
+
+$linkbar .= implode(' | ', $subpage_links);
+
+$linkbar .= '<br/>';
 
 /* Don't worry about this, it only applies to my personal installation of kusaba */
 if (isset($kusabaorg)) {
@@ -80,17 +111,18 @@ $smarty->assign('linkbar', $linkbar);
 $smarty->assign('topMenu', TopMenu::TopMenuHtml());
 
 // {{{ Main content
-if ($_GET['p']=='faq') {
-	$content = file_get_contents(KU_ROOTDIR . 'inc/pages/faq.html');
-} else if ($_GET['p']=='rules') {
-	$content = file_get_contents(KU_ROOTDIR . 'inc/pages/rules.html');
-} else if ($_GET['p']=='rules.en') {
-	$content = file_get_contents(KU_ROOTDIR . 'inc/pages/rules.en.html');
-} else if ($_GET['p']=='radio.unix') {
-	$content = file_get_contents(KU_ROOTDIR . 'inc/pages/radio.unix.html');
-} else if ($_GET['p']=='radio') {
-	$content = file_get_contents(KU_ROOTDIR . 'inc/pages/radio.html');
-} else {
+
+$content = null;
+
+foreach ($subpages as $subpage) {
+	$p = preg_replace('/\\.html$/', '', $subpage['file']);
+	if ($_GET['p'] == $p) {
+		$content = file_get_contents(KU_ROOTDIR . 'inc/pages/'.$subpage['file']);
+		break;
+	}
+}
+
+if (!$content) {
 	if (DEFINED('KU_NEWSCONTENT') && KU_NEWSCONTENT) {
 		$content = KU_NEWSCONTENT;
 	} else {
