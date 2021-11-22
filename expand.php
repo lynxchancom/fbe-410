@@ -65,9 +65,7 @@ $query .= ' ORDER BY `id` ASC';
 
 $results = $tc_db->GetAll($query);
 
-global $expandjavascript;
 $output = '';
-$expandjavascript = '';
 
 if ($spy) {
 	$page = false;
@@ -86,10 +84,6 @@ if ($spy) {
 	}
 
 	echo $newlastid . '|';
-}
-
-if ($expandjavascript != '' && !$spy) {
-	$output = '<a href="#" onclick="' . $expandjavascript . 'return false;">' . _gettext('Expand all images') . '</a>' . $output;
 }
 
 echo $output;
