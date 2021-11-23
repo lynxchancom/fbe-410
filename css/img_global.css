@@ -589,10 +589,6 @@ input[type=text], input[type=password], textarea {
 		background: transparent url('./icons/red/icons.svg') -32px -16px no-repeat;
 	}
 
-	.unhidethread {
-		background: transparent url('./icons/red/icons.svg') -48px 0px no-repeat;
-	}
-
 	.watchthread {
 		background: transparent url('./icons/red/icons.svg') -32px 0px no-repeat;
 	}
@@ -756,10 +752,14 @@ input[type=text], input[type=password], textarea {
 
 	.thrdcntnr .post-btn,
 	.thrdcntnr .post-badge {
-        display: none;
-    }
+		display: inline-block;
+	}
 
-    .thrdcntnr .post-btn-reply,
+	.thrdcntnr .post-badge {
+		font-size: 11pt;
+	}
+
+	.thrdcntnr .post-btn-reply,
     .reply .post-btn,
     .reply .post-badge {
         display: inline;
