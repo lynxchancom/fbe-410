@@ -1431,10 +1431,10 @@ class Board {
 
 				if ($page && $post_is_thread) {
 					if (KU_QUICKREPLY) {
-						$info_post .= '	 <a class="post-btn post-btn-reply" href="#" onclick="return quickreply(\'' . $post_thread_start_id . '\');" title="' . _gettext('Quick Reply') . '">' . svgIcon('reply', '16') . '</a>' . "\n";
+						$info_post .= '	 <a class="post-btn post-btn-reply" href="#" onclick="return quickreply(\'' . $post_thread_start_id . '\');" title="' . _gettext('Quick Reply') . '">' . svgIcon('reply', '16') . '</a>&nbsp;' . "\n";
 					}
 				}
-				$info_post .= '&nbsp;</span>' . "\n" .
+				$info_post .= '</span>' . "\n" .
 				$this->DeleteAndBanLinks($post['id'], $post_is_thread);
 
 				if ($page && $post_is_thread) {
