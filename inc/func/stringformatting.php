@@ -99,21 +99,31 @@ function formatDate($timestamp, $type = 'post', $locale = 'en') {
 
 /**
  * Format the provided input into a reflink, which follows the Japanese locale if it is set.
- */ 
-function formatReflink($post_board, $page, $post_thread_start_id, $post_id, $locale = 'en') {
+ */
+function formatReflink($post_board, $page, $post_thread_start_id, $post_id, $locale = 'en', $archive_dir = '') {
 	$return = '	';
 	$post_id = intval($post_id);
-	
-	$reflink_noquote = '<a href="' . KU_BOARDSFOLDER . $post_board . '/res/' . $post_thread_start_id . '.html#' . $post_id . '">';
-	
-	$reflink_quote = '<a class="numlink" href="' . KU_BOARDSFOLDER . $post_board . '/res/' . $post_thread_start_id . '.html#i' . $post_id . '">';
-	
-	if ($locale == 'ja') {
-		$return .= $reflink_quote . formatJapaneseNumbers($post_id) . '</a>' . $reflink_noquote . '番</a>';
+
+	if (!$archive_dir) {
+		$reflink_noquote = '<a href="' . KU_BOARDSFOLDER . $post_board . '/res/' . $post_thread_start_id . '.html#' . $post_id . '">';
+
+		$reflink_quote = '<a class="numlink" href="' . KU_BOARDSFOLDER . $post_board . '/res/' . $post_thread_start_id . '.html#i' . $post_id . '">';
+
+		if ($locale == 'ja') {
+			$return .= $reflink_quote . formatJapaneseNumbers($post_id) . '</a>' . $reflink_noquote . '番</a>';
+		} else {
+			$return .= $reflink_noquote . 'No.&nbsp;' . '</a>' . $reflink_quote . $post_id . '</a>';
+		}
 	} else {
-		$return .= $reflink_noquote . 'No.&nbsp;' . '</a>' . $reflink_quote . $post_id . '</a>';
+		$reflink = '<a href="' . KU_BOARDSFOLDER . $post_board . $archive_dir . '/res/' . $post_thread_start_id . '.html#' . $post_id . '">';
+
+		if ($locale == 'ja') {
+			$return .= $reflink . formatJapaneseNumbers($post_id) . '番</a>';
+		} else {
+			$return .= $reflink . 'No.&nbsp;' . $post_id . '</a>';
+		}
 	}
-	
+
 	return $return . "\n";
 }
 
@@ -382,12 +392,41 @@ function processPost($id, $new_thread_id, $old_thread_id, $opt_b_f = "", $opt_b_
 	}
 }
 
-function formatQuote($board, $thread_id, $post_id, $interboard) {
+function getArchivePostMessage($message, $thread_id, $board, $archive_dir) {
+	global $tc_db;
+
+	$message_new = $message;
+
+	$hrefRegexPattern = '/\\<a href="' .
+		str_replace('/', '\/', KU_BOARDSFOLDER) .
+		'(.+?)\/res\/(\d+?)\.html#(\d+)".*?<\/a>/';
+
+	$message_new = preg_replace_callback($hrefRegexPattern,
+		function ($matches) use ($board, $thread_id, $archive_dir, $tc_db) {
+			$link_board = $matches[1];
+			$link_thread_id = $matches[2];
+			$link_post_id = $matches[3];
+
+			$linked_post_result = $tc_db->GetAll("SELECT id, parentid, `IS_DELETED` FROM " . KU_DBPREFIX . "posts_" . $link_board . " WHERE `id` = " . $link_post_id . " LIMIT 1");
+
+			$linked_post = $linked_post_result[0];
+
+			$linked_post_is_archived = $linked_post['IS_DELETED'] || $linked_post['id'] == $thread_id || $linked_post['parentid'] == $thread_id;
+
+			return formatQuote($link_board, $link_thread_id, $link_post_id, $link_board != $board, $linked_post_is_archived ? $archive_dir : '');
+		},
+		$message_new);
+
+
+	return $message_new;
+}
+
+function formatQuote($board, $thread_id, $post_id, $interboard, $archive_dir = '') {
 	$link_text = $interboard
 		? "&gt;&gt;/$board/$post_id"
 		: "&gt;&gt;$post_id";
 
-	$href = KU_BOARDSFOLDER . "$board/res/$thread_id.html#$post_id";
+	$href = KU_BOARDSFOLDER . "$board$archive_dir/res/$thread_id.html#$post_id";
 
 	$class = "ref|$board|$thread_id|$post_id";
 

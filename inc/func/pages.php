@@ -167,9 +167,10 @@ function print_page($filename, $contents, $board) {
  * @param boolean $modifier_last50 Last 50 modifier in effect
  * @param boolean $modifier_first100 First 100 modifier in effect 
  * @param boolean $forcereplymodehide Force the Reply Mode to be hidden
+ * @param string $archive_dir Archive directory
  * @return string Thread links
  */ 
-function threadLinks($type, $threadid, $board, $boardtype, $modifier_last50, $modifier_first100, $forcereplymodehide = false, $forceentirethreadlink = false) {
+function threadLinks($type, $threadid, $board, $boardtype, $modifier_last50, $modifier_first100, $forcereplymodehide = false, $forceentirethreadlink = false, $archive_dir = '') {
 	global $CURRENTLOCALE;
 	if ($boardtype != 1) {
 		if ($CURRENTLOCALE == 'ja') {
@@ -183,8 +184,10 @@ function threadLinks($type, $threadid, $board, $boardtype, $modifier_last50, $mo
 		$leftbracket = '';
 		$rightbracket = '';
 	}
-	
-	if ($type == 'return') {
+
+	if ($type == 'archive') {
+		$output = $leftbracket . '<a href="' . KU_BOARDSFOLDER . $board . $archive_dir . '/res/">' . _gettext('Return') . '</a>' . $rightbracket;
+	} elseif ($type == 'return') {
 		$output = $leftbracket . '<a href="' . KU_BOARDSFOLDER . $board . '/">' . _gettext('Return') . '</a>' . $rightbracket;
 	} elseif ($type == 'page' && $boardtype == 1) {
 		$output = '<p class="hidden">' . _gettext('The 5 newest replies are shown below.') . '<br>';
@@ -192,7 +195,7 @@ function threadLinks($type, $threadid, $board, $boardtype, $modifier_last50, $mo
 		$output = $leftbracket . '<a href="' . KU_BOARDSFOLDER . $board . '/res/' . $threadid . '.html">' . _gettext('Reply') . '</a>' . $rightbracket;
 	}
 	
-	if ((KU_FIRSTLAST && $modifier_last50) || $boardtype == 1 || $forceentirethreadlink) {
+	if ($type != 'archive' && ((KU_FIRSTLAST && $modifier_last50) || $boardtype == 1 || $forceentirethreadlink)) {
 		if ($type == 'return') {
 			$output .= ' ' . $leftbracket;
 		}
@@ -226,7 +229,7 @@ function threadLinks($type, $threadid, $board, $boardtype, $modifier_last50, $mo
 		$output .= '<br><br>';
 	} elseif ($type == 'page' && $boardtype == 1) {
 		$output .= '</p>';
-	} elseif ($type != 'page' && $boardtype != 1 && !$forcereplymodehide) {
+	} elseif ($type != 'page' && $boardtype != 1 && !$forcereplymodehide && $type != 'archive') {
 		$output .= '<div class="replymode">' . _gettext('Posting mode: Reply') . '<!tc_postmodeinfo></div>';
 	}
 	

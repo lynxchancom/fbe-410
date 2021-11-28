@@ -2607,8 +2607,22 @@ function reason(why) {
 					$_POST['delpostid'] = $_GET['delpostid'];
 				}
 			}
+			$missing_directories = [];
+			if (isset($_POST['archive'])) {
+				// These checks doesn't guarantee that archiving will go well. Directories still can have invalid
+				// permissions, that will prevent files from being copied. And because of '@' usage this will happen
+				// silently, without noticing somebody. Also thread archiving may happen not only due to admin actions
+				// but also during any posting from Board::TrimToPageLimit.
+				$directories_to_check = ['/arch', '/arch/res', '/arch/src', '/arch/thumb'];
+				$missing_directories = array_values(array_filter($directories_to_check, function($directory) {
+					return !file_exists( KU_BOARDSDIR . $_POST['boarddir'] . $directory);
+				}));
+				$missing_directories = array_map(function($directory) {
+					return '/' . $_POST['boarddir'] . $directory;
+				}, $missing_directories);
+			}
 			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` WHERE `name` = '" . mysqli_real_escape_string($tc_db->link, $_POST['boarddir']) . "'");
-			if (count($results) > 0) {
+			if (count($missing_directories) == 0 && count($results) > 0) {
 				if (!$this->CurrentUserIsModeratorOfBoard($_POST['boarddir'], $_SESSION['manageusername'])) {
 					exitWithErrorPage(_gettext('You are not a moderator of this board.'));
 				}
@@ -2674,6 +2688,8 @@ function reason(why) {
 						}
 					}
 				}
+			} elseif (count($missing_directories) > 0) {
+				$tpl_page .= 'Before archiving please add directories: ' . implode(', ', $missing_directories) . '.';
 			} else {
 				$tpl_page .= _gettext('Invalid board directory.');
 			}
@@ -2988,7 +3004,7 @@ function reason(why) {
 					if (count($results) == 0) {
 						if (mkdir(KU_BOARDSDIR . $_POST['directory'], 0777) && mkdir(KU_BOARDSDIR . $_POST['directory'] . '/res', 0777) && mkdir(KU_BOARDSDIR . $_POST['directory'] . '/src', 0777) && mkdir(KU_BOARDSDIR . $_POST['directory'] . '/thumb', 0777)) {
 							file_put_contents(KU_BOARDSDIR . $_POST['directory'] . '/.htaccess', 'DirectoryIndex board.html');
-							$tc_db->Execute("INSERT INTO `" . KU_DBPREFIX . "boards` ( `name` , `desc` , `createdon` ) VALUES ( '" . mysqli_real_escape_string($tc_db->link, $_POST['directory']) . "' , '" . mysqli_real_escape_string($tc_db->link, $_POST['desc']) . "' , '" . time() . "' )");
+							$tc_db->Execute("INSERT INTO `" . KU_DBPREFIX . "boards` ( `name` , `desc` , `createdon` , `includeheader` ) VALUES ( '" . mysqli_real_escape_string($tc_db->link, $_POST['directory']) . "' , '" . mysqli_real_escape_string($tc_db->link, $_POST['desc']) . "' , '" . time() . "' , '' )");
 							$boardid = $tc_db->Insert_Id();
 							if ($_POST['firstpostid'] < 1) {
 								$_POST['firstpostid'] = 1;

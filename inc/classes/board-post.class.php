@@ -756,7 +756,7 @@ class Board {
 	 * 
 	 * @param integer $thread_op_id Thread ID	 	 
 	 */	 	
-	function RegenerateThread($thread_op_id) {
+	function RegenerateThread($thread_op_id, $archive = false) {
 		global $tc_db, $tpl;
 		$hide_extra = ($this->board_type == 1) ? true : false;
 		
@@ -781,11 +781,14 @@ class Board {
 				}
 			}
 			
-			$thread_page = $this->PageHeader($thread_op_id, '', $this->board_postboxnotice) .
-			threadLinks('return', $thread_op_id, $this->board_dir, $this->board_type, $modifier_last50, $modifier_first100) .
-			$this->Postbox($thread_op_id, '', $this->board_postboxnotice);
-			
-			if ($modifier_last50) {
+			$thread_page = $this->PageHeader($thread_op_id, '', $this->board_postboxnotice);
+			$thread_page .=	threadLinks($archive ? 'archive' : 'return', $thread_op_id, $this->board_dir, $this->board_type, $modifier_last50, $modifier_first100, false, false, $this->archive_dir);
+
+			if (!$archive) {
+				$thread_page .= $this->Postbox($thread_op_id, '', $this->board_postboxnotice);
+			}
+
+			if ($modifier_last50 && !$archive) {
 				$thread_page_last50 = $thread_page;
 				$thread_page_last50 .= $this->BuildThread($thread_op_id, false, false, 0, 'last50');
 				if ($modifier_first100) {
@@ -793,11 +796,11 @@ class Board {
 					$thread_page_first100 .= $this->BuildThread($thread_op_id, false, false, 0, 'first100');
 				}
 			}
-			$thread_page .= $this->BuildThread($thread_op_id);
+			$thread_page .= $this->BuildThread($thread_op_id, false, false, 0, '', $archive);
 			
 			$footer = $this->Footer(false, (microtime_float()-$executiontime_start_regeneratethread), $hide_extra);
 			$thread_page .= $footer;
-			if ($modifier_last50) {
+			if ($modifier_last50 && !$archive) {
 				$thread_page_last50 .= $footer;
 				if ($modifier_first100) {
 					$thread_page_first100 .= $footer;
@@ -805,7 +808,7 @@ class Board {
 			}
 			
 			$thread_page = str_replace('<!tc_postmodeinfo>', '', $thread_page);
-			if ($modifier_last50) {
+			if ($modifier_last50 && !$archive) {
 				$thread_page_last50 = str_replace('<!tc_postmodeinfo>', ' &#91;' . _gettext('Last 50 posts') . '&#93;', $thread_page_last50);
 				if ($modifier_first100) {
 					$thread_page_first100 = str_replace('<!tc_postmodeinfo>', ' &#91;' . _gettext('First 100 posts') . '&#93;', $thread_page_first100);
@@ -813,7 +816,7 @@ class Board {
 			}
 			
 			$this->PrintPage(KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/res/' . $thread_op_id . '.html', $thread_page, $this->board_dir);
-			if ($modifier_last50) {
+			if ($modifier_last50 && !$archive) {
 				$this->PrintPage(KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/res/' . $thread_op_id . '+50.html', $thread_page_last50, $this->board_dir);
 				if ($modifier_first100) {
 					$this->PrintPage(KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/res/' . $thread_op_id . '-100.html', $thread_page_first100, $this->board_dir);
@@ -834,9 +837,10 @@ class Board {
 	 * @param boolean $resurrect Is an already deleted thread
 	 * @param integer $thread_relative_id Thread's relative ID
 	 * @param string $modifier Type modifier, such as first 100, or last 50
-	 * @return string The built thread	 	 	 	 	 	 
+	 * @param boolean $archive Is regenerating for archive
+	 * @return string The built thread
 	 */	 
-	function BuildThread($parentid, $page = false, $resurrect = false, $thread_relative_id = 0, $modifier = '') {
+	function BuildThread($parentid, $page = false, $resurrect = false, $thread_relative_id = 0, $modifier = '', $archive = false) {
 		global $tc_db;
 		$buildthread_output = '';
 		
@@ -954,7 +958,7 @@ class Board {
 				if ($this->board_type == 1 && $page) {
 					$buildthread_output .= '<hr>';
 				}
-				$buildthread_output .= $this->BuildPost($page, $this->board_dir, $this->board_type, $line, $numReplies, $thread_relative_id);
+				$buildthread_output .= $this->BuildPost($page, $this->board_dir, $this->board_type, $line, $numReplies, $thread_relative_id, 0, 0, $archive);
 				
 				// }}}
 				// {{{ Thread replies display
@@ -1066,7 +1070,7 @@ class Board {
 					if (!$buildthread_gotcache) {
 						$buildthread_replies = '';
 						foreach($results_replies AS $line_reply) {
-							$buildthread_replies .= $this->BuildPost($page, $this->board_dir, $this->board_type, $line_reply);
+							$buildthread_replies .= $this->BuildPost($page, $this->board_dir, $this->board_type, $line_reply, 0, '', 0, 0, $archive);
 						}
 						$buildthread_output .= $buildthread_replies;
 						unset($buildthread_replies);
@@ -1088,7 +1092,7 @@ class Board {
 							
 							if ($numReplies > 2) {
 								$buildthread_output .= '<div class="threadlinksbottom">' . "\n" .
-								'	' . threadLinks('return', $thread_id, $this->board_dir, $this->board_type, ($numReplies > 49), ($numReplies > 99), true) .
+								'	' . threadLinks($archive ? 'archive' : 'return', $thread_id, $this->board_dir, $this->board_type, ($numReplies > 49), ($numReplies > 99), true, false, $this->archive_dir) .
 								'</div>' . "\n";
 							}
 						}
@@ -1207,7 +1211,7 @@ class Board {
 			$thread_relative_id++;
 		}
 		
-		if (!$page && $this->board_type != 1) {
+		if (!$page && $this->board_type != 1 && !$archive) {
 			$buildthread_output .= deletePostBox($this->board_type, $this->board_enablereporting);
 			$buildthread_output .= setDelPassJavascript();			
 		}
@@ -1225,9 +1229,10 @@ class Board {
 	 * @param string $thread_relative_id The number this thread is relative to the other threads in the page
 	 * @param integer $reply_relative_id The number this reply is relative to the other replies in the thread
 	 * @param integer $threads_on_front_page The number of threads on the front page
-	 * @return string The built post	 	 	 	 	 	 
+	 * @param boolean $archive Archive thread
+	 * @return string The built post
 	 */	 
-	function BuildPost($page, $post_board, $post_board_type, $post, $thread_replies=0, $thread_relative_id='', $reply_relative_id=0, $threads_on_front_page=0) {
+	function BuildPost($page, $post_board, $post_board_type, $post, $thread_replies=0, $thread_relative_id='', $reply_relative_id=0, $threads_on_front_page=0, $archive=false) {
 		global $CURRENTLOCALE, $tc_db;
 		$buildpost_output = '';
 		$post_thread_start_id = ($post['parentid']==0) ? $post['id'] : $post['parentid'];
@@ -1377,7 +1382,7 @@ class Board {
 			$info_post .= ' <span class="time">' . formatDate($post['postedat'], 'post', $CURRENTLOCALE) . '</span>' . "\n" .
 			'		</label>' . "\n" .
 			' <span class="reflink">' . "\n" .
-			formatReflink($post_board, $page, $post_thread_start_id, $post['id'], $CURRENTLOCALE) .
+			formatReflink($post_board, $page, $post_thread_start_id, $post['id'], $CURRENTLOCALE, $archive ? $this->archive_dir : '') .
 			'</span>' . "\n";				
 			if ($this->board_showid) {
 				$info_post .= ' ID: ' . substr($post['ipmd5'], 0, 6) . "\n";
@@ -1393,51 +1398,55 @@ class Board {
 
 				}
 			}
-			$info_post .= '<span class="extrabtns">' . "\n";
-			if ($post['locked']==1) {
-				$info_post .= '	 <span class="post-badge post-badge-locked" title="' . _gettext('Locked') . '">' . svgIcon('locked', '16') . '</span>' . "\n";
-			}
-			if ($post['stickied']==1) {
-				$info_post .= '	<span class="post-badge post-badge-sticky" title="' . _gettext('Stickied') . '">' . svgIcon('sticky', '16') . '</span>' . "\n";
-			}
-			if ($page && $post_is_thread) {
-				$info_post .= '	 <span id="hide' . $post['id'] . '"><a class="post-btn post-btn-hide" href="#" onclick="togglethread(\'' . $post_thread_start_id . $this->board_dir . '\');return false;" title="Hide Thread">' . svgIcon('minus', '16') . '</a></span>' . "\n";
-			}
-			if (KU_WATCHTHREADS && $post_is_thread) {
-				$info_post .= '	 <a class="post-btn post-btn-watch" href="#" onclick="addtowatchedthreads(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Watch Thread">' . svgIcon('star', '16') . '</a>' . "\n";
-			}
-			if (KU_POSTSPY) {
-				$info_post .= '&nbsp;[<a href="#" onclick="togglePostSpy();return false" title="' . _gettext('Post Spy') . '">PS</a>]';
-			}
-			if ($page && $post_is_thread) {
-				if (KU_EXPAND && $thread_replies > KU_REPLIES && $thread_replies < 300) {
-					$info_post .= '	 <a class="post-btn post-btn-expandthread" href="#" onclick="expandthread(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Expand Thread">' . svgIcon('expandthread', '16') . '</a>' . "\n";
+			if (!$archive) {
+				$info_post .= '<span class="extrabtns">' . "\n";
+				if ($post['locked'] == 1) {
+					$info_post .= '	 <span class="post-badge post-badge-locked" title="' . _gettext('Locked') . '">' . svgIcon('locked', '16') . '</span>' . "\n";
 				}
+				if ($post['stickied'] == 1) {
+					$info_post .= '	<span class="post-badge post-badge-sticky" title="' . _gettext('Stickied') . '">' . svgIcon('sticky', '16') . '</span>' . "\n";
+				}
+				if ($page && $post_is_thread) {
+					$info_post .= '	 <span id="hide' . $post['id'] . '"><a class="post-btn post-btn-hide" href="#" onclick="togglethread(\'' . $post_thread_start_id . $this->board_dir . '\');return false;" title="Hide Thread">' . svgIcon('minus', '16') . '</a></span>' . "\n";
+				}
+				if (KU_WATCHTHREADS && $post_is_thread) {
+					$info_post .= '	 <a class="post-btn post-btn-watch" href="#" onclick="addtowatchedthreads(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Watch Thread">' . svgIcon('star', '16') . '</a>' . "\n";
+				}
+				if (KU_POSTSPY) {
+					$info_post .= '&nbsp;[<a href="#" onclick="togglePostSpy();return false" title="' . _gettext('Post Spy') . '">PS</a>]';
+				}
+				if ($page && $post_is_thread) {
+					if (KU_EXPAND && $thread_replies > KU_REPLIES && $thread_replies < 300) {
+						$info_post .= '	 <a class="post-btn post-btn-expandthread" href="#" onclick="expandthread(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Expand Thread">' . svgIcon('expandthread', '16') . '</a>' . "\n";
+					}
+				}
+
+				if (!$page && $post_is_thread) {
+					$info_post .= '	 <a class="post-btn expandAllImg" data-state="collapsed" href="#" 
+						title="' . _getText('Expand all images') . '"
+						data-expand-all-images-title="' . _getText('Expand all images') . '"
+						data-collapse-all-images-title="' . _getText('Collapse all images') . '"
+					>' . svgIcon('expand', '16') . '</a>' . "\n";
+				}
+
+				if ($page && $post_is_thread) {
+					if (KU_QUICKREPLY) {
+						$info_post .= '	 <a class="post-btn post-btn-reply" href="#" onclick="return quickreply(\'' . $post_thread_start_id . '\');" title="' . _gettext('Quick Reply') . '">' . svgIcon('reply', '16') . '</a>&nbsp;' . "\n";
+					}
+				}
+				$info_post .= '</span>' . "\n" .
+				$this->DeleteAndBanLinks($post['id'], $post_is_thread);
+
+				if ($page && $post_is_thread) {
+					$modifier_last50 = ($thread_replies > 49) ? true : false;
+					$modifier_first100 = ($thread_replies > 99) ? true : false;
+
+					$info_post .= ' &nbsp; ' . threadLinks('page', $post_thread_start_id, $this->board_dir, $this->board_type, $modifier_last50, $modifier_first100);
+				}
+			} else {
+				$info_post .= '<span class="extrabtns">&nbsp;</span>' . "\n";
 			}
 
-			if (!$page && $post_is_thread) {
-				$info_post .= '	 <a class="post-btn expandAllImg" data-state="collapsed" href="#" 
-		title="' . _getText('Expand all images') . '"
-	 	data-expand-all-images-title="' . _getText('Expand all images') . '"
-	 	data-collapse-all-images-title="' . _getText('Collapse all images') . '"
-	 >' . svgIcon('expand', '16') . '</a>' . "\n";
-			}
-
-			if ($page && $post_is_thread) {
-				if (KU_QUICKREPLY) {
-					$info_post .= '	 <a class="post-btn post-btn-reply" href="#" onclick="return quickreply(\'' . $post_thread_start_id . '\');" title="' . _gettext('Quick Reply') . '">' . svgIcon('reply', '16') . '</a>' . "\n";
-				}
-			}
-			$info_post .= '&nbsp;</span>' . "\n" .
-			$this->DeleteAndBanLinks($post['id'], $post_is_thread);			
-			
-			if ($page && $post_is_thread) {
-				$modifier_last50 = ($thread_replies > 49) ? true : false;
-				$modifier_first100 = ($thread_replies > 99) ? true : false;
-				
-				$info_post .= ' &nbsp; ' . threadLinks('page', $post_thread_start_id, $this->board_dir, $this->board_type, $modifier_last50, $modifier_first100);
-			}
-			
 			if (!$post_is_thread) {
 				$buildpost_output .= '<div class="reply" id="reply'.$post['id'].'">' . "\n" .
 				'		' . $info_post;
@@ -1460,8 +1469,9 @@ class Board {
 			if ($post['filetype'] == 'you' || $post['filetype'] == 'goo' || $post['filetype'] == 'red' || $post['filetype'] == '5min') {
 				$buildpost_output .= embeddedVideoBox($post);
 			}
-			
-			$buildpost_output .= formatLongMessage($post['message'], $this->board_dir, $post_thread_start_id, $page);
+
+			$post_message = $archive ? getArchivePostMessage($post['message'], $post_thread_start_id, $post_board, $this->archive_dir) : $post['message'];
+			$buildpost_output .= formatLongMessage($post_message, $this->board_dir, $post_thread_start_id, $page);
 			
 			$buildpost_output .= '</blockquote></div>' . "\n";
 /*			if(array_key_exists($post_board, unserialize(KU_FLAGBOARDS))) {
@@ -2529,6 +2539,14 @@ class Post extends Board {
 		}
 	}
 
+	private function CopyFileWithErrorLog($from, $to, $post_id, $log_category) {
+		if (!@copy($from, $to)) {
+			management_addlogentry("Couldn't archive file " . $from . " in post " . $post_id, $log_category);
+			return false;
+		}
+		return true;
+	}
+
 	function Delete($allow_archive = false) {
 		global $tc_db;
 //		echo "$allow_archive, $this->post_isthread, $this->board_enablearchiving";
@@ -2540,24 +2558,30 @@ class Post extends Board {
  		if($this->allowed_file_types[$thumb_filetype][0] == 'video'){
  			$thumb_filetype = 'jpg';
  		}
-		$i = 0;
 		if ($this->post_isthread == true) {
+			$copy_error = false;
 			if ($allow_archive && $this->board_enablearchiving == 1 && $this->board_loadbalanceurl == '') {
 				$this->ArchiveMode(true);
-				$this->RegenerateThread($this->post_id);
-				@copy(KU_BOARDSDIR . $this->board_dir . '/src/' . $this->post_filename . '.' . $this->post_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $this->post_filename . '.' . $this->post_filetype);
-				@copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $this->post_filename . 's.' . $thumb_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $this->post_filename . 's.' . $thumb_filetype);
+				$this->RegenerateThread($this->post_id, true);
+				$copy_error = !$this->CopyFileWithErrorLog(KU_BOARDSDIR . $this->board_dir . '/src/' . $this->post_filename . '.' . $this->post_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $this->post_filename . '.' . $this->post_filetype, $this->post_id, 7)
+					|| $copy_error;
+				$copy_error = !$this->CopyFileWithErrorLog(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $this->post_filename . 's.' . $thumb_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $this->post_filename . 's.' . $thumb_filetype, $this->post_id, 7)
+					|| $copy_error;
 			}
 			$results = $tc_db->GetAll("SELECT `id`, `filename`, `filetype` FROM `".KU_DBPREFIX."posts_".$this->board_dir."` WHERE `IS_DELETED` = 0 AND `parentid` = ".mysqli_real_escape_string($tc_db->link, $this->post_id));
 			foreach($results AS $line) {
-				$i++;
+				if (!$line['filename']) {
+					continue;
+				}
 				$thumb_filetype = $line['filetype'];
 				if(strcmp($this->allowed_file_types[$thumb_filetype][0], "video") == 0) {
 					$thumb_filetype = "jpg";
 				}
 				if ($allow_archive && $this->board_enablearchiving == 1) {
-					@copy(KU_BOARDSDIR . $this->board_dir . '/src/' . $line['filename'] . '.' . $line['filetype'], KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $line['filename'] . '.' . $line['filetype']);
-					@copy(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype);
+					$copy_error = !$this->CopyFileWithErrorLog(KU_BOARDSDIR . $this->board_dir . '/src/' . $line['filename'] . '.' . $line['filetype'], KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/src/' . $line['filename'] . '.' . $line['filetype'], $line['id'], 7)
+						|| $copy_error;
+					$copy_error = !$this->CopyFileWithErrorLog(KU_BOARDSDIR . $this->board_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype, KU_BOARDSDIR . $this->board_dir . $this->archive_dir . '/thumb/' . $line['filename'] . 's.' . $thumb_filetype, $line['id'], 7)
+						|| $copy_error;
 				}
 			}
 			if ($allow_archive && $this->board_enablearchiving == 1) {
@@ -2566,7 +2590,9 @@ class Post extends Board {
 			@unlink(KU_BOARDSDIR.$this->board_dir.'/res/'.$this->post_id.'.html');
 			@unlink(KU_BOARDSDIR.$this->board_dir.'/res/'.$this->post_id.'-100.html');
 			@unlink(KU_BOARDSDIR.$this->board_dir.'/res/'.$this->post_id.'+50.html');
-			$this->DeleteFile(false, true);
+			if (!$copy_error) {
+				$this->DeleteFile(false, true);
+			}
 			foreach($results AS $line) {
 				$tc_db->Execute("UPDATE `".KU_DBPREFIX."posts_".$this->board_dir."` SET `IS_DELETED` = 1 , `deletedat` = '" . time() . "' WHERE `id` = ".$line['id']." AND `parentid` = ".mysqli_real_escape_string($tc_db->link, $this->post_id)." LIMIT 1");
 				clearPostCache($line['id'], $this->board_dir);
@@ -2591,8 +2617,7 @@ class Post extends Board {
 				}
 			} 
 
-			
-			return $i.' ';
+			return count($results).' ';
 		} else {
 			$this->DeleteFile(false);
 			// If we were to revert the last bump, then we'd need to make sure:
