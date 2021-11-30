@@ -1,7 +1,6 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -239,6 +238,9 @@ msgstr "Для просмотра нажмите «Ответ»."
 msgid "Click to show/hide"
 msgstr "Нажмите, чтобы увидеть/скрыть"
 
+msgid "Collapse all images"
+msgstr "Свернуть все изображения"
+
 msgid "Continue"
 msgstr "Продолжить"
 
@@ -441,6 +443,9 @@ msgstr "Номер первого сообщения"
 
 msgid "Forced anonymous"
 msgstr "Форсированная анонимность"
+
+msgid "Frames removed."
+msgstr "Фреймы убраны."
 
 msgid "From"
 msgstr "Из"
@@ -951,6 +956,9 @@ msgstr "Регулярное изображение"
 msgid "Remove"
 msgstr "Убрать"
 
+msgid "Remove Frames"
+msgstr "Убрать фреймы"
+
 msgid "Removed word from wordfilter"
 msgstr "Удалил(а) слово из вордфильтра"
 
@@ -1276,6 +1284,9 @@ msgstr "В нить"
 
 msgid "Trial"
 msgstr "Тестовая"
+
+msgid "Un-watch"
+msgstr "Убрать из списка"
 
 msgid "Unable to clear cache: you do not have caching enabled."
 msgstr "Невозможно очистить кеш: кеширование не было включено."

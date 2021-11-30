@@ -1407,17 +1407,17 @@ class Board {
 					$info_post .= '	<span class="post-badge post-badge-sticky" title="' . _gettext('Stickied') . '">' . svgIcon('sticky', '16') . '</span>' . "\n";
 				}
 				if ($page && $post_is_thread) {
-					$info_post .= '	 <span id="hide' . $post['id'] . '"><a class="post-btn post-btn-hide" href="#" onclick="togglethread(\'' . $post_thread_start_id . $this->board_dir . '\');return false;" title="Hide Thread">' . svgIcon('minus', '16') . '</a></span>' . "\n";
+					$info_post .= '	 <span id="hide' . $post['id'] . '"><a class="post-btn post-btn-hide" href="#" onclick="togglethread(\'' . $post_thread_start_id . $this->board_dir . '\');return false;" title="' . _gettext('Hide Thread') . '">' . svgIcon('minus', '16') . '</a></span>' . "\n";
 				}
 				if (KU_WATCHTHREADS && $post_is_thread) {
-					$info_post .= '	 <a class="post-btn post-btn-watch" href="#" onclick="addtowatchedthreads(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Watch Thread">' . svgIcon('star', '16') . '</a>' . "\n";
+					$info_post .= '	 <a class="post-btn post-btn-watch" href="#" onclick="addtowatchedthreads(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="' . _gettext('Watch Thread') . '">' . svgIcon('star', '16') . '</a>' . "\n";
 				}
 				if (KU_POSTSPY) {
 					$info_post .= '&nbsp;[<a href="#" onclick="togglePostSpy();return false" title="' . _gettext('Post Spy') . '">PS</a>]';
 				}
 				if ($page && $post_is_thread) {
 					if (KU_EXPAND && $thread_replies > KU_REPLIES && $thread_replies < 300) {
-						$info_post .= '	 <a class="post-btn post-btn-expandthread" href="#" onclick="expandthread(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="Expand Thread">' . svgIcon('expandthread', '16') . '</a>' . "\n";
+						$info_post .= '	 <a class="post-btn post-btn-expandthread" href="#" onclick="expandthread(\'' . $post_thread_start_id . '\', \'' . $this->board_dir . '\');return false;" title="' . _gettext('Expand Thread') . '">' . svgIcon('expandthread', '16') . '</a>' . "\n";
 					}
 				}
 
