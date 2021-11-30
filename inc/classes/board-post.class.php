@@ -2435,7 +2435,7 @@ size="28" maxlength="64" accesskey="f">
 	}
 	
 	/**
-	 * Initialize the instance of smary which will be used for generating pages
+	 * Initialize the instance of smarty which will be used for generating pages
 	 */ 	 	
 	function InitializeSmarty() {
 		global $tpl;
@@ -2445,6 +2445,10 @@ size="28" maxlength="64" accesskey="f">
 			$tpl['htmloptions'] = ' dir="rtl"';
 		} else {
 			$tpl['htmloptions'] = '';
+		}
+
+		if ($this->board_locale) {
+			$tpl['htmloptions'] .= ' lang="' . $this->board_locale . '"';
 		}
 	
 		require_once KU_ROOTDIR . 'lib/smarty/Smarty.class.php';
