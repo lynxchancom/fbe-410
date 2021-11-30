@@ -46,12 +46,14 @@ require KU_ROOTDIR . 'lib/flags.php';
 require KU_ROOTDIR . 'inc/functions.php';
 require KU_ROOTDIR . 'inc/classes/board-post.class.php';
 require KU_ROOTDIR . 'inc/classes/bans.class.php';
+require KU_ROOTDIR . 'inc/classes/warnings.class.php';
 require KU_ROOTDIR . 'inc/classes/posting.class.php';
 require KU_ROOTDIR . 'inc/classes/parse.class.php';
 require KU_ROOTDIR . 'inc/classes/manage.class.php';
 
 		
 $bans_class = new Bans();
+$warnings_class = new Warnings();
 $parse_class = new Parse();
 $posting_class = new Posting();
 $manage_class = new Manage();
@@ -173,6 +175,7 @@ if (isset($_POST['board'])) {
 
 $bans_class->RemoveExpiredBans();
 $bans_class->BanCheck($_SERVER['REMOTE_ADDR'], $board_class->board_dir);
+$warnings_class->WarningCheck($_SERVER['REMOTE_ADDR'], $board_class->board_dir);
 
 // }}}
 
@@ -239,32 +242,39 @@ else {
 	exitWithErrorPage('You are not logged in.');
 }
 }
-if (isset($_POST['banquickuser']) && !isset($_POST['deleteall'])) {
-	$banpostid = -1;
-global $tc_db, $smarty, $tpl_page;
+if ((isset($_POST['banquickuser']) || isset($_POST['warningquickuser'])) && !isset($_POST['deleteall'])) {
+	$postid = -1;
+	global $tc_db, $smarty, $tpl_page;
+
+	$action_name = isset($_POST['banquickuser']) ? 'ban' : 'issue a warning';
+
 	if($board_class->CurrentUserIsLoggedInAsMod()) {
 		if(!$manage_class->CurrentUserIsModeratorOfBoard($_POST['board'], $_SESSION['manageusername'])) {
 			exitWithErrorPage('You are not a moderator of this board.');
 		}
 		else {
-		if($board_class->board_dir == KU_ANONYMOUS && !$manage_class->CurrentUserIsAdministrator()) {
-			exitWithErrorPage('You cannot ban on this board.');
-		}
-		if(isset($_POST['delete'])) {
-			if(is_array($_POST['delete'])) {
-				$banpostid = $_POST['delete'][0];
+			if($board_class->board_dir == KU_ANONYMOUS && !$manage_class->CurrentUserIsAdministrator()) {
+				exitWithErrorPage('You cannot ' . $action_name . ' on this board.');
 			}
-			elseif(is_int($_POST['delete'])) {
-				$banpostid = intval($_POST['delete']);
+			if(isset($_POST['delete'])) {
+				if(is_array($_POST['delete'])) {
+					$postid = $_POST['delete'][0];
+				}
+				elseif(is_int($_POST['delete'])) {
+					$postid = intval($_POST['delete']);
+				}
+				else {
+					exitWithErrorPage('Please check a thread/post to ' . $action_name . '.');
+				}
 			}
 			else {
-				exitWithErrorPage('Please check a thread/post to ban.');
+				exitWithErrorPage('Please check a thread/post to ' . $action_name . '.');
 			}
-		}
-		else {
-			exitWithErrorPage('Please check a thread/post to ban.');
-		}
-		header('Location: manage_page.php?action=bans&banboard='.$board_class->board_dir.'&banpost='.$banpostid.'');
+			if ($_POST['banquickuser']) {
+				header('Location: manage_page.php?action=bans&banboard=' . $board_class->board_dir . '&banpost=' . $postid . '');
+			} else {
+				header('Location: manage_page.php?action=warnings&warningboard=' . $board_class->board_dir . '&warningpost=' . $postid . '');
+			}
 		}
 	}
 	else {

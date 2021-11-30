@@ -155,3 +155,7 @@ th,td {
 	font-family:sans-serif;
 	color:#000000;
 }
+input.tableaction {
+	margin-bottom: 0;
+	margin-left: 4px;
+}
