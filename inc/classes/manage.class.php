@@ -572,7 +572,7 @@ class Manage {
 					$linecolour = "#dce3e8";
 			}
 			$tpl_page .= "<tr bgcolor=\"$linecolour\">";
-			$tpl_page .= "<td>" . date("y/m/d(D)H:i", $line['timestamp']) . "</td><td>" . $line['user'] . "</td><td>" . $line['entry'] . "</td></tr>";
+			$tpl_page .= "<td>" . date("y/m/d(D)H:i", $line['timestamp']) . "</td><td>" . $line['user'] . "</td><td>" . htmlentities($line['entry']) . "</td></tr>";
 		}
 		$tpl_page .= '</table>';
 		$tpl_page .= '<p align="right"><a href="?action=modlog&all=1">Modlog Archive</a> | <a href="manage_page.php?action=modlog&reset=1" onclick="return confirm(\'Are you sure you want to clear the modlog?\');">Clear Modlog</a></p>';
@@ -2774,14 +2774,14 @@ function reason(why) {
 		<br/>
 		<input type="hidden" name="action" value="warnings" />
 		<label for="post_id">'._gettext('Post ID').':</label>
-		<input type="text" name="warningpost" value="'.($warning_post ?? '').'">
+		<input type="text" name="warningpost" value="'.htmlentities($warning_post ?? '').'">
 		<br/>
 		<input type="submit" name="getip"  value="'._gettext('Get IP').'">
 		</fieldset>
 		<fieldset>
 		<legend>'._gettext('IP').'</legend>
 		<label for="ip">'._gettext('IP').':</label>
-		<input type="text" name="ip" value="'.$warning_ip.'">';
+		<input type="text" name="ip" value="'.htmlentities($warning_ip).'">';
 
 		$tpl_page .= '</fieldset>
 		<fieldset>
@@ -2793,13 +2793,13 @@ function reason(why) {
 
 		$tpl_page .= '<fieldset>
 		<legend>' . _gettext('Warning text') . '</legend>
-		<a name="text"></a><label for="text">'._gettext('Text').':</label>
-		<textarea type="text" name="text" id="text" value="' . $text . '" rows="12" cols="80"></textarea>
+		<label for="text">'._gettext('Text').':</label>
+		<textarea name="text" id="text" rows="12" cols="80">' . htmlentities($text) . '</textarea>
 		<div class="desc">
 			' . _gettext('Message to user. Wakaba-mark is supported. Post links with boards specified are recommended (if not specified, ip lookup field or first "Warning on" checkbox or first board to which moderator has access is used).') . '
 		</div><br>';
 		$tpl_page .= '<label for="text">'._gettext('Moderator Note').':</label>
-		<input type="text" name="note" id="modnote" value="' . $note . '"><div class="desc">Note to moderators</div><br/>';
+		<input type="text" name="note" id="modnote" value="' . htmlentities($note) . '"><div class="desc">Note to moderators</div><br/>';
 
 		$tpl_page .= '</fieldset>
 		<input type="submit" name="issue" value="'._gettext('Issue warning').'">

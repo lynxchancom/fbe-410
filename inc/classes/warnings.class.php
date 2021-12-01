@@ -3,7 +3,7 @@
 class Warnings {
 	function WarningCheck($ip, $board) {
 		global $tc_db;
-		$results = $tc_db->GetAll("SELECT * FROM `".KU_DBPREFIX."warnings` WHERE ( `ipmd5` = '" . md5($ip) . "' AND viewed = 0 )");
+		$results = $tc_db->GetAll("SELECT * FROM `".KU_DBPREFIX."warnings` WHERE ((`ipmd5` = '" . md5($ip) . "' OR `ipmd5` = '". md5($_COOKIE['tc_previousip']) . "') AND viewed = 0 )");
 		foreach($results AS $line) {
 			if ($line['global']==1 || in_array($board, explode('|', $line['boards']))) {
 				echo $this->DisplayWarningMessage($line['text'], $line['at']);
