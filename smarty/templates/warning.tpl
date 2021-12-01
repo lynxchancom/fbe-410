@@ -10,7 +10,7 @@
 <h3>{$ku_slogan}</h3>
 <div style="margin: 3em;">
 	<h2>&nbsp;{$youhaveawarning}</h2>
-    {$youhavebeenissuedawarningon} <b>{$boards}</b>:<br><br>
+    {$youhavebeenissuedawarning}:<br><br>
 	<b>{$text}</b><br><br>
     {$thewarningwasissuedon} <b>{$at}</b>.<br><br>
     {$youripaddressis} <b>{$ip}</b>.<br><br>

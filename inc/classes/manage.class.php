@@ -2623,7 +2623,7 @@ function reason(why) {
 
 		if (isset($_POST['delete_all_viewed'])) {
 			if($this->CheckAccess() < 7) {
-				exitWithErrorPage('You do not have permission to delete warnings on all boards');
+				exitWithErrorPage(_gettext('You do not have permission to delete warnings on all boards'));
 			}
 
 			$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "warnings` WHERE `viewed` = 1");
@@ -2647,28 +2647,29 @@ function reason(why) {
 					$not_allowed_boards = array_diff($warning_to_delete_boards, $allowed_boards);
 
 					if (count($not_allowed_boards)) {
-						exitWithErrorPage("You do not have permission to delete a warning on these boards: " . implode(', ', $not_allowed_boards));
+						exitWithErrorPage(_gettext("You do not have permission to delete a warning on these boards") . ": " . implode(', ', $not_allowed_boards));
 					}
 				}
 
 				$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "warnings` WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_POST['delwarning']) . "'");
 				$tpl_page .= _gettext('Warning successfully removed.');
 				$warning_to_delete_ip = md5_decrypt($warning_to_delete[0]['ip'], KU_RANDOMSEED);
-				management_addlogentry(_gettext('Removed warning for ') . ' ' . $warning_to_delete_ip . " on boards " . implode(', ', $warning_to_delete_boards), 12);
+				$removedwarningfor = $warning_to_delete[0]['viewed'] ? _gettext('Removed viewed warning for') : _gettext('Removed warning for');
+				management_addlogentry($removedwarningfor . ' ' . $warning_to_delete_ip . " " . _gettext('on boards') . ": " . ' /' . implode('/, /', $warning_to_delete_boards) . '/ ', 12);
 			} else {
 				$tpl_page .= _gettext('Invalid warning ID');
 			}
 			$tpl_page .= '<hr>';
 		} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['getip'])) {
 			if($is_global && $this->CheckAccess() < 7) {
-				exitWithErrorPage('You do not have permission to issue a global warning');
+				exitWithErrorPage(_gettext('You do not have permission to issue a global warning'));
 			}
 
 			$allowed_boards = $this->BoardList($_SESSION['manageusername']);
 			$not_allowed_boards = array_diff($boards, $allowed_boards);
 
 			if (count($not_allowed_boards)) {
-				exitWithErrorPage("You do not have permission to issue a warning on these boards: " . implode(', ', $not_allowed_boards));
+				exitWithErrorPage(_gettext("You do not have permission to issue a warning on these boards") . ": " . implode(', ', $not_allowed_boards));
 			}
 
 			$already_has_global_warning = $tc_db->GetOne("SELECT HIGH_PRIORITY COUNT(*) FROM `" . KU_DBPREFIX . "warnings` WHERE `ipmd5` = '" . md5($_POST['ip']) . "' AND `global` = 1 AND viewed = 0");
@@ -2697,7 +2698,7 @@ function reason(why) {
 			} elseif ($already_has_global_warning) {
 				$tpl_page .= _gettext('There is already global warning for this IP');
 			} elseif (count($conflicted_boards)) {
-				$tpl_page .= _gettext('There is already warning for this IP on these boards: ' . implode(', ', $conflicted_boards));
+				$tpl_page .= _gettext('There is already warning for this IP on these boards') . ': ' . implode(', ', $conflicted_boards);
 			} else {
 				$parse_class = new Parse();
 
@@ -2717,6 +2718,15 @@ function reason(why) {
 					.implode("|", $boards)."', '"
 					.$is_global."' )");
 
+				$logentry = _gettext('Created warning for') . ' ' . $_POST['ip'];
+				$logentry .= ' - ' . _gettext('Text') . ': ' . $_POST['text'] . ' - ';
+				if ($is_global) {
+					$logentry .= _gettext('on all boards') . ' ';
+				} else {
+					$logentry .=  _gettext("on boards") .  ': /' . implode('/, /', $boards) . '/ ';
+				}
+				management_addlogentry($logentry, 12);
+
 				//after creating warning form field values are no longer needed
 				$warning_board = null;
 				$warning_post = null;
@@ -2727,15 +2737,6 @@ function reason(why) {
 				$boards = [];
 
 				$tpl_page .= _gettext('Warning successfully issued.');
-
-				$logentry = _gettext('Warning for') . ' ' . $_POST['ip'];
-				$logentry .= ' - ' . _gettext('Reason') . ': ' . $_POST['text'] . ' - ' . _gettext('Banned from') . ': ';
-				if ($is_global) {
-					$logentry .= _gettext('All boards') . ' ';
-				} else {
-					$logentry .= '/' . implode('/, /', $boards) . '/ ';
-				}
-				management_addlogentry($logentry, 12);
 			}
 			$tpl_page .= '<hr>';
 		}
@@ -2744,7 +2745,7 @@ function reason(why) {
 			if (!$warning_board) {
 				$tpl_page .= _gettext('Please select a board') . '<hr>';
 			} elseif (!$warning_post) {
-				$tpl_page .= _gettext('Please enter post id') . '<hr>';
+				$tpl_page .= _gettext('Please enter post ID') . '<hr>';
 			} else {
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` WHERE `name` = '" . mysqli_real_escape_string($tc_db->link, $warning_board) . "'");
 				if (count($results) > 0) {
@@ -2778,7 +2779,7 @@ function reason(why) {
 		<input type="submit" name="getip"  value="'._gettext('Get IP').'">
 		</fieldset>
 		<fieldset>
-		<legend>IP address</legend>
+		<legend>'._gettext('IP').'</legend>
 		<label for="ip">'._gettext('IP').':</label>
 		<input type="text" name="ip" value="'.$warning_ip.'">';
 
@@ -2791,12 +2792,11 @@ function reason(why) {
 			'</fieldset>';
 
 		$tpl_page .= '<fieldset>
-		<legend>Warning text</legend>
+		<legend>' . _gettext('Warning text') . '</legend>
 		<a name="text"></a><label for="text">'._gettext('Text').':</label>
 		<textarea type="text" name="text" id="text" value="' . $text . '" rows="12" cols="80"></textarea>
 		<div class="desc">
-			Message to user. Wakaba-mark is supported. Post links with boards specified are recommeded (if not specified,
-			ip lookup field or first "Warning on" checkbox or first board to which moderator has access is used).
+			' . _gettext('Message to user. Wakaba-mark is supported. Post links with boards specified are recommended (if not specified, ip lookup field or first "Warning on" checkbox or first board to which moderator has access is used).') . '
 		</div><br>';
 		$tpl_page .= '<label for="text">'._gettext('Moderator Note').':</label>
 		<input type="text" name="note" id="modnote" value="' . $note . '"><div class="desc">Note to moderators</div><br/>';
@@ -2826,7 +2826,7 @@ function reason(why) {
 		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "warnings` $viewedCondition ORDER BY `id` DESC $limit");
 
 		$tpl_page .= '<br><b>Issued warnings:</b><br>';
-		$tpl_page .= '<table border="1" width="100%"><tr><th>IP Address</th><th>Boards</th><th>Reason</th><th>Moderator Note</th><th>Date Added</th><th>Added By</th><th>Viewed</th><th>&nbsp;</th></tr>';
+		$tpl_page .= '<table border="1" width="100%"><tr><th>IP Address</th><th>Boards</th><th>Text</th><th>Moderator Note</th><th>Date Added</th><th>Added By</th><th>Viewed</th><th>&nbsp;</th></tr>';
 
 		foreach ($results as $line) {
 			$tpl_page .= "<tr>";
