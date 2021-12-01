@@ -37,6 +37,15 @@ class Warnings {
 		$smarty->assign('text', $text);
 		$smarty->assign('at', date("F j, Y, g:i a", $at));
 		$smarty->assign('ip', $_SERVER['REMOTE_ADDR']);
+		$jquery = '<script src="' . getCWebPath() . 'lib/javascript/jquery-3.3.1.min.js"></script>' . "\n";
+		$style_cookie = '<script>' . "\n" .
+			'	var ku_boardspath = \'' . KU_BOARDSPATH . '\';' . "\n" .
+			'	var ku_cgipath = \'' . KU_CGIPATH . '\'' . "\n" .
+			'	var style_cookie="kustyle";' . "\n" .
+			'	var style_cookie_txt = "";' . "\n" .
+			'</script>' . "\n";
+
+		$smarty->assign('head', $jquery . $style_cookie . printStylesheetsSite());
 
 		return $smarty->fetch('warning.tpl');
 	}

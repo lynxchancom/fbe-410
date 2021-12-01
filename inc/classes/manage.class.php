@@ -2632,28 +2632,28 @@ function reason(why) {
 			$tpl_page .= _gettext('Warnings successfully removed');
 			$tpl_page .= '<hr>';
 		} elseif (isset($_POST['delwarning'])) {
-			$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "warnings` WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_POST['delwarning']) . "'");
+			$warning_to_delete = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "warnings` WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_POST['delwarning']) . "'");
 
-			if (count($results) > 0) {
-				if (!$results[0]['global']) {
-					$warning_to_delete_boards = $results[0]['boards'] ? explode('|', $results[0]['boards']) : [];
+			if (count($warning_to_delete) > 0) {
+				if (!$warning_to_delete[0]['global']) {
+					$warning_to_delete_boards = $warning_to_delete[0]['boards'] ? explode('|', $warning_to_delete[0]['boards']) : [];
 				} else {
-					$results = $tc_db->GetAll("SELECT HIGH_PRIORITY `name` FROM `" . KU_DBPREFIX . "boards`");
-					$warning_to_delete_boards = array_map(function ($line) { return $line['name']; }, $results);
+					$all_boards = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards`");
+					$warning_to_delete_boards = array_map(function ($line) { return $line['name']; }, $all_boards);
 				}
 
 				if ($this->CheckAccess() < 7) {
 					$allowed_boards = $this->BoardList($_SESSION['manageusername']);
 					$not_allowed_boards = array_diff($warning_to_delete_boards, $allowed_boards);
-				}
 
-				if (count($not_allowed_boards)) {
-					exitWithErrorPage("You do not have permission to delete a warning on these boards: " . implode(', ', $not_allowed_boards));
+					if (count($not_allowed_boards)) {
+						exitWithErrorPage("You do not have permission to delete a warning on these boards: " . implode(', ', $not_allowed_boards));
+					}
 				}
 
 				$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "warnings` WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_POST['delwarning']) . "'");
 				$tpl_page .= _gettext('Warning successfully removed.');
-				$warning_to_delete_ip = md5_decrypt($results[0]['ip'], KU_RANDOMSEED);
+				$warning_to_delete_ip = md5_decrypt($warning_to_delete[0]['ip'], KU_RANDOMSEED);
 				management_addlogentry(_gettext('Removed warning for ') . ' ' . $warning_to_delete_ip . " on boards " . implode(', ', $warning_to_delete_boards), 12);
 			} else {
 				$tpl_page .= _gettext('Invalid warning ID');
@@ -2699,22 +2699,31 @@ function reason(why) {
 			} elseif (count($conflicted_boards)) {
 				$tpl_page .= _gettext('There is already warning for this IP on these boards: ' . implode(', ', $conflicted_boards));
 			} else {
+				$parse_class = new Parse();
+
+				$striptext = stripslashes($text);
+
+				$board = $warning_board ?? $boards[0] ?? $allowed_boards[0];
+
+				$message = $parse_class->ParsePost($striptext, $board, 0, null);
+
 				$tc_db->Execute("INSERT INTO `".KU_DBPREFIX."warnings` ( `ip` , `ipmd5` , `by` , `at` , `text`, `note`, `boards`, `global`) 
 					VALUES ( '".md5_encrypt($ip, KU_RANDOMSEED)."' , '"
 					.md5($ip)."' , '"
 					.mysqli_real_escape_string($tc_db->link, $_SESSION['manageusername'])."' , '"
 					.time()."' , '"
-					.mysqli_real_escape_string($tc_db->link, $text)."', '"
+					.$message."', '"
 					.mysqli_real_escape_string($tc_db->link, $note)."', '"
 					.implode("|", $boards)."', '"
 					.$is_global."' )");
 
-				//form field values are no longer needed
+				//after creating warning form field values are no longer needed
 				$warning_board = null;
 				$warning_post = null;
 				$text = null;
 				$note = null;
 				$is_global = null;
+				$warning_ip = null;
 				$boards = [];
 
 				$tpl_page .= _gettext('Warning successfully issued.');
@@ -2784,7 +2793,11 @@ function reason(why) {
 		$tpl_page .= '<fieldset>
 		<legend>Warning text</legend>
 		<a name="text"></a><label for="text">'._gettext('Text').':</label>
-		<input type="text" name="text" id="text" value="' . $text . '"><div class="desc">Message to user</div><br>';
+		<textarea type="text" name="text" id="text" value="' . $text . '" rows="12" cols="80"></textarea>
+		<div class="desc">
+			Message to user. Wakaba-mark is supported. Post links with boards specified are recommeded (if not specified,
+			ip lookup field or first "Warning on" checkbox or first board to which moderator has access is used).
+		</div><br>';
 		$tpl_page .= '<label for="text">'._gettext('Moderator Note').':</label>
 		<input type="text" name="note" id="modnote" value="' . $note . '"><div class="desc">Note to moderators</div><br/>';
 
@@ -2828,7 +2841,7 @@ function reason(why) {
 			}
 			$tpl_page .= '</td><td>';
 			if ($line['text'] != '') {
-				$tpl_page .= htmlentities(stripslashes($line['text']));
+				$tpl_page .= stripslashes($line['text']);
 			} else {
 				$tpl_page .= '&nbsp;';
 			}
