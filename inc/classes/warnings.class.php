@@ -3,14 +3,12 @@
 class Warnings {
 	function WarningCheck($ip, $board) {
 		global $tc_db;
-		$results = $tc_db->GetAll("SELECT * FROM `".KU_DBPREFIX."warnings` WHERE ( `ipmd5` = '" . md5($ip) . "' AND viewed = 0 ) LIMIT 1");
-		if (count($results)>0) {
-			foreach($results AS $line) {
-				if ($line['global']==1 || in_array($board, explode('|', $line['boards']))) {
-					echo $this->DisplayWarningMessage($line['global'], '<b>/'.implode('/</b>, <b>/', explode('|', $line['boards'])).'/</b>&nbsp;', $line['text'], $line['at']);
-					$tc_db->Execute("UPDATE `".KU_DBPREFIX."warnings` SET viewed = 1 WHERE id = " . $line['id']);
-					die();
-				}
+		$results = $tc_db->GetAll("SELECT * FROM `".KU_DBPREFIX."warnings` WHERE ( `ipmd5` = '" . md5($ip) . "' AND viewed = 0 )");
+		foreach($results AS $line) {
+			if ($line['global']==1 || in_array($board, explode('|', $line['boards']))) {
+				echo $this->DisplayWarningMessage($line['global'], '<b>/'.implode('/</b>, <b>/', explode('|', $line['boards'])).'/</b>&nbsp;', $line['text'], $line['at']);
+				$tc_db->Execute("UPDATE `".KU_DBPREFIX."warnings` SET viewed = 1 WHERE id = " . $line['id']);
+				die();
 			}
 		}
 
