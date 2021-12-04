@@ -28,6 +28,7 @@ class Menu {
 		require_once KU_ROOTDIR.'lib/smarty.php';
 		
 		$smarty->assign('lang_frontpage', _gettext('Front Page'));
+		$smarty->assign('framesremoved', _gettext('Frames removed.'));
 		
 		if (KU_MENUTYPE == 'normal') {
 			$smarty->assign('styles', printStylesheetsSite(KU_DEFAULTMENUSTYLE, true));
@@ -49,7 +50,7 @@ class Menu {
 		$smarty->assign('styleswitcher', $styleswitcher);
 		
 		if (KU_MENUTYPE == 'normal') {
-			$removeframes = '<li id="removeframes"><a href="#" onclick="return removeframes();" target="_self">[Remove Frames]</a></li>';
+			$removeframes = '<li id="removeframes"><a href="#" onclick="return removeframes();" target="_self">[' . _gettext('Remove Frames') . ']</a></li>';
 		} else {
 			$removeframes = '';
 		}

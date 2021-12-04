@@ -1439,3 +1439,16 @@ msgstr ""
 
 msgid "translator-credits"
 msgstr ""
+
+msgid "Collapse all images"
+msgstr ""
+
+msgid "Frames removed."
+msgstr ""
+
+msgid "Remove Frames"
+msgstr ""
+
+msgid "Un-watch"
+msgstr ""
+
