@@ -112,6 +112,7 @@ if (!$manage_class->ValidateSession(true)) {
 		'<ul>
 		<li><a href="manage_page.php?action=reports">' . _gettext('View Reports <b>[') . $open_reports[0][0] .']</b></a></li>
 		<li><a href="manage_page.php?action=bans">' . _gettext('View/Add/Remove bans') . '</a></li>
+		<li><a href="manage_page.php?action=warnings">' . _gettext('View/Add/Remove warnings') . '</a></li>
 		<li><a href="manage_page.php?action=deletepostsbyip">' . _gettext('Delete all posts by IP') . '</a></li>
 		<li><a href="manage_page.php?action=findpostsbyip">' . _gettext('Find all posts by IP') . '</a></li>
 		<li><a href="manage_page.php?action=recentimages">' . _gettext('Recently uploaded images') . '</a></li>

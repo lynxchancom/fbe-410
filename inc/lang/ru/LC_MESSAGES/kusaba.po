@@ -1533,3 +1533,96 @@ msgstr "истекает"
 
 msgid "will not expire"
 msgstr "бессрочный"
+
+msgid "The warning was issued on"
+msgstr "Предупреждение было создано"
+
+msgid "You have been issued a warning"
+msgstr "Вам было отправлено предупреждение"
+
+msgid "WARNING"
+msgstr "ПРЕДУПРЕЖДЕНИЕ"
+
+msgid "View/Add/Remove warnings"
+msgstr "Управление предупреждениями"
+
+msgid "Warnings"
+msgstr "Предупреждения"
+
+msgid "You do not have permission to delete warnings on all boards"
+msgstr "У Вас нет прав для удаления предупреждений на всех досках"
+
+msgid "Removed all viewed warnings"
+msgstr "Все просмотренные предупреждения удалены"
+
+msgid "Warnings successfully removed"
+msgstr "Предупреждения успешно удалены"
+
+msgid "You do not have permission to delete a warning on these boards"
+msgstr "У Вас нет прав для удаления предупреждений на этих досках"
+
+msgid "Warning successfully removed"
+msgstr "Предупреждение успешно удалено"
+
+msgid "Removed warning for"
+msgstr "Удалено предупреждение для"
+
+msgid "Removed viewed warning for"
+msgstr "Удалено просмотренное предупреждение для"
+
+msgid "on boards"
+msgstr "на досках"
+
+msgid "Invalid warning ID"
+msgstr "Неверный идентификатор предупреждения"
+
+msgid "You do not have permission to issue a global warning"
+msgstr "У Вас нет прав для отправки глобальных предупреждений"
+
+msgid "You do not have permission to issue a warning on these boards"
+msgstr "У Вас нет прав для отправки предупреждений на этих досках"
+
+msgid "Please enter IP address"
+msgstr "Пожалуйста, введите IP-адрес"
+
+msgid "There is already global warning for this IP"
+msgstr "Для этого IP-адреса уже существует глобально предупреждение"
+
+msgid "There is already warning for this IP on these boards"
+msgstr "Для этого IP-адреса уже существуют предупреждения на этих досках"
+
+msgid "Warning successfully issued."
+msgstr "Предупреждение успешно отправлено."
+
+msgid "Warning for"
+msgstr "Предупреждение для"
+
+msgid "Text"
+msgstr "Текст"
+
+msgid "on all boards"
+msgstr "на всех досках"
+
+msgid "on"
+msgstr "на"
+
+msgid "Please enter post ID"
+msgstr "Пожалуйста, введите идентификатор поста"
+
+msgid "Warning on"
+msgstr "Предупреждение на следующих досках"
+
+msgid "Message to user. Wakaba-mark is supported. Post links with boards specified are recommended (if not specified, ip lookup field or first \"Warning on\" checkbox or first board to which moderator has access is used)."
+msgstr "Сообщение для пользователя. Поддерживается Wakaba-mark. Рекомендуется указывать имя доски в ссылках на посты (если доска ну указана, то используется доска указанная в форме поиска IP, или первая доска, на которой действует предупреждение, или первая доска, к которой у модератора есть доступ."
+
+msgid "Issue warning"
+msgstr "Отправить предупреждение"
+
+msgid "Delete all viewed"
+msgstr "Удалить все просмотренные"
+
+msgid "Warning text"
+msgstr "Текст предупреждения"
+
+msgid "Created warning for"
+msgstr "Создано предупреждение для"

@@ -430,7 +430,23 @@ CREATE TABLE `main_subpages` (
    `index` int(11) DEFAULT NULL,
    `hidden` tinyint(1) NOT NULL DEFAULT 0,
    PRIMARY KEY (`id`)
-)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `warnings`;
+CREATE TABLE warnings (
+  `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ip` varchar(50) NOT NULL,
+  `ipmd5` char(32) NOT NULL,
+  `by` varchar(75) NOT NULL,
+  `at` int(20) NOT NULL,
+  `text` text NOT NULL,
+  `note` text NOT NULL,
+  `boards` varchar(255) NOT NULL,
+  `global` tinyint(1) NOT NULL DEFAULT 0,
+  `viewed` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

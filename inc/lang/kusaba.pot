@@ -1452,3 +1452,96 @@ msgstr ""
 msgid "Un-watch"
 msgstr ""
 
+msgid "The warning was issued on"
+msgstr ""
+
+msgid "You have been issued a warning"
+msgstr ""
+
+msgid "WARNING"
+msgstr ""
+
+msgid "View/Add/Remove warnings"
+msgstr ""
+
+msgid "Warnings"
+msgstr ""
+
+msgid "You do not have permission to delete warnings on all boards"
+msgstr ""
+
+msgid "Removed all viewed warnings"
+msgstr ""
+
+msgid "Warnings successfully removed"
+msgstr ""
+
+msgid "You do not have permission to delete a warning on these boards"
+msgstr ""
+
+msgid "Warning successfully removed"
+msgstr ""
+
+msgid "Removed warning for"
+msgstr ""
+
+msgid "Removed viewed warning for"
+msgstr ""
+
+msgid "on boards"
+msgstr ""
+
+msgid "Invalid warning ID"
+msgstr ""
+
+msgid "You do not have permission to issue a global warning"
+msgstr ""
+
+msgid "You do not have permission to issue a warning on these boards"
+msgstr ""
+
+msgid "Please enter IP address"
+msgstr ""
+
+msgid "There is already global warning for this IP"
+msgstr ""
+
+msgid "There is already warning for this IP on these boards"
+msgstr ""
+
+msgid "Warning successfully issued."
+msgstr ""
+
+msgid "Warning for"
+msgstr ""
+
+msgid "Text"
+msgstr ""
+
+msgid "on all boards"
+msgstr ""
+
+msgid "on"
+msgstr ""
+
+msgid "Please enter post ID"
+msgstr ""
+
+msgid "Warning on"
+msgstr ""
+
+msgid "Message to user. Wakaba-mark is supported. Post links with boards specified are recommended (if not specified, ip lookup field or first \"Warning on\" checkbox or first board to which moderator has access is used)."
+msgstr ""
+
+msgid "Issue warning"
+msgstr ""
+
+msgid "Delete all viewed"
+msgstr ""
+
+msgid "Warning text"
+msgstr ""
+
+msgid "Created warning for"
+msgstr ""
+
