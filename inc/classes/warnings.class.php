@@ -21,9 +21,6 @@ class Warnings {
 
 		require_once KU_ROOTDIR . 'lib/smarty.php';
 
-		$smarty->assign('thewarningwasissuedon', _gettext('The warning was issued on'));
-		$smarty->assign('youripaddressis', _gettext('Your IP address is'));
-		$smarty->assign('youhavebeenissuedawarning', _gettext('You have been issued a warning'));
 		$smarty->assign('title', _gettext('WARNING') . '!');
 		$smarty->assign('ku_slogan', KU_SLOGAN);
 		$smarty->assign('text', $text);

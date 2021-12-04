@@ -2592,12 +2592,15 @@ function reason(why) {
 		//Method GET is used when accessing manage page from thread/board page and when clicking on Last 10/20/30/All/Viewed/Not Viewed links under the table.
 		//Method POST for all other cases: Get IP/Issue warning/Delete all Viewed/Delete buttons.
 
-		global $tc_db, $smarty, $tpl_page, $bans_class;
+		global $tc_db, $tpl_page;
+
+		$pageSmarty = getSmarty();
+		$message = '';
+
 		$this->ModeratorsOnly();
 		if($this->CheckAccess() < 6) {
 			exitWithErrorPage('You do not have permission to access this page');
 		}
-		$tpl_page .= '<h2>' . _gettext('Warnings') . '</h2><br>';
 		$warning_ip = isset($_POST['ip']) && $_POST['ip'] ? $_POST['ip'] : null;
 		$warning_board = isset($_GET['warningboard']) && $_GET['warningboard'] ? $_GET['warningboard'] : null;
 		if (!$warning_board) {
@@ -2629,8 +2632,7 @@ function reason(why) {
 			$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "warnings` WHERE `viewed` = 1");
 			management_addlogentry(_gettext('Removed all viewed warnings'), 12);
 
-			$tpl_page .= _gettext('Warnings successfully removed');
-			$tpl_page .= '<hr>';
+			$message = _gettext('Warnings successfully removed');
 		} elseif (isset($_POST['delwarning'])) {
 			$warning_to_delete = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "warnings` WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_POST['delwarning']) . "'");
 
@@ -2652,14 +2654,13 @@ function reason(why) {
 				}
 
 				$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "warnings` WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_POST['delwarning']) . "'");
-				$tpl_page .= _gettext('Warning successfully removed.');
+				$message = _gettext('Warning successfully removed.');
 				$warning_to_delete_ip = md5_decrypt($warning_to_delete[0]['ip'], KU_RANDOMSEED);
 				$removedwarningfor = $warning_to_delete[0]['viewed'] ? _gettext('Removed viewed warning for') : _gettext('Removed warning for');
 				management_addlogentry($removedwarningfor . ' ' . $warning_to_delete_ip . " " . _gettext('on boards') . ": " . ' /' . implode('/, /', $warning_to_delete_boards) . '/ ', 12);
 			} else {
-				$tpl_page .= _gettext('Invalid warning ID');
+				$message = _gettext('Invalid warning ID');
 			}
-			$tpl_page .= '<hr>';
 		} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['getip'])) {
 			if($is_global && $this->CheckAccess() < 7) {
 				exitWithErrorPage(_gettext('You do not have permission to issue a global warning'));
@@ -2690,15 +2691,15 @@ function reason(why) {
 			$ip = preg_replace("/[^0-9.]/", "", $_POST['ip']);
 
 			if (!$ip) {
-				$tpl_page .= _gettext('Please enter IP address');
+				$message = _gettext('Please enter IP address');
 			} elseif (!$text) {
-				$tpl_page .= _gettext('Please enter warning text');
+				$message = _gettext('Please enter warning text');
 			} elseif (!count($boards) && !$is_global) {
-				$tpl_page .= _gettext('Please select a board');
+				$message = _gettext('Please select a board');
 			} elseif ($already_has_global_warning) {
-				$tpl_page .= _gettext('There is already global warning for this IP');
+				$message = _gettext('There is already global warning for this IP');
 			} elseif (count($conflicted_boards)) {
-				$tpl_page .= _gettext('There is already warning for this IP on these boards') . ': ' . implode(', ', $conflicted_boards);
+				$message = _gettext('There is already warning for this IP on these boards') . ': ' . implode(', ', $conflicted_boards);
 			} else {
 				$parse_class = new Parse();
 
@@ -2706,14 +2707,14 @@ function reason(why) {
 
 				$board = $warning_board ?? $boards[0] ?? $allowed_boards[0];
 
-				$message = $parse_class->ParsePost($striptext, $board, 0, null);
+				$formattedText = $parse_class->ParsePost($striptext, $board, 0, null);
 
 				$tc_db->Execute("INSERT INTO `".KU_DBPREFIX."warnings` ( `ip` , `ipmd5` , `by` , `at` , `text`, `note`, `boards`, `global`) 
 					VALUES ( '".md5_encrypt($ip, KU_RANDOMSEED)."' , '"
 					.md5($ip)."' , '"
 					.mysqli_real_escape_string($tc_db->link, $_SESSION['manageusername'])."' , '"
 					.time()."' , '"
-					.$message."', '"
+					.$formattedText."', '"
 					.mysqli_real_escape_string($tc_db->link, $note)."', '"
 					.implode("|", $boards)."', '"
 					.$is_global."' )");
@@ -2736,16 +2737,15 @@ function reason(why) {
 				$warning_ip = null;
 				$boards = [];
 
-				$tpl_page .= _gettext('Warning successfully issued.');
+				$message = _gettext('Warning successfully issued.');
 			}
-			$tpl_page .= '<hr>';
 		}
 
 		if (isset($_GET['warningquickuser']) || isset($_POST['getip'])) {
 			if (!$warning_board) {
-				$tpl_page .= _gettext('Please select a board') . '<hr>';
+				$message = _gettext('Please select a board');
 			} elseif (!$warning_post) {
-				$tpl_page .= _gettext('Please enter post ID') . '<hr>';
+				$message = _gettext('Please enter post ID');
 			} else {
 				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` WHERE `name` = '" . mysqli_real_escape_string($tc_db->link, $warning_board) . "'");
 				if (count($results) > 0) {
@@ -2758,62 +2758,21 @@ function reason(why) {
 							$warning_ip = md5_decrypt($line['ip'], KU_RANDOMSEED);
 						}
 					} else {
-						$tpl_page .= _gettext('A post with that ID does not exist.') . '<hr>';
+						$message = _gettext('A post with that ID does not exist.');
 					}
 				}
 			}
 		}
 		flush();
 
-		$tpl_page .= '<form action="manage_page.php" method="post" name="warningform">';
-
-		$tpl_page .= '<fieldset>';
-
-		$tpl_page .= '<label for="board">'._gettext('Board').':</label>
-		'.$this->MakeBoardListDropdown('warningboard', $this->BoardList($_SESSION['manageusername']), $warning_board ?? null) .'
-		<br/>
-		<input type="hidden" name="action" value="warnings" />
-		<label for="post_id">'._gettext('Post ID').':</label>
-		<input type="text" name="warningpost" value="'.htmlentities($warning_post ?? '').'">
-		<br/>
-		<input type="submit" name="getip"  value="'._gettext('Get IP').'">
-		</fieldset>
-		<fieldset>
-		<legend>'._gettext('IP').'</legend>
-		<label for="ip">'._gettext('IP').':</label>
-		<input type="text" name="ip" value="'.htmlentities($warning_ip).'">';
-
-		$tpl_page .= '</fieldset>
-		<fieldset>
-		<legend>' . _gettext('Warning on') . '</legend>
-		<label for="banfromall"><b>'._gettext('All boards').'</b></label>
-		<input type="checkbox" name="global" ' . ($is_global ? 'checked' : '') . '><br><hr><br>' .
-			$this->MakeBoardListCheckboxes('board', $this->BoardList($_SESSION['manageusername']), $boards) .
-			'</fieldset>';
-
-		$tpl_page .= '<fieldset>
-		<legend>' . _gettext('Warning text') . '</legend>
-		<label for="text">'._gettext('Text').':</label>
-		<textarea name="text" id="text" rows="12" cols="80">' . htmlentities($text) . '</textarea>
-		<div class="desc">
-			' . _gettext('Message to user. Wakaba-mark is supported. Post links with boards specified are recommended (if not specified, ip lookup field or first "Warning on" checkbox or first board to which moderator has access is used).') . '
-		</div><br>';
-		$tpl_page .= '<label for="text">'._gettext('Moderator Note').':</label>
-		<input type="text" name="note" id="modnote" value="' . htmlentities($note) . '"><div class="desc">Note to moderators</div><br/>';
-
-		$tpl_page .= '</fieldset>
-		<input type="submit" name="issue" value="'._gettext('Issue warning').'">
-		
-		<hr><br>';
-
-		if ($this->CheckAccess() >= 7) {
-			$tpl_page .= '
-				<br/>
-				<input type="submit" name="delete_all_viewed" value=" ' . _gettext('Delete all viewed') . '"/>';
-		}
-
-		$tpl_page .= '</form>';
-
+		$pageSmarty->assign('boardListDropdown', $this->MakeBoardListDropdown('warningboard', $this->BoardList($_SESSION['manageusername']), $warning_board ?? null));
+		$pageSmarty->assign('warningPost', htmlentities($warning_post));
+		$pageSmarty->assign('warningIp', htmlentities($warning_ip));
+		$pageSmarty->assign('globalChecked', $is_global ? 'checked' : '');
+		$pageSmarty->assign('boardListCheckboxes', $this->MakeBoardListCheckboxes('board', $this->BoardList($_SESSION['manageusername']), $boards));
+		$pageSmarty->assign('text', htmlentities($text));
+		$pageSmarty->assign('note', htmlentities($note));
+		$pageSmarty->assign('showDeleteAllViewed', $this->CheckAccess() >= 7);
 
 		$viewedCondition = '';
 
@@ -2823,53 +2782,27 @@ function reason(why) {
 
 		$limit = ISSET($_GET['getwarnings']) ? "LIMIT " . $_GET['getwarnings'] : '';
 
-		$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "warnings` $viewedCondition ORDER BY `id` DESC $limit");
+		$warnings = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "warnings` $viewedCondition ORDER BY `id` DESC $limit");
 
-		$tpl_page .= '<br><b>Issued warnings:</b><br>';
-		$tpl_page .= '<table border="1" width="100%"><tr><th>IP Address</th><th>Boards</th><th>Text</th><th>Moderator Note</th><th>Date Added</th><th>Added By</th><th>Viewed</th><th>&nbsp;</th></tr>';
+		$warningsViewModel = array_map(function($warning) {
+			return [
+				'ip' => md5_decrypt($warning['ip'], KU_RANDOMSEED),
+				'global' => $warning['global'],
+				'boards' => explode('|', $warning['boards']),
+				'text' => $warning['text'],
+				'note' => htmlentities($warning['note']),
+				'at' => date("F j, Y, g:i a", $warning['at']),
+				'viewed' => $warning['viewed'] == 1 ? _gettext('Yes') : _gettext('No'),
+				'by' => $warning['by'],
+				'id' => $warning['id']
+			];
+		}, $warnings);
 
-		foreach ($results as $line) {
-			$tpl_page .= "<tr>";
-			$tpl_page .= '<td><a href="?action=bans&ip=' . md5_decrypt($line['ip'], KU_RANDOMSEED) . '">' . md5_decrypt($line['ip'], KU_RANDOMSEED) . '</a></td><td>';
+		$pageSmarty->assign('warnings', $warningsViewModel);
 
-			if ($line['global'] == '1') {
-				$tpl_page .= '<b>All boards</b>';
-			} else {
-				if ($line['boards'] != '') {
-					$tpl_page .= '<b>/' . implode('/</b>, <b>/', explode('|', $line['boards'])) . '/</b>&nbsp;';
-				}
-			}
-			$tpl_page .= '</td><td>';
-			if ($line['text'] != '') {
-				$tpl_page .= stripslashes($line['text']);
-			} else {
-				$tpl_page .= '&nbsp;';
-			}
-			$tpl_page .= '</td><td>';
-			if ($line['note'] != '') {
-				$tpl_page .= htmlentities(stripslashes($line['note']));
-			} else {
-				$tpl_page .= '&nbsp;';
-			}
-			$tpl_page .= '</td><td>' . date("F j, Y, g:i a", $line['at']) . '</td>';
+		$pageSmarty->assign('message', $message);
 
-			$tpl_page .= '<td>' . $line['by'] . '</td>';
-
-			$tpl_page .= '<td>' . ($line['viewed'] == 1 ? _gettext('Yes') : _gettext('No')) . '</td>';
-
-			$tpl_page .= '
-	<td>
-		<form action="manage_page.php" method="post">
-			<input type="hidden" name="action" value="warnings"/>
-			<input type="hidden" name="delwarning" value="' . $line['id'] . '"/>
-			<input class="tableaction" type="submit" value="' . _gettext('Delete') . '"/>
-		</form>
-	</td>';
-		}
-		$tpl_page .= '</table>';
-
-		$tpl_page .= 'Last <a href="?action=warnings&getwarnings=10">10</a>, <a href="?action=warnings&getwarnings=20">20</a>, <a href="?action=warnings&getwarnings=30">30</a> Warnings';
-		$tpl_page .= ' | <a href="?action=warnings">All</a> | <a href="?action=warnings&viewed=1">Viewed</a> | <a href="?action=warnings&viewed=0">Not viewed</a>';
+		$tpl_page .= $pageSmarty->fetch('manage/warnings.tpl');
 	}
 
 	/* Delete a post, or multiple posts */
