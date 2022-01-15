@@ -4827,9 +4827,9 @@ echo "stage 3<br>";
 			$tc_db->Execute("START TRANSACTION");
 
 			//Update link hrefs
-			echo "UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'href=\\\\\"/dev/res/" . $from_id . ".html#', 'href=\\\\\"/dev/res/" . $to_id . ".html#') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'";
+			echo "UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'href=\\\\\"/" . $board . "/res/" . $from_id . ".html#', 'href=\\\\\"/" . $board . "/res/" . $to_id . ".html#') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'";
 			echo "<br/>";
-			$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'href=\\\\\"/dev/res/" . $from_id . ".html#', 'href=\\\\\"/dev/res/" . $to_id . ".html#') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'");
+			$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'href=\\\\\"/" . $board . "/res/" . $from_id . ".html#', 'href=\\\\\"/" . $board . "/res/" . $to_id . ".html#') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'");
 
 			//Update link preview params
 			echo "UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'class=\\\\\"ref|" . $board . "|" . $from_id . "|', 'class=\\\\\"ref|" . $board . "|" . $to_id . "|') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'";
