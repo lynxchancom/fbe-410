@@ -572,7 +572,7 @@ class Manage {
 					$linecolour = "#dce3e8";
 			}
 			$tpl_page .= "<tr bgcolor=\"$linecolour\">";
-			$tpl_page .= "<td>" . date("y/m/d(D)H:i", $line['timestamp']) . "</td><td>" . $line['user'] . "</td><td>" . $line['entry'] . "</td></tr>";
+			$tpl_page .= "<td>" . date("y/m/d(D)H:i", $line['timestamp']) . "</td><td>" . $line['user'] . "</td><td>" . htmlentities($line['entry']) . "</td></tr>";
 		}
 		$tpl_page .= '</table>';
 		$tpl_page .= '<p align="right"><a href="?action=modlog&all=1">Modlog Archive</a> | <a href="manage_page.php?action=modlog&reset=1" onclick="return confirm(\'Are you sure you want to clear the modlog?\');">Clear Modlog</a></p>';
@@ -997,16 +997,16 @@ If no subpages are added, default hardcoded subpages are used (FAQ, Rules, Engli
 <td>' . $line['file'] . ($file_exists ? '' : ' <span style="color:red">File doesn\'t exist!</span>') . '</td>
 <td>' . ($line['hidden'] == '1' ? 'Yes' : 'No') . '</td>
 <td>
-<form method="get" action="manage_page.php"><input type="hidden" name="action" value="mainsubpages"><input type="hidden" name="edit" value="' . $line['id'] . '"><input value="Edit" type="submit"></form>
-<form method="post" action="manage_page.php"><input type="hidden" name="action" value="mainsubpages"><input type="hidden" name="delete" value="' . $line['id'] . '"><input value="Delete" type="submit"></form>
+<form method="get" action="manage_page.php"><input type="hidden" name="action" value="mainsubpages"><input type="hidden" name="edit" value="' . $line['id'] . '"><input value="Edit" type="submit" class="tableaction" ></form>
+<form method="post" action="manage_page.php"><input type="hidden" name="action" value="mainsubpages"><input type="hidden" name="delete" value="' . $line['id'] . '"><input value="Delete" type="submit" class="tableaction"></form>
 </td>
 <td>';
 				if ($i>0) {
-					$tpl_page .= '<form method="post" action="manage_page.php"><input type="hidden" name="action" value="mainsubpages"><input type="hidden" name="up" value="' . $line['id'] . '"><input value="↑" type="submit"></form>';
+					$tpl_page .= '<form method="post" action="manage_page.php"><input type="hidden" name="action" value="mainsubpages"><input type="hidden" name="up" value="' . $line['id'] . '"><input value="↑" type="submit" class="tableaction"></form>';
 				}
 
 				if ($i<count($results)-1) {
-					$tpl_page .= '<form method="post" action="manage_page.php"><input type="hidden" name="action" value="mainsubpages"><input type="hidden" name="down" value="' . $line['id'] . '"><input value="↓" type="submit"></form>';
+					$tpl_page .= '<form method="post" action="manage_page.php"><input type="hidden" name="action" value="mainsubpages"><input type="hidden" name="down" value="' . $line['id'] . '"><input value="↓" type="submit" class="tableaction"></form>';
 				}
 
 				$tpl_page .= '</td></tr>';
@@ -2587,7 +2587,224 @@ function reason(why) {
 			$tpl_page .= 'Last <a href="?action=bans&getbans=10">10</a>, <a href="?action=bans&getbans=20">20</a>, <a href="?action=bans&getbans=30">30</a> Bans | <a href="?action=bans&allbans=1">All Bans</a> | <a href="?action=bans&hashbans=1">Hash Bans</a>';
 		}
 	}
-	
+
+	function warnings() {
+		//Method GET is used when accessing manage page from thread/board page and when clicking on Last 10/20/30/All/Viewed/Not Viewed links under the table.
+		//Method POST for all other cases: Get IP/Issue warning/Delete all Viewed/Delete buttons.
+
+		global $tc_db, $tpl_page;
+
+		$pageSmarty = getSmarty();
+		$message = '';
+
+		$this->ModeratorsOnly();
+		if($this->CheckAccess() < 6) {
+			exitWithErrorPage('You do not have permission to access this page');
+		}
+		$warning_ip = isset($_POST['ip']) && $_POST['ip'] ? $_POST['ip'] : null;
+		$warning_board = isset($_GET['warningboard']) && $_GET['warningboard'] ? $_GET['warningboard'] : null;
+		if (!$warning_board) {
+			$warning_board = isset($_POST['warningboard']) && $_POST['warningboard'] ? $_POST['warningboard'] : null;
+		}
+		$warning_post = isset($_GET['warningpost']) && $_GET['warningpost'] ? $_GET['warningpost'] : null;
+		if (!$warning_post) {
+			$warning_post = isset($_POST['warningpost']) && $_POST['warningpost'] ? $_POST['warningpost'] : null;
+		}
+		$text = isset($_POST['text']) && $_POST['text'] ? $_POST['text'] : null;
+		$note = isset($_POST['note']) && $_POST['note'] ? $_POST['note'] : '';
+		$is_global = isset($_POST['global']) ? 1 : 0;
+
+		$boards = [];
+		if (isset($_POST)) {
+			foreach ($_POST as $key => $value) {
+				$matches = [];
+				if (preg_match("/^board(.+)$/", $key, $matches)) {
+					$boards[] = $matches[1];
+				}
+			}
+		}
+
+		if (isset($_POST['delete_all_viewed'])) {
+			if($this->CheckAccess() < 7) {
+				exitWithErrorPage(_gettext('You do not have permission to delete warnings on all boards'));
+			}
+
+			$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "warnings` WHERE `viewed` = 1");
+			management_addlogentry(_gettext('Removed all viewed warnings'), 12);
+
+			$message = _gettext('Warnings successfully removed');
+		} elseif (isset($_POST['delwarning'])) {
+			$warning_to_delete = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "warnings` WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_POST['delwarning']) . "'");
+
+			if (count($warning_to_delete) > 0) {
+				if (!$warning_to_delete[0]['global']) {
+					$warning_to_delete_boards = $warning_to_delete[0]['boards'] ? explode('|', $warning_to_delete[0]['boards']) : [];
+				} else {
+					$all_boards = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards`");
+					$warning_to_delete_boards = array_map(function ($line) { return $line['name']; }, $all_boards);
+				}
+
+				if ($this->CheckAccess() < 7) {
+					$allowed_boards = $this->BoardList($_SESSION['manageusername']);
+					$not_allowed_boards = array_diff($warning_to_delete_boards, $allowed_boards);
+
+					if (count($not_allowed_boards)) {
+						exitWithErrorPage(_gettext("You do not have permission to delete a warning on these boards") . ": " . implode(', ', $not_allowed_boards));
+					}
+				}
+
+				$tc_db->Execute("DELETE FROM `" . KU_DBPREFIX . "warnings` WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $_POST['delwarning']) . "'");
+				$message = _gettext('Warning successfully removed.');
+				$warning_to_delete_ip = md5_decrypt($warning_to_delete[0]['ip'], KU_RANDOMSEED);
+				$removedwarningfor = $warning_to_delete[0]['viewed'] ? _gettext('Removed viewed warning for') : _gettext('Removed warning for');
+				management_addlogentry($removedwarningfor . ' ' . $warning_to_delete_ip . " " . _gettext('on boards') . ": " . ' /' . implode('/, /', $warning_to_delete_boards) . '/ ', 12);
+			} else {
+				$message = _gettext('Invalid warning ID');
+			}
+		} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['getip'])) {
+			if($is_global && $this->CheckAccess() < 7) {
+				exitWithErrorPage(_gettext('You do not have permission to issue a global warning'));
+			}
+
+			$allowed_boards = $this->BoardList($_SESSION['manageusername']);
+			$not_allowed_boards = array_diff($boards, $allowed_boards);
+
+			if (count($not_allowed_boards)) {
+				exitWithErrorPage(_gettext("You do not have permission to issue a warning on these boards") . ": " . implode(', ', $not_allowed_boards));
+			}
+
+			$already_has_global_warning = $tc_db->GetOne("SELECT HIGH_PRIORITY COUNT(*) FROM `" . KU_DBPREFIX . "warnings` WHERE `ipmd5` = '" . md5($_POST['ip']) . "' AND `global` = 1 AND viewed = 0");
+
+			$existing_warnings = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "warnings` WHERE `ipmd5` = '" . md5($_POST['ip']) . "' AND viewed = 0");
+
+			$existing_boards = array_map(function ($line) {
+				return explode("|", $line['boards']);
+			}, $existing_warnings);
+			$existing_boards = call_user_func_array('array_merge', $existing_boards);
+
+			if ($is_global) {
+				$conflicted_boards = $existing_boards;
+			} else {
+				$conflicted_boards = array_intersect($boards, $existing_boards);
+			}
+
+			$ip = preg_replace("/[^0-9.]/", "", $_POST['ip']);
+
+			if (!$ip) {
+				$message = _gettext('Please enter IP address');
+			} elseif (!$text) {
+				$message = _gettext('Please enter warning text');
+			} elseif (!count($boards) && !$is_global) {
+				$message = _gettext('Please select a board');
+			} elseif ($already_has_global_warning) {
+				$message = _gettext('There is already global warning for this IP');
+			} elseif (count($conflicted_boards)) {
+				$message = _gettext('There is already warning for this IP on these boards') . ': ' . implode(', ', $conflicted_boards);
+			} else {
+				$parse_class = new Parse();
+
+				$striptext = stripslashes($text);
+
+				$board = $warning_board ?? $boards[0] ?? $allowed_boards[0];
+
+				$formattedText = $parse_class->ParsePost($striptext, $board, 0, null);
+
+				$tc_db->Execute("INSERT INTO `".KU_DBPREFIX."warnings` ( `ip` , `ipmd5` , `by` , `at` , `text`, `note`, `boards`, `global`) 
+					VALUES ( '".md5_encrypt($ip, KU_RANDOMSEED)."' , '"
+					.md5($ip)."' , '"
+					.mysqli_real_escape_string($tc_db->link, $_SESSION['manageusername'])."' , '"
+					.time()."' , '"
+					.$formattedText."', '"
+					.mysqli_real_escape_string($tc_db->link, $note)."', '"
+					.implode("|", $boards)."', '"
+					.$is_global."' )");
+
+				$logentry = _gettext('Created warning for') . ' ' . $_POST['ip'];
+				$logentry .= ' - ' . _gettext('Text') . ': ' . $_POST['text'] . ' - ';
+				if ($is_global) {
+					$logentry .= _gettext('on all boards') . ' ';
+				} else {
+					$logentry .=  _gettext("on boards") .  ': /' . implode('/, /', $boards) . '/ ';
+				}
+				management_addlogentry($logentry, 12);
+
+				//after creating warning form field values are no longer needed
+				$warning_board = null;
+				$warning_post = null;
+				$text = null;
+				$note = null;
+				$is_global = null;
+				$warning_ip = null;
+				$boards = [];
+
+				$message = _gettext('Warning successfully issued.');
+			}
+		}
+
+		if (isset($_GET['warningquickuser']) || isset($_POST['getip'])) {
+			if (!$warning_board) {
+				$message = _gettext('Please select a board');
+			} elseif (!$warning_post) {
+				$message = _gettext('Please enter post ID');
+			} else {
+				$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "boards` WHERE `name` = '" . mysqli_real_escape_string($tc_db->link, $warning_board) . "'");
+				if (count($results) > 0) {
+					foreach ($results as $line) {
+						$board_name = $line['name'];
+					}
+					$results = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "posts_" . $board_name . "` WHERE `id` = '" . mysqli_real_escape_string($tc_db->link, $warning_post) . "'");
+					if (count($results) > 0) {
+						foreach ($results as $line) {
+							$warning_ip = md5_decrypt($line['ip'], KU_RANDOMSEED);
+						}
+					} else {
+						$message = _gettext('A post with that ID does not exist.');
+					}
+				}
+			}
+		}
+		flush();
+
+		$pageSmarty->assign('boardListDropdown', $this->MakeBoardListDropdown('warningboard', $this->BoardList($_SESSION['manageusername']), $warning_board ?? null));
+		$pageSmarty->assign('warningPost', htmlentities($warning_post));
+		$pageSmarty->assign('warningIp', htmlentities($warning_ip));
+		$pageSmarty->assign('globalChecked', $is_global ? 'checked' : '');
+		$pageSmarty->assign('boardListCheckboxes', $this->MakeBoardListCheckboxes('board', $this->BoardList($_SESSION['manageusername']), $boards));
+		$pageSmarty->assign('text', htmlentities($text));
+		$pageSmarty->assign('note', htmlentities($note));
+		$pageSmarty->assign('showDeleteAllViewed', $this->CheckAccess() >= 7);
+
+		$viewedCondition = '';
+
+		if (ISSET($_GET['viewed'])) {
+			$viewedCondition = $_GET['viewed'] ? "WHERE `viewed` = 1" : "WHERE `viewed` = 0";
+		}
+
+		$limit = ISSET($_GET['getwarnings']) ? "LIMIT " . $_GET['getwarnings'] : '';
+
+		$warnings = $tc_db->GetAll("SELECT HIGH_PRIORITY * FROM `" . KU_DBPREFIX . "warnings` $viewedCondition ORDER BY `id` DESC $limit");
+
+		$warningsViewModel = array_map(function($warning) {
+			return [
+				'ip' => md5_decrypt($warning['ip'], KU_RANDOMSEED),
+				'global' => $warning['global'],
+				'boards' => explode('|', $warning['boards']),
+				'text' => $warning['text'],
+				'note' => htmlentities($warning['note']),
+				'at' => date("F j, Y, g:i a", $warning['at']),
+				'viewed' => $warning['viewed'] == 1 ? _gettext('Yes') : _gettext('No'),
+				'by' => $warning['by'],
+				'id' => $warning['id']
+			];
+		}, $warnings);
+
+		$pageSmarty->assign('warnings', $warningsViewModel);
+
+		$pageSmarty->assign('message', $message);
+
+		$tpl_page .= $pageSmarty->fetch('manage/warnings.tpl');
+	}
+
 	/* Delete a post, or multiple posts */
 	function delposts($multidel=false) {
 		global $tc_db, $smarty, $tpl_page, $board_class;
@@ -3443,7 +3660,7 @@ function reason(why) {
 		if(isset($_GET['accesshelp']) && $_GET['accesshelp'] == 1) {
 			$tpl_page .= '<span>Access levels are a new feature to limit the functions which Moderators can access. For example, if you set
 			an access level of 5; the moderator can access all functions below and including Manage stickes/lock threads (which corresponds to level 5).</span><ol><li>Recently uploaded images</li><li>View Reports</li><li>Delete thread/post</li><li>Delete/find all posts by IP</li><li>Manage stickes/lock threads</li>
-			<li>View/Add/Remove bans</li><li>All boards ban</li><li>Site ban</li><li>Manage Boards (Super Moderator)</li></ol><br/>';
+			<li>View/Add/Remove bans and warnings</li><li>All boards bans and warnings</li><li>Site ban</li><li>Manage Boards (Super Moderator)</li></ol><br/>';
 		}
 		$tpl_page .= '<form action="manage_page.php?action=staff" method="post">
 		
@@ -4443,11 +4660,11 @@ echo "stage 3<br>";
 	}
 	
 	/* Generate a dropdown box from a supplied array of boards */
-	function MakeBoardListDropdown($name, $boards) {
+	function MakeBoardListDropdown($name, $boards, $selected = null) {
 		$output = '<select name="' . $name . '"><option value="">Select a Board</option>';
 		if ($boards != '') {
 			foreach ($boards as $board) {
-				$output .= '<option value="' . $board . '">/' . $board . '/</option>';
+				$output .= '<option value="' . $board . '" ' . ($selected == $board ? 'selected' : '') . '>/' . $board . '/</option>';
 			}
 		}
 		$output .= '</select>';
@@ -4456,12 +4673,13 @@ echo "stage 3<br>";
 	}
 	
 	/* Generate a series of checkboxes from a supplied array of boards */
-	function MakeBoardListCheckboxes($prefix, $boards) {
+	function MakeBoardListCheckboxes($prefix, $boards, $checked = []) {
 		$output = '';
 		
 		if ($boards != '') {
 			foreach ($boards as $board) {
-				$output .= '<label for="' . $prefix . $board . '">' . $board . '</label><input type="checkbox" name="' . $prefix . $board . '"> ';
+				$checked_attribute = in_array($board, $checked) ? ' checked' : '';
+				$output .= '<label for="' . $prefix . $board . '">' . $board . '</label><input type="checkbox" name="' . $prefix . $board . '"' . $checked_attribute . '> ';
 			}
 		}
 		
@@ -4609,9 +4827,9 @@ echo "stage 3<br>";
 			$tc_db->Execute("START TRANSACTION");
 
 			//Update link hrefs
-			echo "UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'href=\\\\\"/dev/res/" . $from_id . ".html#', 'href=\\\\\"/dev/res/" . $to_id . ".html#') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'";
+			echo "UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'href=\\\\\"/" . $board . "/res/" . $from_id . ".html#', 'href=\\\\\"/" . $board . "/res/" . $to_id . ".html#') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'";
 			echo "<br/>";
-			$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'href=\\\\\"/dev/res/" . $from_id . ".html#', 'href=\\\\\"/dev/res/" . $to_id . ".html#') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'");
+			$tc_db->Execute("UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'href=\\\\\"/" . $board . "/res/" . $from_id . ".html#', 'href=\\\\\"/" . $board . "/res/" . $to_id . ".html#') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'");
 
 			//Update link preview params
 			echo "UPDATE " . KU_DBPREFIX . "posts_" . $board . " SET `message` = REPLACE(message, 'class=\\\\\"ref|" . $board . "|" . $from_id . "|', 'class=\\\\\"ref|" . $board . "|" . $to_id . "|') WHERE `parentid` = '" . $from_id . "' OR `id` = '" . $from_id . "'";

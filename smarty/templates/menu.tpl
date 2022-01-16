@@ -28,7 +28,7 @@ function removeframes() {
 	var boardlinks = document.getElementsByTagName("a");
 	for(var i=0;i<boardlinks.length;i++) if(boardlinks[i].className == "boardlink") boardlinks[i].target = "_top";
 	
-	document.getElementById("removeframes").innerHTML = 'Frames removed.';
+	document.getElementById("removeframes").innerHTML = '{/literal}{$framesremoved}{literal}';
 	
 	return false;
 }
