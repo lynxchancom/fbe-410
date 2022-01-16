@@ -572,7 +572,8 @@ class Manage {
 					$linecolour = "#dce3e8";
 			}
 			$tpl_page .= "<tr bgcolor=\"$linecolour\">";
-			$tpl_page .= "<td>" . date("y/m/d(D)H:i", $line['timestamp']) . "</td><td>" . $line['user'] . "</td><td>" . htmlentities($line['entry']) . "</td></tr>";
+			//$tpl_page .= "<td>" . date("y/m/d(D)H:i", $line['timestamp']) . "</td><td>" . $line['user'] . "</td><td>" . htmlentities($line['entry']) . "</td></tr>";
+			$tpl_page .= "<td>" . date("y/m/d(D)H:i", $line['timestamp']) . "</td><td>" . $line['user'] . "</td><td>" . $line['entry'] . "</td></tr>";
 		}
 		$tpl_page .= '</table>';
 		$tpl_page .= '<p align="right"><a href="?action=modlog&all=1">Modlog Archive</a> | <a href="manage_page.php?action=modlog&reset=1" onclick="return confirm(\'Are you sure you want to clear the modlog?\');">Clear Modlog</a></p>';
