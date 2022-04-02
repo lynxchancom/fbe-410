@@ -1,0 +1,454 @@
+<div class="content">
+
+
+<h2><div class="newssub">Вещание под Windows</div><div class="permalink">&nbsp;</div></h2>
+Здесь находится инструкция по установке и настройке диджейского ПО Mixxx для вещания на Радио 410.<br/><br/>
+
+<b>Mixxx</b> - свободное диджейское ПО, которое умеет делать огромную кучу всего (пускай порой и в ущерб удобству), но с точки зрения радио интересует нас наличием следующих функций:<br/>
+
+<ul>
+  <li>Поддержка микрофона, и даже нескольких микрофонов</li>
+  <li>Интернет-вещание на Icecast 2</li>
+  <li>Вещание и запись в MP3 / OGG, включая мультивещание</li>
+  <li>Возможность ставить треки в несколько дек</li>
+  <li>Возможность предпрослушивать и мониторить реквесты</li>
+  <li>Возможность использовать BGM и SFX</li>
+  <li>Возможность генерировать треклисты для записей</li>
+</ul>
+
+Полный мануал по Mixxx можно найти здесь: <a href="https://www.mixxx.org/manual/latest/en/">https://www.mixxx.org/manual/latest/en/</a><br/>
+Тут же мы рассмотрим только минимально необходимый нам функционал.<br/>
+
+<a name="contents"></a>
+<h2><div class="newssub">ОГЛАВЛЕНИЕ</div><div class="permalink">&nbsp;</div></h2>
+
+<ol>
+  <li><a href="#install_list">Что устанавливать</a></li>
+  <li><a href="#first_run">Первый запуск</a></li>
+  <li><a href="#where_to_put_keys">Куда вставлять ключи</a></li>
+  <li><a href="#how_to_mic">Как тут работать с микрофоном</a></li>
+  <li><a href="#how_to_broadcast">Как начать вещание и запись</a></li>
+  <li><a href="#how_to_dj">Как ставить музыку и управлять очередью</a></li>
+  <li><a href="#how_to_play_track_manually">Как поставить трек в эфир вручную</a></li>
+  <li><a href="#how_to_play_track_auto">Как поставить трек в эфир автоматически (очередь)</a></li>
+  <li><a href="#how_to_request">Как мониторить реквесты (предпрослушивание)</a></li>
+</ol>
+
+<a name="install_list"></a>
+<h2><div class="newssub">ЧТО УСТАНАВЛИВАТЬ</div><div class="permalink">&nbsp;</div></h2>
+<ol>
+  <li>Сам <b>Mixxx:</b> <a href="https://www.mixxx.org/download/">https://www.mixxx.org/download/</a></li>
+  <li>
+    <b>Lame MP3 Encoder</b> <i>(Опционально, для вещания и записи в MP3)</i> <br/><br/>
+
+	Готовые бинарники необходимо качать отдельно:<br/>
+    <a href="http://lame.sourceforge.net/links.php#Binaries">http://lame.sourceforge.net/links.php#Binaries</a><br/>
+	Например под Windows можно использовать последний пак отсюда:</br>
+    <a href="http://www.rarewares.org/mp3-lame-libraries.php">http://www.rarewares.org/mp3-lame-libraries.php</a><br/><br/>
+    <i>После установки Mixxx, перед запуском, скопируйте <i>libmp3lame.dll</i> из архива, который вы скачали, в папку установки Mixxx'a.</i>
+  </li>
+</ol>
+
+
+<a href="#contents">Наверх</a>
+
+<a name="first_run"></a>
+<h2><div class="newssub">ПЕРВЫЙ ЗАПУСК</div><div class="permalink">&nbsp;</div></h2>
+Mixxx встретит вот таким интерфейсом:
+<br/><br/>
+<a href="/_images/mixxx_win/00_mixxx_overview.png" target="_blank"><img src="/_images/mixxx_win/thumb/00_mixxx_overview.png" alt="" width="1286" height="697"></a>
+<br/><br/>
+Здесь есть всё, что нам  нужно, и много того, чего нам не нужно: на всех крутилках и кнопках появляется контекстная подсказка, если подержать на них мышку.<br/>
+Прежде чем что-то здесь трогать, создадим себе техническую возможность для вещания.<br/><br/>
+
+<i>(Если у вас не английская локаль, рекомендую сразу поменять язык на английский, чтобы избежать путаницы, это делается через меню Options -> Preferences, доступное также по Ctrl+P)</i>
+<br/><br/>
+Первое что нам надо сделать, это привязать наши микрофон и динамики соответственно к входам и выходам Mixxx.<br/>
+Это делается в <i>Preferences -> Sound Hardware -> Input</i> и <i>Preferences -> Sound Hardware -> Output.</i>
+<br/><br/>
+
+<a href="/_images/mixxx_win/01_mixxx_preferences_output.png" target="_blank"><img src="/_images/mixxx_win/01_mixxx_preferences_output.png" alt="" width="1257" height="1040"></a>
+<br/><br/>
+
+<b>Output:</b>
+<ul>
+  <li><b>Master</b> это то что пойдет в поток (и эфир) на 410. <i>Оставляем с значением по умолчанию.</i></li>
+  <li><b>Headphones</b> это то что будете слышать только вы. <i>Выставляем на своё устройство вывода, т.е. ваши наушники / колонки.</i></li>
+</ul>
+
+<b>Input:</b>
+<ul>
+  <li><b>Microphone 1</b> один из 4 каналов доступных для подключения микрофона.<br/>
+  <i>В моем случае, чтобы микрофон заработал, пришлось поставить сюда <b>Default Input Device,</b> он же <b>Первичный драйвер записи звука.</b></i></li>
+  <li><b>Microphone 2</b> один из 4 каналов доступных для подключения микрофона.<br/>
+  <i>В моем случае, чтобы микрофон заработал, пришлось назначить свой микрофон устройством ввода сюда, уступив первый вход аудиодрайверу системы.</i></li>
+</ul>
+<i>(Может случиться, что в эфире ваш микрофон будет слышно только в левом или только в правом ухе, в этом случае выставьте микрофонам <b>Channels</b> только в <b>1,</b> или только в <b>2,</b> вместо <b>1-2</b>)</i><br/><br/>
+
+Остальные входы пока не трогаем.<br/><br/>
+
+По умолчанию вы будете слышать вывод со своего микрофона постоянно, чтобы это убрать вам <i>необходимо переключить <b>Microphone Monitor Mode</b> в режим <b>Direct Monitor.</b></i><br/>
+Зная, как плохо Windows работает со звуком, рекомендую увеличить значение <b>Audio Buffer</b> хотя бы до 46 мс, чтобы избежать тресков и щелчков в эфире.
+<br/><br/>
+<a href="/_images/mixxx_win/02_mixxx_preferences_audio_buffer.png" target="_blank"><img src="/_images/mixxx_win/02_mixxx_preferences_audio_buffer.png" alt="" width="618" height="67"></a>
+<br/><br/>
+
+Теперь настроим поток на 410 и запись. <br/>
+Для этого перейдем в <i>Preferences -> Live Broadcasting</i> и <i>Preferences -> Recording</i> соответственно.
+<br/><br/>
+<a href="/_images/mixxx_win/03_mixxx_preferences_live_broadcasting_button.png" target="_blank"><img src="/_images/mixxx_win/03_mixxx_preferences_live_broadcasting_button.png" alt="" width="149" height="50"></a>
+<br/><br/>
+
+Общий вид настроек потока:
+<br/><br/>
+<a href="/_images/mixxx_win/04_mixxx_preferences_live_broadcasting_details.png" target="_blank"><img src="/_images/mixxx_win/04_mixxx_preferences_live_broadcasting_details.png" alt="" width="1257" height="1040"></a>
+<br/><br/>
+Обратите внимание, что потоков можно создать больше одного.<br/> 
+Это удобно, если вы хотите вещать как на 410, так и куда-то еще, например на зеркало. <br/>
+Пока же настроим первый поток и вставим ключи для вещания.<br/><br/>
+
+<a href="#contents">Наверх</a>
+
+<a name="where_to_put_keys"></a>
+<h2><div class="newssub">КУДА ВСТАВЛЯТЬ КЛЮЧИ</div><div class="permalink">&nbsp;</div></h2>
+Ключи вставляем в <i>Live Broadcasting -> Server Connection</i> нужного потока.<br/>
+<br/>
+<a href="/_images/mixxx_win/05_mixxx_preferences_live_broadcasting_details_keys.png" target="_blank"><img src="/_images/mixxx_win/05_mixxx_preferences_live_broadcasting_details_keys.png" alt="" width="1005" height="117"></a>
+<br/><br/>
+<a href="/_images/mixxx_win/06_mixxx_preferences_live_broadcasting_details_keys_entered.png" target="_blank"><img src="/_images/mixxx_win/06_mixxx_preferences_live_broadcasting_details_keys_entered.png" alt="" width="1000" height="121"></a>
+<br/><br/>
+Здесь мы также найдем настройки формата и качества потока <i>(выставляйте соразмерно предпочтениям и возможностям канала):</i>
+<br/><br/>
+<a href="/_images/mixxx_win/07_mixxx_preferences_live_broadcasting_details_quality.png" target="_blank"><img src="/_images/mixxx_win/07_mixxx_preferences_live_broadcasting_details_quality.png" alt="" width="498" height="123"></a>
+<br/><br/>
+Здесь же настройки тайтла и метадаты:
+<br/><br/>
+<a href="/_images/mixxx_win/08_mixxx_preferences_live_broadcasting_details_metadata.png" target="_blank"><img src="/_images/mixxx_win/08_mixxx_preferences_live_broadcasting_details_metadata.png" alt="" width="1006" height="327"></a>
+<br/><br/>
+<i>Не забудьте поставить галочку <b>Enabled</b> рядом с только что настроенным потоком в меню <b>Live Broadcasting Source Connections!</b></i><br/>
+<i>По умолчанию первый поток называется <b>Connection 1.</b></i><br/><br/>
+
+С вещанием всё, перейдем к настройке записи в <i>Preferences -> Recording</i><br/>
+Общий вид настроек записи:
+
+<br/><br/>
+<a href="/_images/mixxx_win/09_mixxx_preferences_recording_details.png" target="_blank"><img src="/_images/mixxx_win/09_mixxx_preferences_recording_details.png" alt="" width="1257" height="1040"></a>
+<br/><br/>
+
+Здесь надо первым делом сменить формат записи с <b>WAV</b> на <b>MP3 / OGG</b> по вкусу, выставить качество, и не забыть указать удобную папку для хранения записей.<br/><br/>
+Если хочется создать запись сразу с треклистом, можно выставить галочку <i>Create CUE File.</i><br/>
+Файл с треклистом будет создан рядом с записью.<br/><br/>
+
+С основными настройками всё. <i>Жмём <b>Apply, OK</b> и выходим.</i><br/><br/>
+
+<a href="#contents">Наверх</a>
+
+<a name="how_to_mic"></a>
+<h2><div class="newssub">КАК ТУТ РАБОТАТЬ С МИКРОФОНОМ</div><div class="permalink">&nbsp;</div></h2>
+
+<i>Если вы еще не назначили свой микрофон на один из входов, см. пункт <a href="#first_run">ПЕРВЫЙ ЗАПУСК</a></i><br/><br/>
+
+Мы уже назначили наш микрофон на вход Microphone 1, настало время его протестировать и разобраться, как с ним тут работать.<br/>
+Первое что надо сделать - включить панель микрофона, <i>нажав кнопку <b>MICS & AUX</b></i> справа вверху.<br/>
+
+<br/>
+<a href="/_images/mixxx_win/10_mixxx_dashboard_mics_and_aux.png" target="_blank"><img src="/_images/mixxx_win/10_mixxx_dashboard_mics_and_aux.png" alt="" width="90" height="50"></a>
+<br/><br/>
+
+После нажатия, вы должны увидеть вот такую панель:<br/>
+
+<br/>
+<a href="/_images/mixxx_win/11_mixxx_dashboard_ducking.png" target="_blank"><img src="/_images/mixxx_win/11_mixxx_dashboard_ducking.png" alt="" width="260" height="90"></a>
+<br/><br/>
+
+<i>(Если микрофон уже назначен на вход, вы увидите что индикатор <b>Gain</b> показывает текущий уровень сигнала на микрофоне)</i><br/><br/>
+
+Чтобы понять насколько громко, тихо, хорошо или плохо вас слышно, <i>нажмите на кнопку с наушниками.</i><br/>
+Это отправит вывод с микрофона туда, куда вы настроили выход <b>Headphones</b> <i>(обычно ваши динамики или наушники)</i><br/>
+Поигравшись, отожмите кнопку.<br/><br/>
+
+Чтобы сказать что-то в эфир, <i>нажмите на кнопку <b>TALK.</b></i><br/>
+Это можно сделать кликнув по ней, или зажав на ней мышку (аналог push-to-talk), или зажав горячую клавишу <i>(по умолчанию тильду):</i> <b>`</b><br/>
+Это отправит вывод с микрофона туда, куда настроен выход <b>Master</b> <i>(обычно в поток, который пойдет на 410)</i><br/><br/>
+
+Здесь же можно выставить приглушение музыки при активации микрофона, в секции <b>DUCKING.</b><br/>
+Рекомендуется использовать режим <b>MANUAL,</b> где понижение громкости произойдет на значение, накрученное на ручке <b>STRENGTH</b> по соседству.<br/>
+Крайнее левое положение ручки - музыку не слышно совсем, крайнее правое - музыка играет на полной громкости.<br/><br/>
+
+Если же выставить режим <b>AUTO,</b> приглушение будет происходит автоматически, в зависимости от текущего уровня сигнала с микрофона <i>(работает так себе)</i> <br/><br/>
+
+<a href="#contents">Наверх</a>
+
+<a name="how_to_broadcast"></a>
+<h2><div class="newssub">КАК НАЧАТЬ ВЕЩАНИЕ И ЗАПИСЬ</div><div class="permalink">&nbsp;</div></h2>
+
+<i>Если вы еще не настроили поток для вещания и запись, см. пункт <a href="#where_to_put_keys">КУДА ВСТАВЛЯТЬ КЛЮЧИ</a></i><br/><br/>
+
+Важно помнить, что <b>запись в Mixxx включается отдельно от вещания!</b><br/>
+<ul>
+  <li><b>Включение записи. </b><i>Нажмите на иконку кассеты в правой части верхнего меню программы.</i></li>
+  <li><b>Запуск вещания. </b><i>Нажмите на иконку спутниковой тарелки в правой части верхнего меню программы.</i></li>
+</ul>
+
+<a href="/_images/mixxx_win/12_mixxx_dashboard_on_air_recording.png" target="_blank"><img src="/_images/mixxx_win/12_mixxx_dashboard_on_air_recording.png" alt="" width="109" height="44"></a>
+<br/>
+^^ здесь показано состояние меню, когда включены и вещание, и запись.<br/><br/>
+
+Теперь разберемся с музыкой.<br/><br/>
+
+<a href="#contents">Наверх</a>
+
+<a name="how_to_dj"></a>
+<h2><div class="newssub">КАК СТАВИТЬ МУЗЫКУ И УПРАВЛЯТЬ ОЧЕРЕДЬЮ</div><div class="permalink">&nbsp;</div></h2>
+Общее управление библиотекой треков осуществляется через вот эту панель внизу:<br/>
+
+<br/>
+<a href="/_images/mixxx_win/13_mixxx_dashboard_queue.png" target="_blank"><img src="/_images/mixxx_win/thumb/13_mixxx_dashboard_queue.png" alt="" width="1286" height="371"></a>
+<br/><br/>
+
+Обратите внимание на меню категорий слева. Нас интересуют:
+<ul>
+  <li><b>Tracks</b> - это список вообще всех треков, которые вы когда-либо добавили в библиотеку треков Mixxx, вне зависимости от принадлежности к плейлисту.<br/>
+      Такая себе музыкальная "помойка". Отсюда доступна ручная установка трека в деку, а также перемещение в автоматическую очередь вещания.<br/><br/>
+
+      <i>(На скриншоте можно видеть, что сейчас в библиотеке находится 3 трека, 2 из которых принадлежат к плейлисту)</i>
+      <br/><br/>
+  </li>
+  <li><b>Auto DJ</b> - это автоматическая очередь вещания. Все треки добавленные сюда, будут сыграны по очереди сверху вниз, попеременно загружаясь в деки.<br/>
+      <i>Важная деталь: чтобы началось автоматическое вещание треков, очередь надо предварительно активировать. Эта и другие особенности будут рассмотрены ниже.</i>
+      <br/><br/>
+  </li>
+  <li><b>Playlists</b> - это хранилище и конструктор плейлистов. В отличие от музыкальной "помойки", здесь можно хранить треки более организованно.<br/>
+      Отсюда доступна ручная установка трека в деку, добавление трека в автоматическую очередь вещания, а также добавление в автоматическую очередь плейлиста целиком.
+      <br/><br/>
+  </li>
+  <li><b>Computer</b> - встроенный файловый браузер, позволяющий получить доступ к вашим музыкальным файлам напрямую из Mixxx.</li>
+</ul>
+
+Остальные пункты меню нас пока не интересуют.<br/><br/>
+
+Добавить трек в библиотеку треков Mixxx можно двумя способами:
+<ul>
+  <li>
+    <b>Drag'n'drop.</b> <i>Перетащите любой музыкальный файл с компьютера в <b>Tracks</b> или <b>Playlists</b> (если у вас есть плейлист)</i>
+  </li>
+  <li>
+    <b>Встроенный файловый браузер.</b> <i>Доступен через пункт меню <b>Computer</b></i>
+  </li>
+</ul>
+
+Попробуем поставить трек в эфир.<br/><br/>
+
+<a href="#contents">Наверх</a>
+
+<a name="how_to_play_track_manually"></a>
+<h2><div class="newssub">КАК ПОСТАВИТЬ ТРЕК В ЭФИР ВРУЧНУЮ</div><div class="permalink">&nbsp;</div></h2>
+Как и в SAM Broadcaster, чтобы сыграть трек в эфир, его нужно сначала загрузить в одну из дек, а затем запустить эту деку, нажав на ней кнопку <b>Play.</b><br/>
+По умолчанию нам видно две деки. Левая - <b>Deck 1,</b> и правая - <b>Deck 2.</b><br/>
+Вот так они выглядят в своем изначальном, пустом состоянии:
+
+<br/><br/>
+<a href="/_images/mixxx_win/14_mixxx_dashboard_decks.png" target="_blank"><img src="/_images/mixxx_win/thumb/14_mixxx_dashboard_decks.png" alt="" width="1286" height="140"></a>
+<br/><br/>
+
+Поставим трек в левую деку. Это можно сделать двумя способами:<br/>
+
+<ul>
+  <li>
+    <b>Drag'n'drop.</b> <i>Перетащите любой трек из библиотеки треков в свободную деку. </i>
+  </li>
+  <li>
+    <b>Через меню.</b> <i>Нажмите правой кнопкой на нужный трек в библиотеке треков, и в появившемся меню выберите <b>Load to -> Deck -> Deck 1</b></i>
+  </li>
+</ul>
+
+Результат в обоих случаях будет выглядеть как-то так:
+
+<br/><br/>
+<a href="/_images/mixxx_win/15_mixxx_dashboard_decks_loaded.png" target="_blank"><img src="/_images/mixxx_win/thumb/15_mixxx_dashboard_decks_loaded.png" alt="" width="1286" height="248"></a>
+<br/><br/>
+
+Как видим, наш трек загрузился, но чтобы сыграть его, деку еще нужно запустить.<br/>
+Это делается с помощью кнопки <b>Play:</b><br/>
+
+<br/>
+<a href="/_images/mixxx_win/16_mixxx_dashboard_decks_cue.png" target="_blank"><img src="/_images/mixxx_win/16_mixxx_dashboard_decks_cue.png" alt="" width="215" height="64"></a>
+<br/><br/>
+
+После её нажатия трек начнет играть в Master (а значит, и в эфир). Этой же кнопкой трек ставится на паузу.<br/>
+Кнопка <b>CUE</b> выставит трек на нужный момент времени, по умолчанию - на начало трека.<br/>
+Когда трек в деке доиграет до конца, то дека <i>(по умолчанию)</i> остановится. <br/><br/>
+
+Чтобы сменить трек в деке, достаточно поставить деку на паузу, и перетащить на неё / загрузить через меню новый трек.<br/>
+<i>Важно помнить, что пока дека запущена трек в ней сменить (по умолчанию) нельзя.</i><br/>
+<i>А пока вы управляете деками вручную, переключения на соседнюю деку не произойдет, даже если туда уже загружен какой-то трек, а текущая дека встанет. </i><br/>
+<i>Вам надо будет каждый раз запускать деки руками.</i><br/><br/>
+
+Рассмотрим еще несколько полезных кнопок для работы с деками.<br/>
+Первая из них - кнопка <b>Eject,</b> которая выбрасывает трек из деки:<br/>
+
+<br/>
+<a href="/_images/mixxx_win/17_mixxx_dashboard_decks_eject.png" target="_blank"><img src="/_images/mixxx_win/17_mixxx_dashboard_decks_eject.png" alt="" width="79" height="57"></a>
+<br/><br/>
+
+Вторая - кнопка <b>Repeat</b> которая позволит крутить текущий трек бесконечно, пока вы его оттуда не выбросите.<br/>
+Это может быть удобно, чтобы избежать тишины в эфире:<br/>
+
+<br/>
+<a href="/_images/mixxx_win/18_mixxx_dashboard_decks_repeat.png" target="_blank"><img src="/_images/mixxx_win/18_mixxx_dashboard_decks_repeat.png" alt="" width="79" height="57"></a>
+<br/><br/>
+
+Третяя - регулятор громкости, который не требует дополнительных объяснений:<br/>
+
+<br/>
+<a href="/_images/mixxx_win/19_mixxx_dashboard_decks_volume.png" target="_blank"><img src="/_images/mixxx_win/19_mixxx_dashboard_decks_volume.png" alt="" width="92" height="162"></a>
+<br/><br/>
+
+<i>(Слева от регулятора можно видеть ручки частотных усилителей, которые позволят подкрутить треку верхние, средние и низкие частоты (я думаю, такое стоит делать только с lossless музыкой)</i><br/><br/>
+
+<a href="#contents">Наверх</a>
+
+<a name="how_to_play_track_auto"></a>
+<h2><div class="newssub">КАК ПОСТАВИТЬ ТРЕК В ЭФИР АВТОМАТИЧЕСКИ (ОЧЕРЕДЬ)</div><div class="permalink">&nbsp;</div></h2>
+Постоянно менять треки вручную в случае длинного эфира очень неудобно.<br/>
+Гораздо удобнее подготовить несколько треков и поставить их в очередь, которая отыграет автоматически.<br/><br/>
+
+Чтобы это сделать, <i>перейдите в меню <b>Auto DJ</b></i> в библиотеке треков.<br/>
+Здесь находится автоматическая очередь вещания:<br/>
+
+<br/>
+<a href="/_images/mixxx_win/20_mixxx_dashboard_queue_autodj.png" target="_blank"><img src="/_images/mixxx_win/thumb/20_mixxx_dashboard_queue_autodj.png" alt="" width="1286" height="370"></a>
+<br/><br/>
+
+Изначально эта очередь пустая. Добавим в неё несколько треков.<br/><br/>
+
+К сожалению, из самой секции <b>Auto DJ</b> можно добавить в очередь только случайный трек, с помощью кнопки <b>Add Random.</b> Это может быть полезно, но в целом - не то, что мы хотим. <br/>
+Как упоминалось выше, треки в очередь нужно добавлять не отсюда, а из музыкальной "помойки" <b>Tracks,</b> или вашего плейлиста в <b>Playlists.</b><br/>
+Для примера, поставим в очередь треки из "помойки". <i>Перейдем в меню <b>Tracks,</b></i> и выберем пару треков:<br/>
+
+<br/>
+<a href="/_images/mixxx_win/21_mixxx_dashboard_queue_autodj_add.png" target="_blank"><img src="/_images/mixxx_win/thumb/21_mixxx_dashboard_queue_autodj_add.png" alt="" width="1286" height="371"></a>
+<br/><br/>
+
+^^ здесь показано состояние, когда выбрано два трека из доступных трех <i>(выделение работает как с обычными файлами, включая выбор через Shift, Ctrl и Alt)</i><br/><br/>
+
+Чтобы добавить выбранные треки в очередь, <i>нажмите на них правую кнопку мыши,</i> и в появившемся меню <i>выберите один из трёх пунктов:</i><br/>
+
+<ul>
+  <li>
+    <b>Add to Auto DJ Queue (Bottom)</b> - поставить треки в конец очереди.
+  </li>
+  <li>
+    <b>Add to Auto DJ Queue (Top)</b> -  поставить треки в начало очереди.
+  </li>
+  <li>
+    <b>Add to Auto DJ Queue (Replace)</b> - поставить треки <i>вместо</i> оставшихся в очереди.
+  </li>
+</ul>
+
+Сейчас очередь пустая, и что выбирать - не важно. <i>Выберем <b>Add to Auto DJ Queue (Bottom).</b></i><br/>
+В очереди появится два трека:<br/>
+
+<br/>
+<a href="/_images/mixxx_win/22_mixxx_dashboard_queue_autodj_added.png" target="_blank"><img src="/_images/mixxx_win/thumb/22_mixxx_dashboard_queue_autodj_added.png" alt="" width="1286" height="373"></a>
+<br/><br/>
+
+Добавим к ним еще один, <i>нажав кнопку <b>Add Random,</b></i> просто для демонстрации особенностей работы очереди.<br/>
+Очередь играет сверху вниз, менять порядок треков можно простым перетаскиванием.<br/>
+
+<br/>
+<a href="/_images/mixxx_win/23_mixxx_dashboard_queue_autodj_add_random.png" target="_blank"><img src="/_images/mixxx_win/thumb/23_mixxx_dashboard_queue_autodj_add_random.png" alt="" width="1286" height="372"></a>
+<br/><br/>
+
+По умолчанию вместо простого переключения треков, Mixxx делает кросс-фейд из одного трека в другой, длиной аж в 10 секунд. <br/>
+Чтобы это выключить, <i>установите счетчик рядом с кнопкой <b>Fade Now</b> в значение <b>0 SEC.</b></i><br/><br/>
+
+Теперь в нашей очереди уже целых три трека, но до сих пор ничего не играет.<br/>
+Чтобы запустить очередь, <i>нажмите кнопку <b>Enable Auto DJ</b></i> справа:<br/>
+
+<br/>
+<a href="/_images/mixxx_win/24_mixxx_dashboard_queue_autodj_enable.png" target="_blank"><img src="/_images/mixxx_win/24_mixxx_dashboard_queue_autodj_enable.png" alt="" width="94" height="36"></a>
+<br/><br/>
+
+После её нажатия автоматическая очередь активируется, два первых трека из очереди займут обе деки, и левая дека сразу начнет играть в Master. <br/>
+Обратите внимание, что трек который пошел в Master тут же исчез из очереди. <br/><br/>
+
+<i>Важная деталь: Auto DJ забьет деки своими треками даже если деки уже чем-то заняты.</i><br/>
+
+<br/>
+<a href="/_images/mixxx_win/25_mixxx_dashboard_queue_autodj_started.png" target="_blank"><img src="/_images/mixxx_win/thumb/25_mixxx_dashboard_queue_autodj_started.png" alt="" width="1286" height="649"></a>
+<br/><br/>
+
+Когда трек в левой деке доиграет до конца, дека как и раньше остановится. Но теперь автоматически запустится правая дека.<br/>
+В левую деку тем временем сам загрузится третий трек из очереди.<br/><br/>
+
+Отметьте, что из очереди снова исчез трек, который пошел в Master. <br/>
+
+<br/>
+<a href="/_images/mixxx_win/26_mixxx_dashboard_queue_autodj_track_change.png" target="_blank"><img src="/_images/mixxx_win/thumb/26_mixxx_dashboard_queue_autodj_track_change.png" alt="" width="1286" height="669"></a>
+<br/><br/>
+
+Когда трек в правой деке доиграет до конца, снова произойдет автоматическая смена треков.<br/>
+Поскольку в очереди больше ничего нет, правая дека останется пустой, а автоматическая очередь деактивируется. <br/>
+Даже если добавить в очередь еще треков, то включать <b>Auto DJ</b> придётся заново.<br/>
+
+<br/>
+<a href="/_images/mixxx_win/27_mixxx_dashboard_queue_autodj_stopped.png" target="_blank"><img src="/_images/mixxx_win/thumb/27_mixxx_dashboard_queue_autodj_stopped.png" alt="" width="1286" height="653"></a>
+<br/><br/>
+
+Можно сделать так, чтобы очередь повторялась по кругу.<br/>
+Для этого перейдите в меню <i>Preferences -> Auto DJ -> </i> и <i>выставьте <b>Re-queue tracks after playback</b> в <b>On:</b></i><br/>
+
+<br/>
+<a href="/_images/mixxx_win/28_mixxx_dashboard_queue_autodj_requeue.png" target="_blank"><img src="/_images/mixxx_win/28_mixxx_dashboard_queue_autodj_requeue.png" alt="" width="1034" height="31"></a>
+<br/><br/>
+
+Также <i>уберите чекбокс <b>Suspend track in Track Source from re-queue,</b></i> чтобы позволить очереди ставить треки независимо от того, как давно они были сыграны:<br/>
+
+<br/>
+<a href="/_images/mixxx_win/29_mixxx_dashboard_queue_autodj_suspend_track.png" target="_blank"><img src="/_images/mixxx_win/29_mixxx_dashboard_queue_autodj_suspend_track.png" alt="" width="1032" height="24"></a>
+<br/><br/>
+
+Теперь отыгравший трек будет автоматически добавляться в конец текущей очереди, даже если он там всего один и что удобно, автопроигрывание само отключаться не будет.<br/>
+На этом с основной работой с очередью всё.<br/><br/>
+
+<a href="#contents">Наверх</a>
+
+<a name="how_to_request"></a>
+<h2><div class="newssub">КАК МОНИТОРИТЬ РЕКВЕСТЫ (ПРЕДПРОСЛУШИВАНИЕ)</div><div class="permalink">&nbsp;</div></h2>
+Как можно было заметить ранее, две деки доступные нам по умолчанию совершенно не предназначены для мониторинга, они играют сразу в Master (а значит в эфир).<br/><br/>
+
+Для предпрослушивания и мониторинга в Mixxx предусмотрена отдельная, специальная дека, <b>Preview Deck.</b><br/>
+Чтобы сделать эту деку доступной себе, в верхнем меню окна программы выберите <i>View -> Show Preview Deck (также доступно по Ctrl+4)</i><br/><br/>
+
+Превью дека появится где-то под панелью с микрофонами и будет выглядеть так:<br/>
+
+<br/>
+<a href="/_images/mixxx_win/30_mixxx_dashboard_preview_deck.png" target="_blank"><img src="/_images/mixxx_win/30_mixxx_dashboard_preview_deck.png" alt="" width="250" height="63"></a>
+<br/><br/>
+
+Есть три способа загрузить трек в превью деку:<br/>
+
+<br/>
+<a href="/_images/mixxx_win/31_mixxx_dashboard_preview_deck_loaded.png" target="_blank"><img src="/_images/mixxx_win/31_mixxx_dashboard_preview_deck_loaded.png" alt="" width="655" height="131"></a>
+<br/>
+
+<ul>
+  <li>
+    <b>Специальной кнопкой.</b> <i>Нажмите кнопку с наушниками слева от названия трека в библиотеке треков.</i>
+  </li>
+  <li>
+    <b>Drag'n'drop.</b> <i>Просто перетащите на эту деку любой трек из библиотеки треков.</i>
+  </li>
+  <li>
+    <b>Через меню.</b> <i>Нажмите правой кнопкой на нужном треке, затем <b>Load to -> Preview Deck</b></i>
+  </li>
+</ul><br/>
+
+На этом с базовым пользованием Mixxx всё.<br/>
+Уютных вам эфиров!<br/><br/>
+
+<a href="#contents">Наверх</a></br></br>
+
+
+</div>
