@@ -56,6 +56,8 @@ $subpages = [[
 	'name' => 'Радио', 'file' => 'radio.html', 'hidden' => 0
 ], [
 	'name' => 'radio.unix', 'file' => 'radio.unix.html', 'hidden' => 1
+], [
+	'name' => 'radio.windows', 'file' => 'radio.windows.html', 'hidden' => 1
 ]];
 
 $main_subpages_table_exists = $tc_db->GetOne("SELECT COUNT(*)
