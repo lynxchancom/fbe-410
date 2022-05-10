@@ -16,6 +16,7 @@ body {
 	position:fixed;
 	clear:both;
 	overflow:hidden;
+	font-family:"Noto Sans", sans-serif;
 }
 
 .site-wrapper .topmenu a,
@@ -320,6 +321,7 @@ input[type=text], input[type=password], textarea {
 		background:#FFFFEE;
 		color:#090E00;
 		font-size:8pt;
+		font-family:"Noto Sans", sans-serif;
 		max-width:100%!important;
 	}
 
@@ -444,7 +446,6 @@ input[type=text], input[type=password], textarea {
 
 	.filesize {
 		text-decoration:none;
-		font-family:sans-serif;
 		font-size: 5pt;
 	}
 
@@ -462,7 +463,6 @@ input[type=text], input[type=password], textarea {
 
 	.postername {
 		color:#310000;
-		font-family:sans-serif;
 	}
 
 	.postertrip {
@@ -1014,11 +1014,13 @@ body.site-wrapper {
     clear: both;
     text-align: center;
     width: 100%;
+	font-family:"Noto Serif", serif;
 }
 
 .rules {
     width: 468px;
     font-size: 10px;
+	font-family:"Noto Sans", sans-serif;
 }
 
 .rules li {
@@ -1046,6 +1048,7 @@ body.site-wrapper {
 
 .filetitle {
     background: inherit;
+	font-family:"Noto Sans", sans-serif;
 }
 
 .topmenu {
@@ -1054,11 +1057,13 @@ body.site-wrapper {
 
 .catalogsubject {
     font-weight: 800;
+	font-family:"Noto Sans", sans-serif;
 }
 
 .catalogposts {
     font-weight: 800;
     font-size: small;
+	font-family:"Noto Sans", sans-serif;
 }
 
 .read div[id^="thread"] span.reflink:after {
