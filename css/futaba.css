@@ -40,6 +40,10 @@ a:hover {
 	width: 100%;
 }
 
+.rules {
+	font-family: sans-serif;
+}
+
 .postblock {
 	background: #EEAA88;
 	color: #800000;
@@ -88,6 +92,10 @@ a:hover {
 .unkfunc {
 	background: inherit;
 	color: #789922;
+}
+
+.filesize {
+	font-family: sans-serif;
 }
 
 .filetitle {
@@ -175,7 +183,6 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 .topmenu {
 	border-bottom: 1px solid #F0E0D6;
 	background: #FFFFEE;
-	color: #707070;
 }
 
 .adminbar img {
@@ -264,6 +271,7 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 }
 
 body.site-wrapper {
+	font-family: sans-serif;
 	background: #ffe;
 	color: #000;
 }
