@@ -49,18 +49,11 @@ a:hover {
 	border-bottom: 1px solid #BBBBBB !important;
 }
 
-.rules {
-	font-family: sans-serif;
-}
 
 .postblock {
 	background: #ddd;
 	color: #002244;
 	font-weight: bold;
-}
-
-.footer {
-	font-family: sans-serif;
 }
 
 .dellist {
@@ -100,7 +93,6 @@ a:hover {
 .filesize {
 	text-decoration: none;
 	color: #666666;
-	font-family: sans-serif;
 }
 
 .filetitle {
@@ -327,7 +319,6 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 html .site-wrapper, body.site-wrapper {
 	background-color: #EEEEEE;
 	color: #333333;
-	font-family: "Trebuchet MS",Trebuchet,serif;
 }
 
 .site-wrapper a {
@@ -456,7 +447,6 @@ html .site-wrapper, body.site-wrapper {
 }
 
 .site-wrapper .sitelogo {
-	background: url(/images/0chan-autumn.png);
 	width: 420px;
 	height: 150px;
 	margin-top: 8px;
