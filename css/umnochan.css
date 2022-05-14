@@ -8,6 +8,7 @@ html {
 html, body {
 	background: #FFFFEE;
 	color: #090E00;
+	font-family: serif;
 }
 
 a {
@@ -50,6 +51,10 @@ a:hover {
 .postarea {
 	border-top: 1px solid #D0AB65 !important;
 	border-bottom: 1px solid #D0AB65 !important;
+}
+
+.rules {
+	font-family: sans-serif;
 }
 
 .postblock {
@@ -100,6 +105,10 @@ a:hover {
 .unkfunc {
 	background: inherit;
 	color: #789922;
+}
+
+.filesize {
+	font-family: sans-serif;
 }
 
 .filetitle {
@@ -327,6 +336,7 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 
 @media only screen and (max-width: 480px) {
 	.logo {
+		font-family: Times New Roman,serif;
 		color: #800000;
 	}
 
