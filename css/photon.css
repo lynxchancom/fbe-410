@@ -50,7 +50,6 @@ a:hover {
 }
 
 .rules {
-	font-family: sans-serif;
 }
 
 .postblock {
@@ -60,7 +59,7 @@ a:hover {
 }
 
 .footer {
-	font-family: sans-serif;
+	color: #666666;
 }
 
 .dellist {
@@ -100,13 +99,10 @@ a:hover {
 .filesize {
 	text-decoration: none;
 	color: #666666;
-	font-family: sans-serif;
 }
 
 .filetitle {
-	font-size: 1.2em;
 	color: #002244;
-	font-weight: bold;
 }
 
 .postername {
@@ -327,7 +323,6 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 html .site-wrapper, body.site-wrapper {
 	background-color: #EEEEEE;
 	color: #333333;
-	font-family: "Trebuchet MS",Trebuchet,serif;
 }
 
 .site-wrapper a {
@@ -349,7 +344,6 @@ html .site-wrapper, body.site-wrapper {
 }
 
 .site-wrapper h1, .site-wrapper h3, .site-wrapper .menu {
-	font-family: Verdana,Tahoma,sans-serif;
 }
 
 .site-wrapper h1 {
@@ -382,7 +376,6 @@ html .site-wrapper, body.site-wrapper {
 .site-wrapper .footer {
 	text-align: center;
 	font-size: 12px;
-	font-family: serif;
 	margin: 2em 0 0 0;
 }
 
@@ -456,7 +449,6 @@ html .site-wrapper, body.site-wrapper {
 }
 
 .site-wrapper .sitelogo {
-	background: url(/images/0chan-autumn.png);
 	width: 420px;
 	height: 150px;
 	margin-top: 8px;
@@ -505,4 +497,12 @@ html .site-wrapper, body.site-wrapper {
 
 .sitemenu-wrapper li:hover {
 	background: #F3F3F3;
+}
+
+.navbar {
+	color: #666666;
+}
+
+#posttypeindicator {
+	color: #666666;
 }

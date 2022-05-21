@@ -21,7 +21,6 @@ body {
 .site-wrapper .topmenu a,
 .site-wrapper .topmenu div.navbar {
 	font-size: 12pt;
-	font-family: initial;
 }
 
 .adminbar {
@@ -36,6 +35,7 @@ body {
 }
 .navbar {
 	padding:5px;
+	font-family:"Noto Sans", sans-serif;
 }
 
 blockquote blockquote {
@@ -270,6 +270,7 @@ input[type=text], input[type=password], textarea {
 	text-align: center;
 	font-size: 12px;
 	clear: both;
+	font-family:"Noto Sans", sans-serif;
 }
 
 .unhidethread {
@@ -279,6 +280,7 @@ input[type=text], input[type=password], textarea {
 .filesize {
 	text-decoration: none;
 	font-size: 12px;
+	font-family:"Noto Sans", sans-serif;
 }
 
 .doubledash {
@@ -302,6 +304,11 @@ input[type=text], input[type=password], textarea {
 	margin-left:10px;
 }
 
+#posttypeindicator {
+	font-family:"Noto Sans", sans-serif;
+	font-size: 12px;
+}
+
 /*Keep this while search is broken*/
 .adminbar img[src="/css/icons/red/search.svg"] {
 	display:none !important;
@@ -321,6 +328,7 @@ input[type=text], input[type=password], textarea {
 		color:#090E00;
 		font-size:8pt;
 		max-width:100%!important;
+		font-family:"Noto Sans", sans-serif;
 	}
 
 	body.sitemenu-wrapper {
@@ -355,6 +363,7 @@ input[type=text], input[type=password], textarea {
 		font-size:20pt;
 		width:100%;
 		display:inline;
+		font-family:"Noto Serif", serif;
 	}
 
 	.replymode {
@@ -444,7 +453,6 @@ input[type=text], input[type=password], textarea {
 
 	.filesize {
 		text-decoration:none;
-		font-family:sans-serif;
 		font-size: 5pt;
 	}
 
@@ -458,11 +466,11 @@ input[type=text], input[type=password], textarea {
 		white-space: normal;
 		overflow: hidden!important;
 		width:100%!important;
+		font-family:"Noto Serif", serif;
 	}
 
 	.postername {
 		color:#310000;
-		font-family:sans-serif;
 	}
 
 	.postertrip {
@@ -1014,11 +1022,14 @@ body.site-wrapper {
     clear: both;
     text-align: center;
     width: 100%;
+	font-family:"Noto Serif", serif;
+	font-weight: 800;
 }
 
 .rules {
     width: 468px;
     font-size: 10px;
+	font-family:"Noto Sans", sans-serif;
 }
 
 .rules li {
@@ -1046,6 +1057,9 @@ body.site-wrapper {
 
 .filetitle {
     background: inherit;
+	font-family:"Noto Serif", serif;
+	font-weight: 800;
+	font-size: 18px;
 }
 
 .topmenu {
@@ -1053,12 +1067,14 @@ body.site-wrapper {
 }
 
 .catalogsubject {
+	font-family:"Noto Serif", serif;
     font-weight: 800;
 }
 
 .catalogposts {
     font-weight: 800;
     font-size: small;
+	font-family:"Noto Sans", sans-serif;
 }
 
 .read div[id^="thread"] span.reflink:after {
@@ -1086,6 +1102,8 @@ body.site-wrapper {
     margin: 0;
     text-align: center;
     margin-top: 1em;
+	font-family:"Noto Serif", serif;
+	font-size: 2em;
 }
 
 .site-wrapper h3 {
@@ -1098,6 +1116,8 @@ body.site-wrapper {
 .site-wrapper .menu {
     margin-top: 1em;
     text-align: center;
+	font-size: 12pt;
+	font-family:"Noto Sans", sans-serif;
 }
 
 .site-wrapper .content {
@@ -1152,4 +1172,12 @@ body.site-wrapper {
 .sitemenu-wrapper li a {
     display: block;
     width: 100%;
+}
+
+.site-wrapper div.telega {
+  font-size: medium;
+}
+
+.site-wrapper .content {
+  font-size: medium;
 }

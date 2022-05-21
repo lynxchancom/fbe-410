@@ -8,7 +8,6 @@ html {
 html, body {
 	background: #FFFFEE;
 	color: #090E00;
-	font-family: serif;
 }
 
 a {
@@ -54,7 +53,6 @@ a:hover {
 }
 
 .rules {
-	font-family: sans-serif;
 }
 
 .postblock {
@@ -64,7 +62,7 @@ a:hover {
 }
 
 .footer {
-	font-family: sans-serif;
+	color: #707070;
 }
 
 .passvalid {
@@ -108,13 +106,10 @@ a:hover {
 }
 
 .filesize {
-	font-family: sans-serif;
 }
 
 .filetitle {
 	color: #CC1105;
-	font-weight: 800;
-	font-size: 1.2em;
 }
 
 .postername {
@@ -210,7 +205,7 @@ input[type=submit]:hover {
 hr {
 	border-style: solid none none none;
 	border-width: 1px;
-	border-color: #555;
+	border-color: #D0AB65;
 }
 
 .topmenu {
@@ -220,6 +215,10 @@ hr {
 
 .catalogsubject {
 	color: #CC1105;
+}
+
+.navbar {
+	color: #707070;
 }
 
 .catalogmsg {
@@ -252,6 +251,7 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 
 .unhidethread {
 	border-bottom: 1px solid #D0AB65 !important;
+	color: #707070;
 }
 
 .hidethread:hover {
@@ -333,9 +333,12 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	background: white;
 }
 
+#posttypeindicator {
+	color: #707070;
+}
+
 @media only screen and (max-width: 480px) {
 	.logo {
-		font-family: Times New Roman,serif;
 		color: #800000;
 	}
 
@@ -368,7 +371,6 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 }
 
 body.site-wrapper {
-	font-family: serif;
 	background: #ffe;
 	color: #090E00;
 }
@@ -383,7 +385,6 @@ body.site-wrapper {
 }
 
 .site-wrapper h1, .site-wrapper h3, .site-wrapper .menu {
-	font-family: serif;
 }
 
 .site-wrapper h1 {
@@ -429,7 +430,7 @@ body.site-wrapper {
 .site-wrapper hr {
 	border-style: solid none none none;
 	border-width: 1px;
-	border-color: #555;
+	border-color: #D0AB65;
 }
 
 .sitemenu-wrapper a {
