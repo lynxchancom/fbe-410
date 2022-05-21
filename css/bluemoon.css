@@ -8,7 +8,6 @@ html {
 html, body {
 	background-color: #6B7B8D;
 	color: #FFFFFF;
-	font-family: "Trebuchet MS", sans-serif;
 }
 
 a {
@@ -59,9 +58,7 @@ a:hover {
 }
 
 .footer {
-	text-align: center;
-	font-size: 12px;
-	font-family: serif;
+	color: #070707;
 }
 
 .passvalid {
@@ -105,8 +102,6 @@ a:hover {
 
 .filetitle {
 	color: #C3E8F3;
-	font-weight: 800;
-	font-size: 1.2em;
 }
 
 .postername {
@@ -125,12 +120,10 @@ a:hover {
 
 .omittedposts {
 	color: #070707;
-	font-weight: 800;
 }
 
 .reply {
 	background-color: #49525D;
-	border-radius: 5px;
 }
 
 .replyhl {
@@ -264,14 +257,13 @@ hr {
 }
 
 body.site-wrapper {
-	font-family: "Trebuchet MS", serif;
 	background: #6B7B8D;
 	color: #fff;
 }
 
 .site-wrapper h2 {
 	margin-top: 1em;
-	background: #fca;
+	background: #49525D;
 }
 
 .site-wrapper h2 a {
@@ -279,7 +271,6 @@ body.site-wrapper {
 }
 
 .site-wrapper h1, .site-wrapper h3, .site-wrapper .menu {
-	font-family: "Trebuchet MS", serif;
 }
 
 .site-wrapper h1 {
@@ -312,8 +303,6 @@ body.site-wrapper {
 
 .sitemenu-wrapper h1, .sitemenu-wrapper h2 {
 	background: #49525D;
-	border-radius: 6px;
-	text-align: center;
 }
 
 .sitemenu-wrapper h2 {
@@ -322,7 +311,6 @@ body.site-wrapper {
 }
 
 .sitemenu-wrapper .plus {
-	border-radius: 6px;
 	background: #49525D;
 	color: #fff;
 }
@@ -342,4 +330,12 @@ body.site-wrapper {
 
 .sitemenu-wrapper li:hover {
 	background: #9DA6B0;
+}
+
+.navbar {
+	color: #070707;
+}
+
+#posttypeindicator {
+	color: #070707;
 }

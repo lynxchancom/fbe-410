@@ -41,7 +41,6 @@ a:hover {
 }
 
 .rules {
-	font-family: sans-serif;
 }
 
 .postblock {
@@ -51,7 +50,7 @@ a:hover {
 }
 
 .footer {
-	font-family: serif;
+	color: #707070;
 }
 
 .passvalid {
@@ -95,13 +94,10 @@ a:hover {
 }
 
 .filesize {
-	font-family: sans-serif;
 }
 
 .filetitle {
-	font-size: 1.2em;
 	color: #CC1105;
-	font-weight: 800;
 }
 
 .postername {
@@ -271,7 +267,6 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 }
 
 body.site-wrapper {
-	font-family: sans-serif;
 	background: #ffe;
 	color: #000;
 }
@@ -286,7 +281,6 @@ body.site-wrapper {
 }
 
 .site-wrapper h1, .site-wrapper h3, .site-wrapper .menu {
-	font-family: Verdana,Tahoma,sans-serif;
 }
 
 .site-wrapper h1 {
@@ -348,4 +342,12 @@ body.site-wrapper {
 
 .sitemenu-wrapper li:hover {
 	background: #fec;
+}
+
+.navbar {
+	color: #707070;
+}
+
+#posttypeindicator {
+	color: #707070;
 }
