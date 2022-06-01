@@ -175,7 +175,7 @@ if (!$cache_loaded) {
 <li>Поддерживаются файлы типов <!tc_filetypes /> размером до <!tc_maximagekb /> кБ.</li>
 <!--li>Изображения, размер которых превышает <!tc_maxthumbwidth /> на <!tc_maxthumbheight /> пикселей, будут уменьшены.</li-->
 <li>Ныне <!tc_uniqueposts /> unique user posts.<!tc_catalog /></li>
-<li>Максимальное количество бампов нити: <!tc_bumplimit /></li>
+<li>Предельное количество бампов нити: <!tc_bumplimit /></li>
 <li>Радио: <a href="http://radio.410chan.ru:8000/status.xsl"><span id="radio-<!--#include virtual=/radiostat/radiostat.txt -->"><!--#include virtual=/radiostat/radiostat.txt --></span></a></li>
 </ul>',
 'en' => '
@@ -191,8 +191,8 @@ if (!$cache_loaded) {
 'cu' => '
 <ul style="margin-left: 0; margin-top: 0; margin-bottom: 0; padding-left: 0;">
 <li>Прѣдъ напьсаниꙗ сътворѥниѥмь ꙁьри <a href="//'. $cf['KU_DOMAIN'] .'/news.php?p=rules">правила</a>.</li>
-<li>Поволѥнꙑ дѣлъ тѷпꙑ: <!tc_filetypes />, ижє мѣроѭ вѧщє <!tc_maximagekb /> х҃Б нє сѫтъ</li>
-<!--li>Видꙑ, ижє <!tc_maxthumbwidth /> на <!tc_maxthumbheight /> пиѯєлъ сѫтъ, оумалѥнꙑ бѫдѫтъ.</li-->
+<li>Поволѥни дѣлъ тѷпи: <!tc_filetypes />, ижє мѣроѭ вѧщє <!tc_maximagekb /> х҃Б нє сѫтъ</li>
+<!--li>Види, ижє <!tc_maxthumbwidth /> на <!tc_maxthumbheight /> пиѯєлъ сѫтъ, оумалѥни бѫдѫтъ.</li-->
 <li>Нꙑнѣ <!tc_uniqueposts /> unique user posts .<!tc_catalog />.</li>
 <li>Послѣди сѥго числа напьсании нить опакꙑ въ врьхъ нє придєтъ: <!tc_bumplimit /></li>
 <li>Радїо: <a href="http://radio.410chan.ru:8000/status.xsl"><span id="radio-<!--#include virtual=/radiostat/radiostat.txt -->"><!--#include virtual=/radiostat/radiostat.txt --></span></a></li>
@@ -205,7 +205,7 @@ if (!$cache_loaded) {
 	можно легко прикреплять графические файлы. Тематика сайта почти ничем не ограничена: те вопросы, для которых не выделено отдельного тематического раздела, можно обсудить на доске <a href="/b">/b/</a>.<br/><br/>
 	Поскольку сайт построен по принципу наполнения самими пользователями, то, как он будет выглядеть, всецело зависит от них. Наше сообщество стремится к достижению высокой культуры общения.
 	Мы надеемся на то, что пассажиры нашего Автобуса будут вежливыми и интересными собеседниками и предпочтут содержательное общение бессмысленным разборкам.<br/><br/>
-	И помните: <a href="http://noobtype.ru/wiki/Автобус_410" target="_blank">Автобус следует в ад</a>.
+	И помните: <a href="//noobtype.ru/wiki/Автобус_410" target="_blank">Автобус следует в ад</a>.
 	</div><hr style="clear: both;"/>';
 
 		/* Notice displayed under the post area */
