@@ -2629,6 +2629,8 @@ class Post extends Board {
 			// 2. Revertion only happens if it is the last post and the thread is NOT in bumplimit
 			// 3. These checks are only relevant if we're not deleting the entire thread
 			// 4. These checks are only to be performed over live posts
+			// 5. Revertion is up to the last non-sage post
+			// 5.1 Unless all posts were saged, then revert to initial OP timestamp
 			// A potentional optimisation would be to allow bulk deletions - less DB interations (probably), but way more logic
 
 			// Start transaction, delete post
@@ -2638,12 +2640,27 @@ class Post extends Board {
 			// Now perform checks
 			// Get new postcount, number of posts after the deleted one (0 if it was the last post) and datetime of now last post
 			// Don't use lastbump as we can get rid of it later
-			$cnt = $tc_db->GetAll("SELECT COUNT(*), COUNT(IF(`id` > ".mysqli_real_escape_string($tc_db->link, $this->post_id).",1,NULL)), MAX(postedat) FROM `".KU_DBPREFIX."posts_".$this->board_dir."` WHERE `parentid` = ".mysqli_real_escape_string($tc_db->link, $this->post_parentid)." AND `IS_DELETED` = 0");
-			if($cnt[0][1] == 0 && isset($cnt[0][2])){
+			// Rant: FBE does not store the concept of "sage". The latter is a quickfix. The proper fix is to add a db migration that stores if the post has sage or not instead of being fancy with subject
+			// Why? Because user can fake-sage this way.
+			$cnt = $tc_db->GetAll(
+				"SELECT
+					COUNT(*),
+					COUNT(CASE WHEN `id` > ".mysqli_real_escape_string($tc_db->link, $this->post_id)." THEN `id` END),
+					MAX(CASE WHEN RIGHT(`subject`,1)!='⇩' THEN postedat END),
+					MIN(postedat)
+				FROM `".KU_DBPREFIX."posts_".$this->board_dir."`
+				WHERE `parentid` = ".mysqli_real_escape_string($tc_db->link, $this->post_parentid)."
+				AND `IS_DELETED` = 0"
+			);
+			$prev_bump = $cnt[0][2];
+			if (empty($prev_bump)) {
+				$prev_bump = $cnt[0][3];
+			}
+			if($cnt[0][1] == 0){
 				// We were on the last post
 				if($cnt[0][0] < $this->board_maxreplies){
 					// We were in the position where last post was still bumping
-					$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "posts_" . $this->board_dir . "` SET `lastbumped` = ".mysqli_real_escape_string($tc_db->link, $cnt[0][2])." WHERE `id` = ".mysqli_real_escape_string($tc_db->link, $this->post_parentid));
+					$tc_db->Execute("UPDATE `" . KU_DBPREFIX . "posts_" . $this->board_dir . "` SET `lastbumped` = ".mysqli_real_escape_string($tc_db->link, $prev_bump)." WHERE `id` = ".mysqli_real_escape_string($tc_db->link, $this->post_parentid));
 				}
 			}
 
