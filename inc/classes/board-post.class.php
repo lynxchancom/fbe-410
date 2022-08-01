@@ -2626,7 +2626,7 @@ class Post extends Board {
 			$this->DeleteFile(false);
 			// If we were to revert the last bump, then we'd need to make sure:
 			// 1. The deletion order is ALWAYS from earliest to newest posts (by default)
-			// 2. Revertion only happens if it is the last post and the thread is NOT in bumplimit
+			// 2. Revertion only happens if it is the last non-sage post and the thread is NOT in bumplimit
 			// 3. These checks are only relevant if we're not deleting the entire thread
 			// 4. These checks are only to be performed over live posts
 			// 5. Revertion is up to the last non-sage post
@@ -2645,7 +2645,7 @@ class Post extends Board {
 			$cnt = $tc_db->GetAll(
 				"SELECT
 					COUNT(*),
-					COUNT(CASE WHEN `id` > ".mysqli_real_escape_string($tc_db->link, $this->post_id)." THEN `id` END),
+					COUNT(CASE WHEN `id` > ".mysqli_real_escape_string($tc_db->link, $this->post_id)." AND RIGHT(`subject`,1)!='⇩' THEN `id` END),
 					MAX(CASE WHEN RIGHT(`subject`,1)!='⇩' THEN postedat END),
 					MIN(postedat)
 				FROM `".KU_DBPREFIX."posts_".$this->board_dir."`
