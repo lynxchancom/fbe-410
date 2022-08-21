@@ -154,32 +154,37 @@ fwrite($fh, $adaptive_string . " ". $adaptive_hash . "\n");
 		if(array_key_exists($board_class->board_dir, $adaptive_boards) && $adaptive_boards[$board_class->board_dir] > 0)
 		{ // adaptive captcha enabled on board 
 			$cookie = 1;
-fwrite($fh, "enabled $board_class->board_dir $userfile $cookie\n");
+			fwrite($fh, "enabled $board_class->board_dir $userfile $cookie\n");
 			$_SESSION[$board_class->board_dir] = $adaptive_hash;
 			if(isset($_COOKIE[$board_class->board_dir]) && $_COOKIE[$board_class->board_dir] == $adaptive_hash)
 			{ // user already entered captcha in previous posts and was not forced to enter captcha
 				if(file_exists($userfile))
 				{
-					if((time() - filemtime($userfile)) < KU_ADAPCHA_TIMEOUT)
+					// so probably time() gives GMT now? But anyway shouldn't be daylight saving hours?
+					$localtime = time();
+					if(($localtime - filemtime($userfile)) < KU_ADAPCHA_TIMEOUT)
 					{
 //						unset($_SESSION['faptcha_type']);
-fwrite($fh, "entered\n");
+						fwrite($fh, "in time: ". $localtime. " - " . filemtime($userfile) . "\n");
 //						$_SESSION['verified_user'][$board_class->board_dir] = time();
 						unset($_SESSION['faptcha_type']);
-						setcookie($board_class->board_dir, $adaptive_hash, time() + KU_ADAPCHA_TIMEOUT);
+						setcookie($board_class->board_dir, $adaptive_hash, $localtime + KU_ADAPCHA_TIMEOUT);
 						touch($userfile);
 						return;
 					}
 					else 
 					{
-fwrite($fh, "expired\n");
+						fwrite($fh, "expired\n");
+						// remove adaptive cookie
+						setcookie($board_class->board_dir, "", time() - 3600);
+						unset($_SESSION['faptcha_type']);
 						unlink($userfile);
 						exitWithErrorPage('Session expired.');
 					}
 				}
 				else
 				{
-fwrite($fh, "tricks\n");
+					fwrite($fh, "tricks\n");
 					exitWithErrorPage('__DONTTRICK');
 				}
 			}
